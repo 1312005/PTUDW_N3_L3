@@ -1,0 +1,89 @@
+/* Mobile Layout: 320px */
+@media all and (min-width: 320px) { 
+    
+    .content{
+        width: 100%;
+    }
+    
+    .map-area{
+        position: relative;
+        width: 100%;
+        height: 350px;
+    }
+    .map{
+        position: absolute;
+        left: 50%;
+        top :50%;
+        width: 90%;
+        height: 90%;
+        transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translateX(-50%) translateY(-50%);
+    }
+
+    .form-contact{
+        /* position: absolute; */
+        margin: 20px;
+        padding : 10px;
+    }
+
+}
+
+/* Tablet Layout: 768px. */
+@media all and (min-width: 768px){ 
+
+    .content{
+        width: 100%;
+    }
+
+    .map-area{
+        position: relative;
+        width: 100%;
+        height: 500px;
+    }
+    .map{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        
+        width: 90%;
+        height: 90%;
+        margin: auto;
+        transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translateX(-50%) translateY(-50%);
+    }
+
+    .form-contact{
+        padding : 10px;
+    }
+}
+
+/* Laptop and PC */
+@media all and (min-width: 1024px){
+    .content{
+        width: 100%;
+        display: flex;
+        margin-top: 50px;
+    }
+
+    .form-contact{
+        width: 40%;
+        margin: 20px 0 0 180px ;
+    }
+
+    .map-area{
+        position: relative;
+        width: 60%;
+        height: 500px;
+    }
+    .map{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 90%;
+        height: 90%;
+        transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translateX(-50%) translateY(-50%);
+    }
+ 
+    
+}
