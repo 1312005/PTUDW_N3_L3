@@ -37,10 +37,14 @@
                 <div class="col-md-8">
                     <div class="user-menu">
                         <ul>
-                            <li><a href="#"><i class="fa fa-user"></i> My Account</a></li>
-                            <li><a href="#"><i class="fa fa-heart"></i> Wishlist</a></li>
-                            <li><a href="cart.html"><i class="fa fa-user"></i> My Cart</a></li>
-                            <li><a href="checkout.html"><i class="fa fa-user"></i> Checkout</a></li>
+                            
+                            <li class="dropdown dropdown-small">
+                                <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key"><i class="fa fa-user"></i> My Account</span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="profile.html">Profile</a></li>
+                                    <li><a href="#">German</a></li>
+                                </ul>
+                            </li>
                             <li><a href="#"><i class="fa fa-user"></i> Login</a></li>
                         </ul>
                     </div>
@@ -104,14 +108,13 @@
                 </div> 
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="index.html">Home</a></li>
+                        <li class="active"><a href="index.html">Home</a></li>
                         <li><a href="shop.html">Shop page</a></li>
-                        <li class="active"><a href="single-product.html">Single product</a></li>
+                        <li><a href="single-product.html">Single product</a></li>
                         <li><a href="cart.html">Cart</a></li>
                         <li><a href="checkout.html">Checkout</a></li>
-                        <li><a href="#">Category</a></li>
-                        <li><a href="#">Others</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">About us</a></li>
+                        <li><a href="contactus.html">Contact</a></li>
                     </ul>
                 </div>  
             </div>
@@ -218,7 +221,10 @@
                                     <div class="product-inner-price">
                                         <ins>$700.00</ins> <del>$800.00</del>
                                     </div>    
-                                    
+                                    <div class="product-inner-price">
+                                            <ins>Made by VietNam</ins> 
+                                        </div>
+                                        
                                     <form action="" class="cart">
                                         <div class="quantity">
                                             <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
@@ -229,7 +235,9 @@
                                     <div class="product-inner-category">
                                         <p>Category: <a href="">Summer</a>. Tags: <a href="">awesome</a>, <a href="">best</a>, <a href="">sale</a>, <a href="">shoes</a>. </p>
                                     </div> 
-                                    
+                                    <div class="product-inner-price">
+                                            <a><span>999.999 views</span></a>
+                                    </div>
                                     <div role="tabpanel">
                                         <ul class="product-tab" role="tablist">
                                             <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Description</a></li>

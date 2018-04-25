@@ -40,21 +40,20 @@
                 <div class="col-md-8">
                     <div class="user-menu">
                         <ul>
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-user"></i> My Account</a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-heart"></i> Wishlist</a>
-                            </li>
-                            <li>
-                                <a href="cart.html">
-                                    <i class="fa fa-user"></i> My Cart</a>
-                            </li>
-                            <li>
-                                <a href="checkout.html">
-                                    <i class="fa fa-user"></i> Checkout</a>
+
+                            <li class="dropdown dropdown-small">
+                                <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">
+                                    <span class="key">
+                                        <i class="fa fa-user"></i> My Account</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="profile.html">Profile</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">German</a>
+                                    </li>
+                                </ul>
                             </li>
                             <li>
                                 <a href="#">
@@ -168,13 +167,10 @@
                             <a href="checkout.html">Checkout</a>
                         </li>
                         <li>
-                            <a href="#">Category</a>
+                            <a href="#">About us</a>
                         </li>
                         <li>
-                            <a href="#">Others</a>
-                        </li>
-                        <li>
-                            <a href="#">Contact</a>
+                            <a href="contactus.html">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -197,44 +193,45 @@
     <!-- End Page title area -->
 
     <div class="content">
+        <div class="container">
+            <div class="map-area">
+                <iframe class="map" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDnwpcLBgVHLg6R4e6heXuWrCp0cuWIxXk
+                        &q=Đại học khoa học tự nhiên" allowfullscreen>
+                </iframe>
+            </div>
+            <div id="form-contact" class="form-contact">
+                <h4>Gửi tin nhắn của bạn đến chúng tôi</h4>
+                <form class="form-horizontal" action="">
 
-        <div id="form-contact" class="form-contact">
-            <h4>Gửi tin nhắn của bạn đến chúng tôi</h4>
-            <form class="form-horizontal" action="">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="name">Họ Tên *:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="name" placeholder="Nhập họ tên của bạn">
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label class="control-label col-sm-3" for="name">Họ Tên *:</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" id="name" placeholder="Nhập họ tên của bạn">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="email">Email *:</label>
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control" id="email" placeholder="Emai của bạn">
+                        </div>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-sm-3" for="email">Email *:</label>
-                    <div class="col-sm-9">
-                        <input type="email" class="form-control" id="email" placeholder="Emai của bạn">
+                    <div class="form-group">
+                        <label class="control-label col-sm-3" for="message">Tin nhắn *:</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" rows="5" id="message" placeholder="Tin nhắn của bạn"></textarea>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-sm-3" for="message">Tin nhắn *:</label>
-                    <div class="col-sm-9">
-                        <textarea class="form-control" rows="5" id="message" placeholder="Tin nhắn của bạn"></textarea>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
+            <!-- End form contact -->
         </div>
-        <!-- End form contact -->
 
-        <div class="map-area">
-            <iframe class="map" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDnwpcLBgVHLg6R4e6heXuWrCp0cuWIxXk
-                &q=Đại học khoa học tự nhiên" allowfullscreen>
-            </iframe>
-        </div>
         <!-- End map-area -->
     </div>
     <!-- End content -->
