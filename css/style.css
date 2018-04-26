@@ -1011,3 +1011,10 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button{background
     background-color: #1abc9c;
     border-color:  #1abc9c;
 }
+.aboutus{
+    text-align: center;
+    padding: 20px 0 40px 0;
+}
+.aboutus h3{
+    color: #1abc9c;
+}
