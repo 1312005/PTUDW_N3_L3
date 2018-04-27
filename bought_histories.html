@@ -21,6 +21,9 @@
     <link rel="stylesheet" href="css/owl.carousel.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    
+    
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -28,7 +31,7 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-   <link rel="stylesheet" href="css/signin.css">
+   <link rel="stylesheet" href="css/bough_histories.css">
   </head>
   <body>
    
@@ -65,8 +68,8 @@
                                 <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">currency :</span><span class="value">USD </span><b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">USD</a></li>
-                                    
-                                    <li><a href="#">VND</a></li>
+                                    <li><a href="#">INR</a></li>
+                                    <li><a href="#">GBP</a></li>
                                 </ul>
                             </li>
 
@@ -74,8 +77,8 @@
                                 <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">language :</span><span class="value">English </span><b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">English</a></li>
-                                    <li><a href="#">Vietnamese</a></li>
-                                   
+                                    <li><a href="#">French</a></li>
+                                    <li><a href="#">German</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -116,37 +119,12 @@
                 </div> 
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="index.html">Home</a></li>
+                        <li class="active"><a href="index.html">Home</a></li>
                         <li><a href="shop.html">Shop page</a></li>
-                        <li>
-                                <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Producer
-                                </a>
-                                <ul class="dropdown-menu producer-menu">
-                                    <li>
-                                        <a href="shop.html">Apple</a>
-                                    </li>
-                                    <li>
-                                        <a href="shop.html">Samsung</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Product type
-                                </a>
-                                <ul class="dropdown-menu producer-menu">
-                                    <li>
-                                        <a href="shop.html">Mobile</a>
-                                    </li>
-                                    <li>
-                                        <a href="shop.html">Table</a>
-                                    </li>
-                                </ul>
-                            </li>
+                        <li><a href="single-product.html">Single product</a></li>
                         <li><a href="cart.html">Cart</a></li>
                         <li><a href="checkout.html">Checkout</a></li>
-                        <li class="active"><a href="#">About us</a></li>
+                        <li><a href="aboutus.html">About us</a></li>
                         <li><a href="contactus.html">Contact</a></li>
                     </ul>
                 </div>  
@@ -159,7 +137,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="product-bit-title text-center">
-                        <h2>About us</h2>
+                        <h2>Bought Histories</h2>
                     </div>
                 </div>
             </div>
@@ -167,15 +145,64 @@
     </div>
     
     
-    <div class="aboutus">
-          <div class="row">
-                <div class="container aboutus">
-                      <h3>About eElectronics</h3>
-                      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                </div>
-          </div>
+    <div class="container">
+        <div class="row">
+            <div class="table-responsive">
+          <table id="myTable" class="table table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Order ID</th>
+                <th>Address</th>
+                <th>Contact Phone</th>
+                <th>Date</th>
+                <th>Paid Amount</th>
+                <th>Status</th>
+                <th>Detail</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td class="hightlight">OR0001</td>
+                <td>44 ABZ Street, GTX City</td>
+                <td>0120xxxxxxx</td>
+                <td>11/4/2018</td>
+                <td>$899.00</td>
+                <td><span class="label label-info">Processing</span></td>
+                <td>
+                        <button onclick="javascript:location.href='bought_details.html'"type="button" class="btn btn-xs btn-custom"><i class="fa fa-info-circle" aria-hidden="true"></i> View</button>
+                </td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td class="hightlight">OR0005</td>
+                <td>44 ABZ Street, GTX City</td>
+                <td>096yyyyyyy</td>
+                <td>10/3/2018</td>
+                <td>$621.00</td>
+                <td><span class="label label-success">Shipped</span></td>
+                <td>
+                    <button onclick="javascript:location.href='bought_details.html'"type="button" class="btn btn-xs btn-custom"><i class="fa fa-info-circle" aria-hidden="true"></i> View</button>
+                </td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="hightlight">OR0012</td>
+                <td>44 ABZ Street, GTX City</td>
+                <td>091zzzzzzzz</td>
+                <td>11/12/2016</td>
+                <td>$640.00</td>
+                <td><span class="label label-primary">Completed</span></td>
+                <td>
+                    <button onclick="javascript:location.href='bought_details.html'"type="button" class="btn btn-xs btn-custom"><i class="fa fa-info-circle" aria-hidden="true"></i> View</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
     </div>
-
 
     <div class="footer-top-area">
         <div class="zigzag-bottom"></div>
@@ -275,5 +302,11 @@
     <!-- Main Script -->
     <script src="js/main.js"></script>
     <script src="js/signin.js"></script>
+    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script>
+            $(document).ready( function () {
+        $('#myTable').DataTable();
+    } );
+        </script>
   </body>
 </html>
