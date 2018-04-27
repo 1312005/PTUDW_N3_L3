@@ -58,7 +58,7 @@
 }
 
 /* Laptop and PC */
-@media all and (min-width: 1024px){
+@media all and (min-width: 1280px){
     .content{
         width: 100%;
         display: flex;
@@ -67,7 +67,7 @@
 
     .form-contact{
         width: 40%;
-        margin: 20px 0 0 180px ;
+        margin: 20px auto;
     }
 
     .map-area{
