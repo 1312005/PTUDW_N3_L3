@@ -150,7 +150,7 @@ z-index: 999;}
 }
 
 .mainmenu-area ul.navbar-nav li:hover a, .mainmenu-area ul.navbar-nav li.active a {background: #222}
-.mainmenu-area .nav > li > a:focus {color: #000}
+.mainmenu-area .nav > li > a:focus {color:#fff}
 
 .slider-area {clear: both}
 .slider-area, .promo-area, .brands-area, .maincontent-area, .footer-top-area, .product-widget-area, .product-breadcroumb-area, .single-product-area {position: relative;overflow: hidden}
