@@ -134,6 +134,78 @@
                     </div>
                 </div>
             </div>
+            <div class="row searchArea" style="margin-bottom:60px;">
+                <div class="col-md-12 col-lg-12">
+                    <div class="input-group" id="adv-search">
+                        <input type="text" class="form-control" placeholder="Search for products" />
+                        <div class="input-group-btn">
+                            <div class="btn-group" role="group">
+                                <div class="dropdown dropdown-lg">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                                <label for="filter">Brand</label>
+                                                <select class="form-control">
+                                                    <option value="0" selected>SamSung</option>
+                                                    <option value="1">Apple</option>
+                                                    <option value="2">Sony</option>
+                                                    <option value="3">Xiaomi</option>
+                                                    <option value="4">OnePlus</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="filter">Type</label>
+                                                <select class="form-control">
+                                                    <option value="1" selected>Mobile</option>
+                                                    <option value="2">Tablet</option>
+                                                </select>
+                                            </div>
+                                            <div class="radio">
+                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                                                <label for="optionsRadios1">
+                                                    Lower than 100USD
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                                <label for="optionsRadios2">
+                                                    From 100USD to 500USD
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+                                                <label for="optionsRadios3">
+                                                    Higher than 500USD
+                                                </label>
+                                            </div>
+                                            <!--Radio group-->
+
+
+                                            <!--Radio group-->
+                                            <!-- <div class="form-group">
+                                                <label for="contain">Author</label>
+                                                <input class="form-control" type="text" />
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="contain">Contains the words</label>
+                                                <input class="form-control" type="text" />
+                                              </div> -->
+
+                                            <button onclick="window.location='search_result.html';" style="margin-top:25px;margin-bottom:10px;" type="button" class="btn btn-primary btn-block button-search">SEARCH</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <button onclick="window.location='search_result.html';" type="button" class="btn btn-primary button-search" type="submit">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- End site branding area -->

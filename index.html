@@ -29,127 +29,7 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style>
-        .dropdown.dropdown-lg .dropdown-menu {
-    margin-top: -1px;
-    padding: 6px 20px;
-}
-.input-group-btn .btn-group {
-    display: flex !important;
-}
-.btn-group .btn {
-    border-radius: 0;
-    margin-left: -1px;
-}
-.btn-group .btn:last-child {
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-}
-.btn-group .form-horizontal .btn[type="submit"] {
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-}
-.form-horizontal .form-group {
-    margin-left: 0;
-    margin-right: 0;
-}
-.form-group .form-control:last-child {
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-}
-
-@media screen and (min-width: 768px) {
-    #adv-search {
-        width: 500px;
-        margin: 0 auto;
-    }
-    .dropdown.dropdown-lg {
-        position: static !important;
-    }
-    .dropdown.dropdown-lg .dropdown-menu {
-        min-width: 500px;
-    }
-}
-
-.radio,
-.checkbox {
-  padding-left: 20px;
-  position: relative;
-  display: block;
-}
-.radio input,
-.checkbox input {
-  opacity: 0;
-  position: absolute;
-  z-index: 1;
-  cursor: pointer;
-  margin-left: -20px;
-}
-.radio input:checked + label::before,
-.checkbox input:checked + label::before {
-  border-color: #9575cd;
-}
-.radio input:checked + label::after,
-.checkbox input:checked + label::after {
-  content: '';
-  display: inline-block;
-  position: absolute;
-  width: 13px;
-  height: 13px;
-  left: 2px;
-  top: 4px;
-  margin-left: -20px;
-  border: 1px solid #9575cd;
-  border-radius: 50%;
-  background-color: #9575cd;
-}
-.radio label,
-.checkbox label {
-  display: inline-block;
-  position: relative;
-  padding-left: 5px;
-}
-.radio label::before,
-.checkbox label::before {
-  content: '';
-  display: inline-block;
-  position: absolute;
-  width: 17px;
-  height: 17px;
-  left: 0;
-  top: 2px;
-  margin-left: -20px;
-  border: 1px solid #cccccc;
-  border-radius: 50%;
-  background-color: #fff;
-}
-.radio.disabled label,
-.checkbox.disabled label {
-  color: #cccccc;
-}
-.radio.disabled label::before,
-.checkbox.disabled label::before {
-  opacity: .54;
-  border-color: #cccccc;
-}
-.checkbox input:checked + label::before {
-  border-color: #9575cd;
-  background-color: #9575cd;
-}
-.checkbox input:checked + label::after {
-  content: "\f00c";
-  font-family: FontAwesome;
-  font-size: 13px;
-  color: #fff;
-  top: 0;
-  left: 1px;
-  border-color: transparent;
-  background-color: transparent;
-}
-.checkbox label::before {
-  border-radius: 2px;
-}
-    </style>
+    
 </head>
 
 <body>
@@ -254,17 +134,20 @@
                     </div>
                 </div>
             </div>
+            
             <div class="row searchArea" style="margin-bottom:60px;">
-                    <div class="col-md-12 col-lg-12">
-                        <div class="input-group" id="adv-search">
-                            <input type="text" class="form-control" placeholder="Search for products" />
-                            <div class="input-group-btn">
-                                <div class="btn-group" role="group">
-                                    <div class="dropdown dropdown-lg">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
-                                        <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                            <form class="form-horizontal" role="form">
-                                              <div class="form-group">
+                <div class="col-md-12 col-lg-12">
+                    <div class="input-group" id="adv-search">
+                        <input type="text" class="form-control" placeholder="Search for products" />
+                        <div class="input-group-btn">
+                            <div class="btn-group" role="group">
+                                <div class="dropdown dropdown-lg">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
                                                 <label for="filter">Brand</label>
                                                 <select class="form-control">
                                                     <option value="0" selected>SamSung</option>
@@ -273,37 +156,37 @@
                                                     <option value="3">Xiaomi</option>
                                                     <option value="4">OnePlus</option>
                                                 </select>
-                                              </div>
-                                              <div class="form-group">
-                                                    <label for="filter">Type</label>
-                                                    <select class="form-control">
-                                                        <option value="1" selected>Mobile</option>
-                                                        <option value="2">Tablet</option>
-                                                    </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="filter">Type</label>
+                                                <select class="form-control">
+                                                    <option value="1" selected>Mobile</option>
+                                                    <option value="2">Tablet</option>
+                                                </select>
                                             </div>
                                             <div class="radio">
-                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-                                                    <label for="optionsRadios1">
-                                                        Lower than 100USD
-                                                    </label>
-                                                </div>
-                                                <div class="radio">
-                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                                                    <label for="optionsRadios2">
-                                                        From 100USD to 500USD
-                                                    </label>
-                                                </div>
-                                                <div class="radio">
-                                                        <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-                                                        <label for="optionsRadios3">
-                                                            Higher than 500USD
-                                                        </label>
-                                                    </div>
-                                             <!--Radio group-->
-                                            
-                                                
-                                                    <!--Radio group-->      
-                                              <!-- <div class="form-group">
+                                                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                                                <label for="optionsRadios1">
+                                                    Lower than 100USD
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                                                <label for="optionsRadios2">
+                                                    From 100USD to 500USD
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+                                                <label for="optionsRadios3">
+                                                    Higher than 500USD
+                                                </label>
+                                            </div>
+                                            <!--Radio group-->
+
+
+                                            <!--Radio group-->
+                                            <!-- <div class="form-group">
                                                 <label for="contain">Author</label>
                                                 <input class="form-control" type="text" />
                                               </div>
@@ -311,19 +194,21 @@
                                                 <label for="contain">Contains the words</label>
                                                 <input class="form-control" type="text" />
                                               </div> -->
-                                              
-                                              <button onclick="window.location='search_result.html';"  style="margin-top:25px;margin-bottom:10px;" type="button" class="btn btn-primary btn-block">SEARCH</button>
-                                            </form>
-                                        </div>
+
+                                            <button onclick="window.location='search_result.html';" style="margin-top:25px;margin-bottom:10px;" type="button" class="btn btn-primary btn-block button-search">SEARCH</button>
+                                        </form>
                                     </div>
-                                    <button  onclick="window.location='search_result.html';" type="button" class="btn btn-primary" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                                 </div>
+                                <button onclick="window.location='search_result.html';" type="button" class="btn btn-primary button-search" type="submit">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
                             </div>
                         </div>
-                      </div>
                     </div>
                 </div>
+            </div>
         </div>
+    </div>
     </div>
     <!-- End site branding area -->
 
