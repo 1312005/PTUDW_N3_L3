@@ -1,5 +1,13 @@
 jQuery(document).ready(function($){
-    
+    //HIGHLIGHT ACTIVE NAVIGATION
+    // $(".nav li").click(function() {
+    //     // remove classes from all
+    //     $(".nav li").removeClass("active");
+    //     // add class to the one we clicked
+    //     $(this).addClass("active");
+    //     // stop the page from jumping to the top
+    //     return false;
+    //   });
     // jQuery sticky Menu
     
 	$(".mainmenu-area").sticky({topSpacing:0});
@@ -83,6 +91,7 @@ jQuery(document).ready(function($){
     $('body').scrollspy({ 
         target: '.navbar-collapse',
         offset: 95
-    })      
+    }) 
+      
 });
 
