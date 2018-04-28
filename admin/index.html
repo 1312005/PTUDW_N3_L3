@@ -14,22 +14,22 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
     <!-- Bootstrap Core Css -->
-    <link href="admin_plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../admin_plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
 
     <!-- Waves Effect Css -->
-    <link href="admin_plugins/node-waves/waves.css" rel="stylesheet" />
+    <link href="../admin_plugins/node-waves/waves.css" rel="stylesheet" />
 
     <!-- Animation Css -->
-    <link href="admin_plugins/animate-css/animate.css" rel="stylesheet" />
+    <link href="../admin_plugins/animate-css/animate.css" rel="stylesheet" />
 
     <!-- Morris Chart Css-->
-    <link href="admin_plugins/morrisjs/morris.css" rel="stylesheet" />
+    <link href="../admin_plugins/morrisjs/morris.css" rel="stylesheet" />
 
     <!-- Custom Css -->
-    <link href="admin_css/style.css" rel="stylesheet">
+    <link href="../admin_css/style.css" rel="stylesheet">
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
-    <link href="admin_css/themes/all-themes.css" rel="stylesheet" />
+    <link href="../admin_css/themes/all-themes.css" rel="stylesheet" />
 </head>
 
 <body class="theme-red">
@@ -75,7 +75,11 @@
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Call Search -->
-                    <li><a href="javascript:void(0);" class="js-search" data-close="true"><i class="material-icons">search</i></a></li>
+                    <li>
+                        <a href="javascript:void(0);" class="js-search" data-close="true">
+                            <i class="material-icons">search</i>
+                        </a>
+                    </li>
                     <!-- #END# Call Search -->
                     <!-- Notifications -->
                     <li class="dropdown">
@@ -119,7 +123,8 @@
                                                 <i class="material-icons">delete_forever</i>
                                             </div>
                                             <div class="menu-info">
-                                                <h4><b>Nancy Doe</b> deleted account</h4>
+                                                <h4>
+                                                    <b>Nancy Doe</b> deleted account</h4>
                                                 <p>
                                                     <i class="material-icons">access_time</i> 3 hours ago
                                                 </p>
@@ -132,7 +137,8 @@
                                                 <i class="material-icons">mode_edit</i>
                                             </div>
                                             <div class="menu-info">
-                                                <h4><b>Nancy</b> changed name</h4>
+                                                <h4>
+                                                    <b>Nancy</b> changed name</h4>
                                                 <p>
                                                     <i class="material-icons">access_time</i> 2 hours ago
                                                 </p>
@@ -145,7 +151,8 @@
                                                 <i class="material-icons">comment</i>
                                             </div>
                                             <div class="menu-info">
-                                                <h4><b>John</b> commented your post</h4>
+                                                <h4>
+                                                    <b>John</b> commented your post</h4>
                                                 <p>
                                                     <i class="material-icons">access_time</i> 4 hours ago
                                                 </p>
@@ -158,7 +165,8 @@
                                                 <i class="material-icons">cached</i>
                                             </div>
                                             <div class="menu-info">
-                                                <h4><b>John</b> updated status</h4>
+                                                <h4>
+                                                    <b>John</b> updated status</h4>
                                                 <p>
                                                     <i class="material-icons">access_time</i> 3 hours ago
                                                 </p>
@@ -264,7 +272,11 @@
                         </ul>
                     </li>
                     <!-- #END# Tasks -->
-                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a></li>
+                    <li class="pull-right">
+                        <a href="javascript:void(0);" class="js-right-sidebar" data-close="true">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -276,7 +288,7 @@
             <!-- User Info -->
             <div class="user-info">
                 <div class="image">
-                    <img src="admin_images/user.png" width="48" height="48" alt="User" />
+                    <img src="../admin_images/user.png" width="48" height="48" alt="User" />
                 </div>
                 <div class="info-container">
                     <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>
@@ -284,13 +296,28 @@
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <i class="material-icons">person</i>Profile</a>
+                            </li>
                             <li role="seperator" class="divider"></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <i class="material-icons">group</i>Followers</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <i class="material-icons">shopping_cart</i>Sales</a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <i class="material-icons">favorite</i>Likes</a>
+                            </li>
                             <li role="seperator" class="divider"></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">input</i>Sign Out</a></li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <i class="material-icons">input</i>Sign Out</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -307,36 +334,37 @@
                         </a>
                     </li>
                     <li>
-                        <a href="admin/categories_management.html">
+                        <a href="categories_management.html">
                             <i class="material-icons">list</i>
                             <span>Categories</span>
                         </a>
                     </li>
                     <li>
-                            <a href="admin/makers_management.html">
-                                <i class="material-icons">list</i>
-                                <span>Manufacturer</span>
-                            </a>
-                        </li>
-                        <li>
-                                <a href="admin/products_management.html">
-                                    <i class="material-icons">list</i>
-                                    <span>Products</span>
-                                </a>
-                            </li>
-                            <li>
-                                    <a href="admin/orders_management.html">
-                                        <i class="material-icons">list</i>
-                                        <span>Orders</span>
-                                    </a>
-                                </li>
+                        <a href="makers_management.html">
+                            <i class="material-icons">list</i>
+                            <span>Manufacturer</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="products_management.html">
+                            <i class="material-icons">list</i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="orders_management.html">
+                            <i class="material-icons">list</i>
+                            <span>Orders</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <!-- #Menu -->
             <!-- Footer -->
             <div class="legal">
                 <div class="copyright">
-                    &copy; 2016 - 2017 <a href="javascript:void(0);">AdminBSB - Material Design</a>.
+                    &copy; 2016 - 2017
+                    <a href="javascript:void(0);">AdminBSB - Material Design</a>.
                 </div>
                 <div class="version">
                     <b>Version: </b> 1.0.5
@@ -348,8 +376,12 @@
         <!-- Right Sidebar -->
         <aside id="rightsidebar" class="right-sidebar">
             <ul class="nav nav-tabs tab-nav-right" role="tablist">
-                <li role="presentation" class="active"><a href="#skins" data-toggle="tab">SKINS</a></li>
-                <li role="presentation"><a href="#settings" data-toggle="tab">SETTINGS</a></li>
+                <li role="presentation" class="active">
+                    <a href="#skins" data-toggle="tab">SKINS</a>
+                </li>
+                <li role="presentation">
+                    <a href="#settings" data-toggle="tab">SETTINGS</a>
+                </li>
             </ul>
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active in active" id="skins">
@@ -443,13 +475,19 @@
                             <li>
                                 <span>Report Panel Usage</span>
                                 <div class="switch">
-                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                    <label>
+                                        <input type="checkbox" checked>
+                                        <span class="lever"></span>
+                                    </label>
                                 </div>
                             </li>
                             <li>
                                 <span>Email Redirect</span>
                                 <div class="switch">
-                                    <label><input type="checkbox"><span class="lever"></span></label>
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="lever"></span>
+                                    </label>
                                 </div>
                             </li>
                         </ul>
@@ -458,13 +496,19 @@
                             <li>
                                 <span>Notifications</span>
                                 <div class="switch">
-                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                    <label>
+                                        <input type="checkbox" checked>
+                                        <span class="lever"></span>
+                                    </label>
                                 </div>
                             </li>
                             <li>
                                 <span>Auto Updates</span>
                                 <div class="switch">
-                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                    <label>
+                                        <input type="checkbox" checked>
+                                        <span class="lever"></span>
+                                    </label>
                                 </div>
                             </li>
                         </ul>
@@ -473,13 +517,19 @@
                             <li>
                                 <span>Offline</span>
                                 <div class="switch">
-                                    <label><input type="checkbox"><span class="lever"></span></label>
+                                    <label>
+                                        <input type="checkbox">
+                                        <span class="lever"></span>
+                                    </label>
                                 </div>
                             </li>
                             <li>
                                 <span>Location Permission</span>
                                 <div class="switch">
-                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                    <label>
+                                        <input type="checkbox" checked>
+                                        <span class="lever"></span>
+                                    </label>
                                 </div>
                             </li>
                         </ul>
@@ -498,43 +548,32 @@
 
             <!-- Widgets -->
             <div class="row clearfix">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="info-box bg-pink hover-expand-effect">
-                        <div class="icon">
-                            <i class="material-icons">playlist_add_check</i>
-                        </div>
-                        <div class="content">
-                            <div class="text">NEW TASKS</div>
-                            <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box bg-cyan hover-expand-effect">
                         <div class="icon">
-                            <i class="material-icons">help</i>
+                            <i class="material-icons">card_giftcard</i>
                         </div>
                         <div class="content">
-                            <div class="text">NEW TICKETS</div>
+                            <div class="text">NEW PRODUCTS</div>
                             <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box bg-light-green hover-expand-effect">
                         <div class="icon">
-                            <i class="material-icons">forum</i>
+                            <i class="material-icons">person_add</i>
                         </div>
                         <div class="content">
-                            <div class="text">NEW COMMENTS</div>
+                            <div class="text">NEW USERS</div>
                             <div class="number count-to" data-from="0" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box bg-orange hover-expand-effect">
                         <div class="icon">
-                            <i class="material-icons">person_add</i>
+                            <i class="material-icons">person</i>
                         </div>
                         <div class="content">
                             <div class="text">NEW VISITORS</div>
@@ -556,7 +595,9 @@
                                 <div class="col-xs-12 col-sm-6 align-right">
                                     <div class="switch panel-switch-btn">
                                         <span class="m-r-10 font-12">REAL TIME</span>
-                                        <label>OFF<input type="checkbox" id="realtime" checked><span class="lever switch-col-cyan"></span>ON</label>
+                                        <label>OFF
+                                            <input type="checkbox" id="realtime" checked>
+                                            <span class="lever switch-col-cyan"></span>ON</label>
                                     </div>
                                 </div>
                             </div>
@@ -566,9 +607,15 @@
                                         <i class="material-icons">more_vert</i>
                                     </a>
                                     <ul class="dropdown-menu pull-right">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another action</a></li>
-                                        <li><a href="javascript:void(0);">Something else here</a></li>
+                                        <li>
+                                            <a href="javascript:void(0);">Action</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);">Another action</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);">Something else here</a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -586,23 +633,32 @@
                     <div class="card">
                         <div class="body bg-pink">
                             <div class="sparkline" data-type="line" data-spot-Radius="4" data-highlight-Spot-Color="rgb(233, 30, 99)" data-highlight-Line-Color="#fff"
-                                 data-min-Spot-Color="rgb(255,255,255)" data-max-Spot-Color="rgb(255,255,255)" data-spot-Color="rgb(255,255,255)"
-                                 data-offset="90" data-width="100%" data-height="92px" data-line-Width="2" data-line-Color="rgba(255,255,255,0.7)"
-                                 data-fill-Color="rgba(0, 188, 212, 0)">
+                                data-min-Spot-Color="rgb(255,255,255)" data-max-Spot-Color="rgb(255,255,255)" data-spot-Color="rgb(255,255,255)"
+                                data-offset="90" data-width="100%" data-height="92px" data-line-Width="2" data-line-Color="rgba(255,255,255,0.7)"
+                                data-fill-Color="rgba(0, 188, 212, 0)">
                                 12,10,9,6,5,6,10,5,7,5,12,13,7,12,11
                             </div>
                             <ul class="dashboard-stat-list">
                                 <li>
                                     TODAY
-                                    <span class="pull-right"><b>1 200</b> <small>USERS</small></span>
+                                    <span class="pull-right">
+                                        <b>1 200</b>
+                                        <small>USERS</small>
+                                    </span>
                                 </li>
                                 <li>
                                     YESTERDAY
-                                    <span class="pull-right"><b>3 872</b> <small>USERS</small></span>
+                                    <span class="pull-right">
+                                        <b>3 872</b>
+                                        <small>USERS</small>
+                                    </span>
                                 </li>
                                 <li>
                                     LAST WEEK
-                                    <span class="pull-right"><b>26 582</b> <small>USERS</small></span>
+                                    <span class="pull-right">
+                                        <b>26 582</b>
+                                        <small>USERS</small>
+                                    </span>
                                 </li>
                             </ul>
                         </div>
@@ -649,27 +705,45 @@
                             <ul class="dashboard-stat-list">
                                 <li>
                                     TODAY
-                                    <span class="pull-right"><b>12</b> <small>TICKETS</small></span>
+                                    <span class="pull-right">
+                                        <b>12</b>
+                                        <small>TICKETS</small>
+                                    </span>
                                 </li>
                                 <li>
                                     YESTERDAY
-                                    <span class="pull-right"><b>15</b> <small>TICKETS</small></span>
+                                    <span class="pull-right">
+                                        <b>15</b>
+                                        <small>TICKETS</small>
+                                    </span>
                                 </li>
                                 <li>
                                     LAST WEEK
-                                    <span class="pull-right"><b>90</b> <small>TICKETS</small></span>
+                                    <span class="pull-right">
+                                        <b>90</b>
+                                        <small>TICKETS</small>
+                                    </span>
                                 </li>
                                 <li>
                                     LAST MONTH
-                                    <span class="pull-right"><b>342</b> <small>TICKETS</small></span>
+                                    <span class="pull-right">
+                                        <b>342</b>
+                                        <small>TICKETS</small>
+                                    </span>
                                 </li>
                                 <li>
                                     LAST YEAR
-                                    <span class="pull-right"><b>4 225</b> <small>TICKETS</small></span>
+                                    <span class="pull-right">
+                                        <b>4 225</b>
+                                        <small>TICKETS</small>
+                                    </span>
                                 </li>
                                 <li>
                                     ALL
-                                    <span class="pull-right"><b>8 752</b> <small>TICKETS</small></span>
+                                    <span class="pull-right">
+                                        <b>8 752</b>
+                                        <small>TICKETS</small>
+                                    </span>
                                 </li>
                             </ul>
                         </div>
@@ -690,9 +764,15 @@
                                         <i class="material-icons">more_vert</i>
                                     </a>
                                     <ul class="dropdown-menu pull-right">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another action</a></li>
-                                        <li><a href="javascript:void(0);">Something else here</a></li>
+                                        <li>
+                                            <a href="javascript:void(0);">Action</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);">Another action</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);">Something else here</a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -713,7 +793,9 @@
                                         <tr>
                                             <td>1</td>
                                             <td>Task A</td>
-                                            <td><span class="label bg-green">Doing</span></td>
+                                            <td>
+                                                <span class="label bg-green">Doing</span>
+                                            </td>
                                             <td>John Doe</td>
                                             <td>
                                                 <div class="progress">
@@ -724,7 +806,9 @@
                                         <tr>
                                             <td>2</td>
                                             <td>Task B</td>
-                                            <td><span class="label bg-blue">To Do</span></td>
+                                            <td>
+                                                <span class="label bg-blue">To Do</span>
+                                            </td>
                                             <td>John Doe</td>
                                             <td>
                                                 <div class="progress">
@@ -735,7 +819,9 @@
                                         <tr>
                                             <td>3</td>
                                             <td>Task C</td>
-                                            <td><span class="label bg-light-blue">On Hold</span></td>
+                                            <td>
+                                                <span class="label bg-light-blue">On Hold</span>
+                                            </td>
                                             <td>John Doe</td>
                                             <td>
                                                 <div class="progress">
@@ -746,7 +832,9 @@
                                         <tr>
                                             <td>4</td>
                                             <td>Task D</td>
-                                            <td><span class="label bg-orange">Wait Approvel</span></td>
+                                            <td>
+                                                <span class="label bg-orange">Wait Approvel</span>
+                                            </td>
                                             <td>John Doe</td>
                                             <td>
                                                 <div class="progress">
@@ -785,9 +873,15 @@
                                         <i class="material-icons">more_vert</i>
                                     </a>
                                     <ul class="dropdown-menu pull-right">
-                                        <li><a href="javascript:void(0);">Action</a></li>
-                                        <li><a href="javascript:void(0);">Another action</a></li>
-                                        <li><a href="javascript:void(0);">Something else here</a></li>
+                                        <li>
+                                            <a href="javascript:void(0);">Action</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);">Another action</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);">Something else here</a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
@@ -803,46 +897,46 @@
     </section>
 
     <!-- Jquery Core Js -->
-    <script src="admin_plugins/jquery/jquery.min.js"></script>
+    <script src="../admin_plugins/jquery/jquery.min.js"></script>
 
     <!-- Bootstrap Core Js -->
-    <script src="admin_plugins/bootstrap/js/bootstrap.js"></script>
+    <script src="../admin_plugins/bootstrap/js/bootstrap.js"></script>
 
     <!-- Select Plugin Js -->
-    <script src="admin_plugins/bootstrap-select/js/bootstrap-select.js"></script>
+    <script src="../admin_plugins/bootstrap-select/js/bootstrap-select.js"></script>
 
     <!-- Slimscroll Plugin Js -->
-    <script src="admin_plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+    <script src="../admin_plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
 
     <!-- Waves Effect Plugin Js -->
-    <script src="admin_plugins/node-waves/waves.js"></script>
+    <script src="../admin_plugins/node-waves/waves.js"></script>
 
     <!-- Jquery CountTo Plugin Js -->
-    <script src="admin_plugins/jquery-countto/jquery.countTo.js"></script>
+    <script src="../admin_plugins/jquery-countto/jquery.countTo.js"></script>
 
     <!-- Morris Plugin Js -->
-    <script src="admin_plugins/raphael/raphael.min.js"></script>
-    <script src="admin_plugins/morrisjs/morris.js"></script>
+    <script src="../admin_plugins/raphael/raphael.min.js"></script>
+    <script src="../admin_plugins/morrisjs/morris.js"></script>
 
     <!-- ChartJs -->
-    <script src="admin_plugins/chartjs/Chart.bundle.js"></script>
+    <script src="../admin_plugins/chartjs/Chart.bundle.js"></script>
 
     <!-- Flot Charts Plugin Js -->
-    <script src="admin_plugins/flot-charts/jquery.flot.js"></script>
-    <script src="admin_plugins/flot-charts/jquery.flot.resize.js"></script>
-    <script src="admin_plugins/flot-charts/jquery.flot.pie.js"></script>
-    <script src="admin_plugins/flot-charts/jquery.flot.categories.js"></script>
-    <script src="admin_plugins/flot-charts/jquery.flot.time.js"></script>
+    <script src="../admin_plugins/flot-charts/jquery.flot.js"></script>
+    <script src="../admin_plugins/flot-charts/jquery.flot.resize.js"></script>
+    <script src="../admin_plugins/flot-charts/jquery.flot.pie.js"></script>
+    <script src="../admin_plugins/flot-charts/jquery.flot.categories.js"></script>
+    <script src="../admin_plugins/flot-charts/jquery.flot.time.js"></script>
 
     <!-- Sparkline Chart Plugin Js -->
-    <script src="admin_plugins/jquery-sparkline/jquery.sparkline.js"></script>
+    <script src="../admin_plugins/jquery-sparkline/jquery.sparkline.js"></script>
 
     <!-- Custom Js -->
-    <script src="admin_js/admin.js"></script>
-    <script src="admin_js/pages/index.js"></script>
+    <script src="../admin_js/admin.js"></script>
+    <script src="../admin_js/pages/index.js"></script>
 
     <!-- Demo Js -->
-    <script src="admin_js/demo.js"></script>
+    <script src="../admin_js/demo.js"></script>
 </body>
 
 </html>
