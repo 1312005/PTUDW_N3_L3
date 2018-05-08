@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="css/owl.carousel.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/mystyle.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     
     
@@ -45,9 +46,9 @@
                             <li class="dropdown dropdown-small">
                                 <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key"><i class="fa fa-user"></i> My Account</span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="profile.html">Profile</a></li>
+                                    <li><a href="profile">Profile</a></li>
                                     <li>
-                                        <a href="bought_histories.html">Histories</a>
+                                        <a href="bought_histories">Histories</a>
                                     </li>
                                 </ul>
                             </li>
@@ -95,13 +96,13 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="logo">
-                        <h1><a href="index.html">e<span>Electronics</span></a></h1>
+                        <h1><a href="/">e<span>Electronics</span></a></h1>
                     </div>
                 </div>
                 
                 <div class="col-sm-6">
                     <div class="shopping-item">
-                        <a href="cart.html">Cart - <span class="cart-amunt">$800</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">5</span></a>
+                        <a href="cart">Cart - <span class="cart-amunt">$800</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">5</span></a>
                     </div>
                 </div>
             </div>
@@ -193,13 +194,13 @@
                 </div> 
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="index.html">Home</a></li>
-                        <li><a href="shop.html">Shop page</a></li>
-                        <li><a href="single-product.html">Single product</a></li>
-                        <li><a href="cart.html">Cart</a></li>
-                        <li><a href="checkout.html">Checkout</a></li>
-                        <li><a href="aboutus.html">About us</a></li>
-                        <li><a href="contactus.html">Contact</a></li>
+                        <li class="active" id = "menu-home"><a href="/">Home</a></li>
+                        <li id = "menu-shop"><a href="shop" >Shop page</a></li>
+                        <li id = "menu-single-product"><a href="single-product" >Single product</a></li>
+                        <li id = "menu-cart"><a href="cart">Cart</a></li>
+                        <li id = "menu-checkout"><a href="checkout" >Checkout</a></li>
+                        <li id = "menu-aboutus"><a href="aboutus">About us</a></li>
+                        <li id = "menu-contactus"><a href="contactus">Contact</a></li>
                     </ul>
                 </div>  
             </div>
@@ -211,7 +212,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="product-bit-title text-center">
-                        <h2>Bought Details</h2>
+                        <h2 id = "title-page">{{{_sections.bigTitle}}}</h2>
                     </div>
                 </div>
             </div>
@@ -320,5 +321,6 @@
     <!-- Main Script -->
     <script src="js/main.js"></script>
     <script src="js/signin.js"></script>
+    <script src="js/activeMenu.js"></script>
   </body>
 </html>

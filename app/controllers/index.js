@@ -4,6 +4,6 @@ module.exports = {
     about: require('./aboutController'),
     users: require('./usersController'),
     products: require('./productsController'),
-    carts: require('./cartsController')
-    
+    carts: require('./cartsController'),
+    contact: require('./contactController')
 }

@@ -1,6 +1,6 @@
 var aboutController = {
     index: (req, res) => {
-        res.render('aboutus', {layout: false});
+        res.render('aboutus');
     }
 };
 
