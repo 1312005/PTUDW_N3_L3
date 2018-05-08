@@ -13,7 +13,7 @@ var usersController = {
     },
 
     signin: (req, res) => {
-        res.render('signin', {layout: false});
+        res.render('signin');
     },
 
     signup: (req, res) => {
