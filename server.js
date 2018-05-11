@@ -1,15 +1,17 @@
-var express = require('express');
-var path = require('path');
-var morgan = require('morgan');
-var session = require('express-session');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var exphbs = require('express-handlebars');
-var express_handlebars_sections = require('express-handlebars-sections');
-var port = process.env.PORT || 3000;
-var controllers = require('./app/controllers');
-const pool = require('./config/database');
-var app = express();
+const express = require('express');
+const path = require('path');
+const morgan = require('morgan');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const exphbs = require('express-handlebars');
+const expressValidator = require('express-validator');
+const express_handlebars_sections = require('express-handlebars-sections');
+const port = process.env.PORT || 3000;
+const controllers = require('./app/controllers');
+const app = express();
+
+require('dotenv').config();
 
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
@@ -18,6 +20,7 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 
+app.use(expressValidator());
 
 app.use(bodyParser.json());
 
@@ -33,7 +36,7 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.resolve(__dirname, 'public')));
 app.set('views', __dirname + '/app/views');
 
-require('./app/routes/routes.js')(app, pool, controllers);
+require('./app/routes/routes.js')(app,controllers);
 
 
 

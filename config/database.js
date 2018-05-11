@@ -1,10 +1,10 @@
-var mysql = require('mysql');
+const mysql = require('mysql');
 
-var config  = {
+const config  = {
   connectionLimit : 10,
   host            : '127.0.0.1',
-  user            : 'bob',
-  password        : 'secret',
+  user            : 'drek',
+  password        : 'extremelyHardPassEverMade',
   database        : 'electronicshop'
 };
 

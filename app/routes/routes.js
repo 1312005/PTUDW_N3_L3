@@ -1,4 +1,4 @@
-module.exports = (app, pool, controllers) => {
+module.exports = (app,controllers) => {
 
     app.get('/', controllers.home.index);
 
@@ -19,6 +19,7 @@ module.exports = (app, pool, controllers) => {
     /* USERS ROUTES */
     app.get('/signin', controllers.users.signin);
     app.get('/signup', controllers.users.signup);
+    app.post('/signup', controllers.users.processSigup);
 
     /* Cart Routes */
     app.get('/cart', controllers.carts.index);
