@@ -31,23 +31,23 @@ const usersController = {
 
         req.checkBody('password', 'password is not matches').equals(req.body.confirmPassword);
 
-        const errors = rep.validatorErrors();
+        const errors = req.validatorErrors();
 
-        if (erros) {
+        if (errors) {
              // res.status(422).json({
              //    error: true,
              //    msg: 'validate failure'
              // });
-             res.render('signup', {erros: erros});
+             res.render('signup', {errors: errors});
              res.end();
              console.log('validate failure');
         }
 
         else {
 
-                models.users.isExistedUsername(req.body.userName).then(value => {
+                models.users.isExistedUsername(req.body.username).then(value => {
                     if (value != null) {
-                         res.render('signup', {erros: 'username already taken'});
+                         res.render('signup', {errors: 'username already taken'});
                         res.end();
                     }
                     else {
@@ -57,7 +57,7 @@ const usersController = {
                         let user = {
                         firstName: req.body.firstName,
                         lastName: req.body.lastName,
-                        username: req.body.userName,
+                        username: req.body.username,
                         gender: req.body.gender,
                         emailAddress: req.body.emailAddress,
                         phoneNumber: req.body.phoneNumber,
@@ -72,14 +72,14 @@ const usersController = {
                         // res.status(200).json({
                         //     error: false,
                         //     msg: 'Your account has been created successfully!' });
-                         res.render('signup', {erros: {}, msg: 'Your account has been created successfully!'});
+                         res.render('signup', {errors: {}, msg: 'Your account has been created successfully!'});
                         console.log('successfully');
                         }).catch(err => {
                         // res.status(422).json({
                         //     error: true,
                         //     msg: 'Something went wrong!'
                         // });
-                         res.render('signup', {erros: erros});
+                         res.render('signup', {errors: err});
                         console.log('database operate wrongly');
                     });
                    }
