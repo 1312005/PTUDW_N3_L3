@@ -1,10 +1,12 @@
-let productController = {
-    index : (req,res)=>{
-        res.render('shop');
-    },
-    singleProduct : (req,res)=>{
-        res.render('single-product');
-    }
-};
+const router = require('express').Router();
 
-module.exports = productController;
+router.get('/shop', (req, res) => {
+	  res.render('shop');
+});
+
+
+router.get('/single-product', (req, res) => {
+	  res.render('single-product');
+});
+
+module.exports = router;

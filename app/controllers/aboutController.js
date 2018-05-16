@@ -1,7 +1,7 @@
-var aboutController = {
-    index: (req, res) => {
-        res.render('aboutus');
-    }
-};
+const router = require('express').Router();
 
-module.exports = aboutController;
+router.get('/about', (req, res) => {
+	 res.render('aboutus');
+});
+
+module.exports = router;

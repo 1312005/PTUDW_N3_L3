@@ -1,56 +1,89 @@
-const  models = require('../models');
+const  models = require('../models/userModel');
 
+const router = require('express').Router();
+
+const { check, validationResult } = require('express-validator/check');
 const bcrypt = require('bcrypt');
 
-const usersController = {
-    signin: (req, res) => {
-        res.render('signin');
-    },
 
-    processSigup: (req, res) => {
+router.get('/signup', (req, res) => {
+      res.render('signup');
+});
 
-        req.checkBody('firstName', 'firstname is require').notEmpty();
+// router.post('/signup',[
+//         check('firstName', 'firstname is require').isEmpty(),
 
-        req.checkBody('lastName', 'lastname is require').notEmpty();
+//         check('lastName', 'lastname is require').isEmpty(),
 
-        req.checkBody('livingAddress', 'Address is require').notEmpty();
+//         check('livingAddress', 'livingAddress is require').isEmpty(),
 
-        req.checkBody('livingCity', 'City/Province is require').notEmpty();
+//         check('livingCity', 'livingCity is require').isEmpty(),
 
-        req.checkBody('dob', 'dob is require').notEmpty();
+//         check('dob', 'dob is require').isEmpty(),
 
-        req.checkBody('gender', 'Gender is require').notEmpty();
+//         check('gender', 'gender is require').isEmpty(),
 
-        req.checkBody('livingDistrict', 'District is require').notEmpty();
+//         check('livingDistrict', 'livingDistrict is require').isEmpty(),
     
-        req.checkBody('emaiAddress', 'Email is invalid').isEmail();
+//         check('emaiAddress', 'Email is invalid').isEmail(),
 
-        req.checkBody('phoneNumber', 'Email is invalid').notEmpty();
+//         check('phoneNumber', 'phone number is require').isEmpty(),
 
-        req.checkBody('password', 'password is require').notEmpty();
+//         check('password', 'password is require').isEmpty()
+//     ], (req, res) => {
+//          // Finds the validation errors in this request and wraps them in an object with handy functions
+//           const errors = validationResult(req);
+//           if (!errors.isEmpty()) {
+//             res.render('signup', {errors: errors.array()});
+//             console.log("VALIDATE FAILED")
+//           }
+//           else {
 
-        req.checkBody('password', 'password is not matches').equals(req.body.confirmPassword);
+//                 models.users.isExistedUsername(req.body.username).then(value => {
+//                     if (value) {
+//                         console.log("USERNAME ALREADY TAKEN")
+//                          res.render('signup', {error: 'username already taken'});
+//                     }
+//                     else {
 
-        const errors = req.validatorErrors();
+//                         let salt = bcrypt.genSaltSync(10);
+//                         let encryptedPassword = bcrypt.hashSync(req.body.password,salt);
+//                         let user = {
+//                         firstName: req.body.firstName,
+//                         lastName: req.body.lastName,
+//                         username: req.body.username,
+//                         gender: req.body.gender,
+//                         emailAddress: req.body.emailAddress,
+//                         phoneNumber: req.body.phoneNumber,
+//                         dob: req.body.dob,
+//                         livingAddress: req.body.livingAddress,
+//                         livingCity: req.body.livingCity,
+//                         livingDistrict: req.body.livingDistrict,
+//                         encryptedPassword: encryptedPassword };
 
-        if (errors) {
-             // res.status(422).json({
-             //    error: true,
-             //    msg: 'validate failure'
-             // });
-             res.render('signup', {errors: errors});
-             res.end();
-             console.log('validate failure');
-        }
+//                         user.livingCity = "HCMC";
+//                         user.District = "Q1";
+//                         console.log("******");
+//                         console.log(user);
+//                         console.log("******");
 
-        else {
+//                         models.users.add(user).then(value => {
+//                        console.log("ADD OPERATION successfully");
+//                          res.render('signup', {errors: {}, msg: 'Your account has been created successfully!'});
+//                         console.log('successfully');
+//                         }).catch(err => {
+//                         console.log("ADD OPERATION FAILED FOR UNKNOWN REASONS");
+//                          res.render('signup', {s: err});
+//                     });
+//                    }
+//                 });
+//     }
+// });
 
-                models.users.isExistedUsername(req.body.username).then(value => {
-                    if (value != null) {
-                         res.render('signup', {errors: 'username already taken'});
-                        res.end();
-                    }
-                    else {
+
+router.post('/signup', (req, res) => {
+         // Finds the validation errors in this request and wraps them in an object with handy functions
+          
 
                         let salt = bcrypt.genSaltSync(10);
                         let encryptedPassword = bcrypt.hashSync(req.body.password,salt);
@@ -67,31 +100,22 @@ const usersController = {
                         livingDistrict: req.body.livingDistrict,
                         encryptedPassword: encryptedPassword };
 
-                        models.users.add(user).then(value => {
-                        console.log(value);
-                        // res.status(200).json({
-                        //     error: false,
-                        //     msg: 'Your account has been created successfully!' });
+                        user.livingCity = "HCMC";
+                        user.livingDistrict = "Q1";
+                        console.log("******");
+                        console.log(user);
+                        console.log("******");
+
+                        models.add(user).then(value => {
+                       console.log("ADD OPERATION successfully");
                          res.render('signup', {errors: {}, msg: 'Your account has been created successfully!'});
                         console.log('successfully');
                         }).catch(err => {
-                        // res.status(422).json({
-                        //     error: true,
-                        //     msg: 'Something went wrong!'
-                        // });
-                         res.render('signup', {errors: err});
-                        console.log('database operate wrongly');
+                        console.log(err);
+                        console.log("ADD OPERATION FAILED FOR UNKNOWN REASONS");
+                         res.render('signup', {s: err});
                     });
-                   }
-                });
-    }
+});
 
-        //res.status(200).json('FUCKING DAMN');
-    },
 
-    signup: (req, res) => {
-        res.render('signup');
-    }
-}
-
-module.exports = usersController;
+module.exports = router;

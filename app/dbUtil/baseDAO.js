@@ -4,13 +4,16 @@ exports.load = (sql) => {
 	return new Promise((resolve, reject) => {
 		pool.getConnection(function(err, connection){
 			if (err) {
-				reject(error)
+				//connection.release();
+				reject(err)
 			}
 			else {
 
 				console.log('establish connection');
 
 				connection.query(sql, function(error, rows, fields) {
+					connection.release();
+					console.log('release connection');
 					if (error) {
 						reject(error)
 					}
@@ -18,9 +21,6 @@ exports.load = (sql) => {
 						resolve(rows);
 					}
 
-					connection.release();
-
-					console.log('release connection');
 				});
 			}
 	});
@@ -31,23 +31,23 @@ exports.save = sql => {
 	return new Promise((resolve, reject) => {
 		pool.getConnection(function(err, connection) {
 			if (err) {
-				reject(error)
+				reject(err)
 			}
 			else {
 
 				console.log('establish connection');
 				
 				connection.query(sql, function(error, value) {
+					
+					connection.release();
+
+					console.log('release connection');
 					if (error) {
 						reject(error)
 					}
 					else {
-						resolve(rows);
+						resolve(value);
 					}
-
-					connection.release();
-
-					console.log('release connection');
 				});
 			}
 		});
