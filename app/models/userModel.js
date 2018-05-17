@@ -6,9 +6,9 @@ exports.fetchAll = () => {
 }
 
 
-exports.isExistedUsername = (username) => {
+exports.isExistedUsername = (usernameOrEmail) => {
      return new Promise((resolve, reject) => {
-        let sql = `SELECT * FROM members WHERE username = ${username}`;
+        let sql = `SELECT * FROM members WHERE username = '${usernameOrEmail}' OR emailAddress = '${usernameOrEmail}'`;
         baseDAO.load(sql)
                .then(rows => {
                     if (rows.length == 0) {
@@ -41,7 +41,7 @@ exports.fetchSingle = (id) => {
 }
 
 exports.add = (user) => {
-    var sql = `INSERT INTO members(firstName,lastName,username,dob,gender,encryptedPassword,phoneNumber,emailAddress,livingCity,livingDistrict,lingvingAddress) VALUES('${user.firstName}','${user.lastName}','${user.username}','${user.dob}','${user.gender}','${user.encryptedPassword}','${user.phoneNumber}','${user.emailAddress}','${user.livingCity}','${user.livingDicstric}','${user.livingAddress}')`;
+    var sql = `INSERT INTO members(firstName,lastName,username,dob,gender,encryptedPassword,phoneNumber,emailAddress,livingCity,livingDistrict,lingvingAddress) VALUES('${user.firstName}','${user.lastName}','${user.username}','${user.dob}','${user.gender}','${user.encryptedPassword}','${user.phoneNumber}','${user.emailAddress}','${user.livingCity}','${user.livingDistrict}','${user.livingAddress}')`;
     return baseDAO.save(sql);
 }
 
