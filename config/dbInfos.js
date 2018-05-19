@@ -3,8 +3,8 @@ const mysql = require('mysql');
 const config  = {
   connectionLimit : 10,
   host            : process.env.DB_HOST,
-  user            : process.env.USER_STANDARD,
-  password        : process.env.DB_PASS_STANDARD,
+  user            : process.env.USER,
+  password        : process.env.DB_PASS,
   database        : process.env.DB_NAME
 };
 
