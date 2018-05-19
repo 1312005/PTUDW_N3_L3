@@ -44,7 +44,8 @@
                 <div class="col-md-8">
                     <div class="user-menu">
                         <ul>
-                            
+
+                            {{#if session.user }}
                             <li class="dropdown dropdown-small">
                                 <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key"><i class="fa fa-user"></i> My Account</span></a>
                                 <ul class="dropdown-menu">
@@ -54,6 +55,9 @@
                                     </li>
                                 </ul>
                             </li>
+
+                            {{/if}}
+
                             <li>
                                 <a href="signin">
                                     <i class="fa fa-user"></i> Login</a>

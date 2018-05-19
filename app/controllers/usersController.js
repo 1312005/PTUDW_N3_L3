@@ -1,13 +1,70 @@
 const  models = require('../models/userModel');
 
+const provinceModel = require('../models/provinceModel');
+
 const router = require('express').Router();
 
 const { check, validationResult } = require('express-validator/check');
 const bcrypt = require('bcrypt');
 
+const request = require('request');
+
+router.get('/signin', (req, res) => {
+        res.render('signin');
+});
+
+
+
+// route for user's dashboard
+router.get('/profile', (req, res) => {
+  if (req.session.user)
+    res.json({success: true, msg: 'into'});
+  else res.json({success: false, msg: 'knock out'});
+});
+
+
+router.post('/signin', [
+  check('username', 'Username is required').exists(),
+  check('password', 'Password is required').exists(),
+  ],(req, res) => {
+  const errors = validationResult(req);
+          if (!errors.isEmpty()) {
+            res.render('signin', {errors: errors.mapped() });
+            console.log("VALIDATE FAILED");
+            console.log(errors.mapped());
+          }
+          else {
+               models.isExistedUsername(req.body.username)
+               .then(user => {
+                let match = bcrypt.compareSync(req.body.password, user.encryptedPassword);
+                console.log(match);
+                if(match) {
+                   req.session.user = user;
+                   console.log('**SESSION***');
+                   console.log(req.session.user);
+                   console.log('**SESSION***');
+                   res.redirect('/');
+                }
+              else {
+                res.redirect('/signup');
+              }
+              
+               })
+               .catch(err => {
+                console.log(err);
+                 res.redirect('/signup');
+               });
+          }
+});
 
 router.get('/signup', (req, res) => {
-      res.render('signup');
+  provinceModel.fetchAll().then(provinces => {
+    res.render('signup', {provinces: provinces})
+    console.log(provinces);
+  }).catch(error => {
+    res.render('signup');
+    console.log(error);
+  })
 });
 
 router.post('/signup',[
@@ -19,6 +76,7 @@ router.post('/signup',[
         .isLength({ min: 5 })
         .custom(value => {
             return models.isExistedUsername(value).then(user => {
+                if (user)
                 throw new Error('this username is already in use');
             })
         }),
@@ -37,6 +95,7 @@ router.post('/signup',[
         .trim()
         .custom(value => {
             return models.isExistedUsername(value).then(user => {
+                if (user)
                 throw new Error('this email is already in use');
             })
         }),
@@ -70,49 +129,50 @@ router.post('/signup',[
   }
   else {
 
-                // let salt = bcrypt.genSaltSync(10);
-                //         let encryptedPassword = bcrypt.hashSync(req.body.password,salt);
-                //         let user = {
-                //         firstName: req.body.firstName,
-                //         lastName: req.body.lastName,
-                //         username: req.body.username,
-                //         gender: req.body.gender,
-                //         emailAddress: req.body.emailAddress,
-                //         phoneNumber: req.body.phoneNumber,
-                //         dob: req.body.dob,
-                //         livingAddress: req.body.livingAddress,
-                //         livingCity: req.body.livingCity,
-                //         livingDistrict: req.body.livingDistrict,
-                //         encryptedPassword: encryptedPassword };
-
-                //         user.livingCity = "HCMC";
-                //         user.livingDistrict = "Q1";
-                //         console.log("******");
-                //         console.log(user);
-                //         console.log("******");
-
-                //         models.add(user).then(value => {
-                //        console.log("ADD OPERATION successfully");
-                //          res.render('signup', {errors: {}, msg: 'Your account has been created successfully!'});
-                //         console.log('successfully');
-                //         }).catch(err => {
-                //         const errors = ['ADD OPERATION FAILED FOR UNKNOWN REASONS'];
-                //         console.log(errors);
-                //          res.render('signup', {errors: err});
-                //     });
-
+                
                  // Put your secret key here.
-  var secretKey = "6Lcc1FkUAAAAACn2XyEAq_qISTy1jtCF2Ee3puaM";
+      let  secretKey = "6Lcc1FkUAAAAACn2XyEAq_qISTy1jtCF2Ee3puaM";
   // req.connection.remoteAddress will provide IP address of connected user.
-  var verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+  let verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
   // Hitting GET request to the URL, Google will respond with success or error scenario.
   request(verificationUrl,function(error,response,body) {
     body = JSON.parse(body);
     // Success will be true or false depending upon captcha validation.
     if(body.success !== undefined && !body.success) {
-      return res.json({"responseCode" : 1,"responseDesc" : "Failed captcha verification"});
+      //return res.json({"responseCode" : 1,"responseDesc" : "Failed captcha verification"});
+            const errors = ['Failed captcha verification'];
+            console.log(errors);
+             res.render('signup', {errors: err});
     }
-    res.json({"responseCode" : 0,"responseDesc" : "Sucess"});
+    //res.json({"responseCode" : 0,"responseDesc" : "Sucess"});
+    else {
+            let salt = bcrypt.genSaltSync(10);
+            let encryptedPassword = bcrypt.hashSync(req.body.password,salt);
+            let user = {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            username: req.body.username,
+            gender: req.body.gender,
+            emailAddress: req.body.emailAddress,
+            phoneNumber: req.body.phoneNumber,
+            dob: req.body.dob,
+            livingAddress: req.body.livingAddress,
+            livingCity: req.body.livingCity,
+            livingDistrict: req.body.livingDistrict,
+            encryptedPassword: encryptedPassword };
+
+
+            models.add(user).then(value => {
+           console.log("ADD OPERATION successfully");
+             res.render('signup', {errors: {}, msg: 'Your account has been created successfully!'});
+            console.log('successfully');
+            }).catch(err => {
+            const errors = ['ADD OPERATION FAILED FOR UNKNOWN REASONS'];
+            console.log(err);
+             res.render('signup', {errors: err});
+        });
+
+    }
   });
   }
 

@@ -16,19 +16,26 @@ const aboutController = require('./app/controllers/aboutController');
 const contactController = require('./app/controllers/contactController');
 const productController = require('./app/controllers/productsController');
 const cartController = require('./app/controllers/cartsController');
+const cityController = require('./app/controllers/citiesController');
 
 require('dotenv').config();
 
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-	extended: true
+	extended: false
 }));
 
 app.use(expressValidator());
 
-app.use(bodyParser.json());
+// initialize cookie-parser to allow us access the cookies stored in the browser. 
+app.use(cookieParser());
+
+// initialize express-session to allow us track the logged-in user across sessions.
+app.use(session({ secret: 'somerandonstuffs', resave: false, saveUninitialized: false }));
+
 
 app.engine('hbs', exphbs({
     defaultLayout: 'main',
@@ -42,6 +49,25 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.resolve(__dirname, 'public')));
 app.set('views', __dirname + '/app/views');
 
+// This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
+// This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
+app.use((req, res, next) => {
+    if (req.cookies.user_sid && !req.session.user) {
+        res.clearCookie('user_sid');        
+    }
+    next();
+});
+
+
+// middleware function to check for logged-in users
+var sessionChecker = (req, res, next) => {
+    if (req.session.user && req.cookies.user_sid) {
+        res.redirect('/profile');
+    } else {
+        next();
+    }    
+};
+
 //require('./app/routes/routes.js')(app,controllers);
 app.use(userController);
 app.use(homeController);
@@ -49,7 +75,7 @@ app.use(aboutController);
 app.use(contactController);
 app.use(productController);
 app.use(cartController);
-
+app.use(cityController);
 // // catch 404 and forward to error handler
 //     // note this is after all good routes and is not an error handler
 //     // to get a 404, it has to fall through to this route - no error involved

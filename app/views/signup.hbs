@@ -1,6 +1,6 @@
 
  <div class="container" style="margin-top: 70px;">
-    <h1 class="well" style="background: #311B92; color: #FFF;">Registration</h1>
+    <h1 class="well" style="background: #455A64; color: #FFF;">Registration</h1>
     {{# if errors }}
     {{# each errors }}
           <p class="alert alert-danger">{{ this.msg }}</p>
@@ -83,6 +83,9 @@
                         <!-- <input type="text" placeholder="Enter City Name Here.." class="form-control"> -->
                         <select name="livingCity" class="form-control" id="sel1">
                                <option disabled selected value> -- select an option -- </option>
+                               {{#each provinces }}
+                               <option value="{{this.provinceId}}">{{this.provinceName}}</option>
+                               {{/each}}
                         </select>
                     </div>	
                     <div class="col-sm-6 form-group">
@@ -101,64 +104,28 @@
     </div>
 </div>
 <script src="js/jquery-3.3.1.min.js"></script>
-{{!-- <script>
-    $.getJSON("hcvn/vietnam_provinces_cities.json", function( data ){
-        console.log(data);
-        var items = [];
-  $.each( data, function(code) {
-    console.log(code);
-    items.push( "<option value='" + code+ "'>" + data[code].name+ "</option>" );
-  });
-  $('#sel1').empty();
-  $('#sel1').append(items.join( "" ));
-    });
-    $('select#sel1').on('change', function() {
-         var id = this.value;
-         alert(id)
-         $.getJSON("hcvn/vietnam_provinces_cities.json", function( data ){
-         var arr = data[id].state;
-         console.log(arr.length);
-         var html;
-         for (i=0;i<arr.length;i++) {
-             html += `<option value='${arr[i]}'>${arr[i]}<option>`;
-         }
-        $('#sel2').empty();
-        $('#sel2').append(html);
-         });
-    });
-</script> --}}
-<script type="text/javascript">
-  var cities = [{id:1,city:"Canada"},{id:2,city:"USA"}]; 
-       var districts = [{id:1, district:["Toronto", "Montreal", "Quebec"]},
-       {id:2, district:["New York", "Michigan", "Last Vergas"]}]
-        function addOption(elId)
-        {
-            var sel = document.getElementById(elId);
-        var fragment = document.createDocumentFragment();
-        cities.forEach(function(city, index) {
-            var opt = document.createElement('option');
-            opt.innerHTML = city.city;
-            opt.value = city.id;
-            fragment.appendChild(opt);
+<script>
+    $('#sel1').on('change', function() {
+        var provinceId = this.value;
+        $.ajax({
+            url: 'cityList/'+provinceId,
+            method: 'GET',
+            success: function(data) {
+                console.log(data);
+                var html = '<option disabled selected value> -- select an option -- </option>';
+                for(i=0; i<data.cities.length; i++)
+                {
+                    html += `<option value='${data.cities[i].cityId}'>${data.cities[i].cityName}</option>`;
+                }
+
+                $('#sel2').empty();
+                $('#sel2').append(html);
+            },
+            error: function(error) {
+                console.log(error);
+            }
         });
-        sel.appendChild(fragment);
-        }
-       
-        addOption('sel1');
-        $('select#sel1').on('change', function() {
-         var id = this.value;
-         var districtsBelong = districts.filter(x => x.id == id);
-         $('#sel2').empty();
-         var sel = document.getElementById('sel2');
-        var fragment = document.createDocumentFragment();
-        districtsBelong[0].district.forEach(function(districtz, index) {
-            var opt = document.createElement('option');
-            opt.innerHTML = districtz;
-            opt.value = districtz;
-            fragment.appendChild(opt);
-        });
-        sel.appendChild(fragment);
-        })
+    });
 </script>
  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
