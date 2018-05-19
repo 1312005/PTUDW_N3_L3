@@ -1,4 +1,4 @@
-const pool = require('../../config/database');
+const pool = require('../../config/dbInfos');
 
 exports.load = (sql) => {
 	return new Promise((resolve, reject) => {
