@@ -56,8 +56,7 @@ app.use((req, res, next) => {
         res.clearCookie('user_sid');        
     }
     next();
-});
-
+}); 
 
 // middleware function to check for logged-in users
 var sessionChecker = (req, res, next) => {
