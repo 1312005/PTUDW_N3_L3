@@ -58,7 +58,12 @@
 }
 
 /* Laptop and PC */
-@media all and (min-width: 1280px){
+@media all and (min-width: 1200px){
+    .container-customize{
+        width: 1350px;
+        margin:0 auto;
+        display:flex;
+    }
     .content{
         width: 100%;
         display: flex;
