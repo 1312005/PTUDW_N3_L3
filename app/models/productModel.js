@@ -7,7 +7,7 @@ exports.loadAllProduct = () => {
 
 exports.single = (id) =>{
     return new Promise((resolve, reject) => {
-        let sql = `select * from products where id = ${id}`;
+        let sql = `select * from products pr, manufacturers mf where id = ${id} and pr.manufacturerId = mf.manufacturerId`;
         dbDAO.load(sql).then(rows => {
             if (rows.length === 0) {
                 resolve(null);

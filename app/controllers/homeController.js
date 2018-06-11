@@ -31,14 +31,13 @@ router.get('/topnew',(req,res) =>{
 });
 
 router.get('/single-product/:id',(req,res)=>{
-	// let id = req.params.id;
-	// productModel.single(id).then((rows)=>{
-	// 	console.log(rows);
-	// 	let vm = {
-	// 		products: rows,
-	// 	}
-	// 	res.render('single-product');
-	// });
-	res.render('single-product');
+	let id = req.params.id;
+	productModel.single(id).then((rows)=>{
+		console.log(rows);
+		let vm = {
+			product: rows,
+		}
+		res.render('single-product',vm);
+	});
 });
 module.exports = router;
