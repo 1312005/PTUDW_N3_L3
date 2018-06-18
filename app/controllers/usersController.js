@@ -1,62 +1,46 @@
 const  models = require('../models/userModel');
-
 const provinceModel = require('../models/provinceModel');
-
 const router = require('express').Router();
-
 const { check, validationResult } = require('express-validator/check');
 const bcrypt = require('bcrypt');
-
 const request = require('request');
+const passport = require('passport');
 
-router.get('/signin', (req, res) => {
-        res.render('signin');
-});
-
+const ensureAuthenticated = require('../middlewares/ensureAuthenticated');
 
 
-// route for user's dashboard
-router.get('/profile', (req, res) => {
-  if (req.session.user)
-    res.json({success: true, msg: 'into'});
-  else res.json({success: false, msg: 'knock out'});
-});
-
-
-router.post('/signin', [
-  check('username', 'Username is required').exists(),
-  check('password', 'Password is required').exists(),
-  ],(req, res) => {
-  const errors = validationResult(req);
-          if (!errors.isEmpty()) {
-            res.render('signin', {errors: errors.mapped() });
-            console.log("VALIDATE FAILED");
-            console.log(errors.mapped());
-          }
-          else {
-               models.isExistedUsername(req.body.username)
-               .then(user => {
-                let match = bcrypt.compareSync(req.body.password, user.encryptedPassword);
-                console.log(match);
-                if(match) {
-                   req.session.user = user;
-                   console.log('**SESSION***');
-                   console.log(req.session.user);
-                   console.log('**SESSION***');
-                   res.redirect('/');
-                }
-              else {
-                res.redirect('/signup');
-              }
+// router.post('/signin', [
+//   check('username', 'Username is required').exists(),
+//   check('password', 'Password is required').exists(),
+//   ],(req, res) => {
+//   const errors = validationResult(req);
+//           if (!errors.isEmpty()) {
+//             res.render('signin', {errors: errors });
+//             console.log("VALIDATE FAILED");
+//             console.log(errors);
+//           }
+//           else {
+//                models.isExistedUsername(req.body.username)
+//                .then(user => {
+//                 let match = bcrypt.compareSync(req.body.password, user.encryptedPassword);
+//                 console.log(match);
+//                 if(match) {
+//                    res.redirect('/');
+//                 }
+//               else {
+//                 res.redirect('/signup');
+//               }
               
-               })
-               .catch(err => {
-                console.log(err);
-                 res.redirect('/signup');
-               });
-          }
-});
+//                })
+//                .catch(err => {
+//                 console.log(err);
+//                  res.redirect('/signup');
+//                });
+//           }
+// });
 
+
+// REGISTERS
 router.get('/signup', (req, res) => {
   provinceModel.fetchAll().then(provinces => {
     res.render('signup', {provinces: provinces})
@@ -81,8 +65,6 @@ router.post('/signup',[
             })
         }),
         check('livingAddress', 'livingAddress is require').isLength({ min: 1 }),
-
-        check('livingCity', 'livingCity is require').isLength({ min: 1 }),
 
         check('dob', 'dob is require').isLength({ min: 1 }),
 
@@ -117,9 +99,9 @@ router.post('/signup',[
          // Finds the validation errors in this request and wraps them in an object with handy functions
           const errors = validationResult(req);
           if (!errors.isEmpty()) {
-            res.render('signup', {errors: errors.mapped() });
+            res.render('signup', {errors: errors.mapped()});
             console.log("VALIDATE FAILED");
-            console.log(errors.mapped());
+            console.log(errors);
           }
           else {
                  // g-recaptcha-response is the key that browser will generate upon form submit.
@@ -142,7 +124,7 @@ router.post('/signup',[
       //return res.json({"responseCode" : 1,"responseDesc" : "Failed captcha verification"});
             const errors = ['Failed captcha verification'];
             console.log(errors);
-             res.render('signup', {errors: err});
+             res.render('signup', {errors: errors});
     }
     //res.json({"responseCode" : 0,"responseDesc" : "Sucess"});
     else {
@@ -157,14 +139,15 @@ router.post('/signup',[
             phoneNumber: req.body.phoneNumber,
             dob: req.body.dob,
             livingAddress: req.body.livingAddress,
-            livingCity: req.body.livingCity,
-            livingDistrict: req.body.livingDistrict,
+            livingTownId: parseInt(req.body.livingDistrict),
             encryptedPassword: encryptedPassword };
 
 
             models.add(user).then(value => {
            console.log("ADD OPERATION successfully");
-             res.render('signup', {errors: {}, msg: 'Your account has been created successfully!'});
+            req.flash('success_msg','You are now registered and can log in');
+            res.redirect('/login');
+            // res.render('signup', {errors: {}, msg: 'Your account has been created successfully!'});
             console.log('successfully');
             }).catch(err => {
             const errors = ['ADD OPERATION FAILED FOR UNKNOWN REASONS'];
@@ -178,6 +161,39 @@ router.post('/signup',[
 
 
     }
+});
+
+
+// LOGIN
+router.get('/login', (req, res) => {
+  res.render('login', {
+    title: "Login Page"
+  });
+});
+
+// Login Process
+router.post('/login', function(req, res, next){
+  passport.authenticate('local', {
+    successRedirect:'/shop',
+    failureRedirect:'/login',
+    failureFlash: true,
+    //session: false
+  })(req, res, next);
+});
+
+// logout
+router.get('/logout', function(req, res){
+  req.logout();
+  req.flash('success_msg', 'You are logged out');
+  res.redirect('/shop');
+});
+
+router.get('/profile',ensureAuthenticated, (req, res) => {
+  res.render('/profile');
+});
+
+router.post('/profile', (req, res) => {
+  //
 });
 
 

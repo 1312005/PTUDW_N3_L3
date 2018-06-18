@@ -1,11 +1,11 @@
 const mysql = require('mysql');
 
 const config  = {
-  connectionLimit : 10,
-  host            : process.env.DB_HOST,
-  user            : process.env.USER,
-  password        : process.env.DB_PASS,
-  database        : process.env.DB_NAME
+  connectionLimit: 10,
+  host: 'localhost',
+  user: 'root',
+  password: 'MyNewPass',
+  database: 'electronicshop'
 };
 
 const pool = new mysql.createPool(config);

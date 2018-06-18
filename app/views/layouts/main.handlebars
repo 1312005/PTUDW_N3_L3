@@ -4,9 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bought Details</title>
+    <title>{{{sections.title}}}</title>
     
     <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,700,600' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
@@ -45,7 +47,7 @@
                     <div class="user-menu">
                         <ul>
 
-                            {{#if session.user }}
+                            {{#if user}}
                             <li class="dropdown dropdown-small">
                                 <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key"><i class="fa fa-user"></i> My Account</span></a>
                                 <ul class="dropdown-menu">
@@ -59,7 +61,7 @@
                             {{/if}}
 
                             <li>
-                                <a href="signin">
+                                <a href="login">
                                     <i class="fa fa-user"></i> Login</a>
                             </li>
                             <li>
@@ -226,7 +228,7 @@
     </div>
     
     <div class="body">
-        {{{body}}}
+       {{{body}}}
     </div>
     
     <div class="footer-top-area">
