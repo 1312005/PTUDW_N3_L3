@@ -57,6 +57,12 @@ exports.countProduct = ()=>{
 }
 
 exports.updateView = (idProduct, newView)=>{
-    let sql = `update products set view = ${newView} where products.id = ${idProduct}`;
+    let sql = `update products set views = ${newView} where products.id = ${idProduct}`;
     return dbDAO.save(sql);
+}
+
+/*Search */
+exports.searchProduct = (nameProduct)=>{
+    let sql = `select * from products where products.productName like '%${nameProduct}%'`;
+    return dbDAO.load(sql);
 }

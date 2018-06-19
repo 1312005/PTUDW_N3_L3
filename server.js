@@ -7,8 +7,12 @@ const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const expressValidator = require('express-validator');
 const express_handlebars_sections = require('express-handlebars-sections');
+
+const wNumb = require('wnumb');
 const port = process.env.PORT || 3000;
 const app = express();
+
+const handleLayout = require('./app/middle-wares/handleSearch');
 
 const userController = require('./app/controllers/usersController');
 const homeController = require('./app/controllers/homeController');
@@ -41,7 +45,14 @@ app.engine('hbs', exphbs({
     defaultLayout: 'main',
     layoutsDir:  __dirname + '/app/views/layouts/',
     helpers: {
-        section: express_handlebars_sections()
+        section: express_handlebars_sections(),
+        moneyFormat: n=>{
+            let moneyFormat = wNumb({
+                mark: '.',
+                thousand: ',', 
+            });
+            return moneyFormat.to(n);
+        },
     }
 }));
 app.set('view engine', 'hbs');
@@ -68,6 +79,7 @@ var sessionChecker = (req, res, next) => {
 };
 
 //require('./app/routes/routes.js')(app,controllers);
+app.use(handleLayout);
 app.use(userController);
 app.use(homeController);
 app.use(aboutController);

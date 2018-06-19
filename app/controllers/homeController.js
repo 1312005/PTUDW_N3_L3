@@ -30,11 +30,15 @@ router.get('/topnew',(req,res) =>{
 router.get('/single-product/:id',(req,res)=>{
 	let id = req.params.id;
 	productModel.single(id).then((rows)=>{
-		console.log(rows.description);
-		let vm = {
-			product: rows,
-		}
-		res.render('single-product',vm);
+		let lProducts = rows;
+		let curView = rows.views;
+		let newView = ++curView;
+		productModel.updateView(id,newView).then((value)=>{
+			let vm = {
+				product: lProducts,
+			}
+			res.render('single-product',vm);
+		})
 	});
 });
 

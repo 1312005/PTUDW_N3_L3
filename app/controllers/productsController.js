@@ -57,4 +57,13 @@ router.get('/test', (req, res) => {
 		res.render('test',vm);
 	});
 });
+
+router.get('/shop/search',(req,res)=>{
+	let key = req.query.key;
+	productModel.searchProduct(key).then((rows)=>{
+		console.log(rows);
+		res.send('My name is Hoàng');
+	});
+
+})
 module.exports = router;
