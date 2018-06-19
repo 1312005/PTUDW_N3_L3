@@ -1,4 +1,5 @@
 const  models = require('../models/userModel');
+const cityModel = require('../models/cityModel');
 const provinceModel = require('../models/provinceModel');
 const router = require('express').Router();
 const { check, validationResult } = require('express-validator/check');
@@ -7,38 +8,6 @@ const request = require('request');
 const passport = require('passport');
 
 const ensureAuthenticated = require('../middlewares/ensureAuthenticated');
-
-
-// router.post('/signin', [
-//   check('username', 'Username is required').exists(),
-//   check('password', 'Password is required').exists(),
-//   ],(req, res) => {
-//   const errors = validationResult(req);
-//           if (!errors.isEmpty()) {
-//             res.render('signin', {errors: errors });
-//             console.log("VALIDATE FAILED");
-//             console.log(errors);
-//           }
-//           else {
-//                models.isExistedUsername(req.body.username)
-//                .then(user => {
-//                 let match = bcrypt.compareSync(req.body.password, user.encryptedPassword);
-//                 console.log(match);
-//                 if(match) {
-//                    res.redirect('/');
-//                 }
-//               else {
-//                 res.redirect('/signup');
-//               }
-              
-//                })
-//                .catch(err => {
-//                 console.log(err);
-//                  res.redirect('/signup');
-//                });
-//           }
-// });
-
 
 // REGISTERS
 router.get('/signup', (req, res) => {
@@ -154,12 +123,9 @@ router.post('/signup',[
             console.log(err);
              res.render('signup', {errors: err});
         });
-
     }
   });
   }
-
-
     }
 });
 
@@ -194,14 +160,48 @@ router.get('/profile/:id',ensureAuthenticated, (req, res) => {
   if (req.user.id != idz) {
     return res.redirect('/shop');
   }
+  let provincesz;
+  let thisProvinceId;
+  let citiesOfThisProvince;
   models.fetchSingle(idz)
     .then(user => {
       if (!user) {
         return res.redirect('/shop');
       }
       else {
-        console.log(user);
-        return res.render('profile', {userz: user});
+        console.log('CURRENT USER: ' + user);
+        // get province Id of the city
+        cityModel.findById(user.livingTownId)
+        .then(city => {
+          thisProvinceId = city.provinceId;
+          console.log('City: ' + city);
+          // get list city of  the province
+        cityModel.fetchList(thisProvinceId)
+        .then(cities => {
+          citiesOfThisProvince = cities;
+           provinceModel.fetchAll()
+        .then(provinces => {
+          provincesz = provinces
+          console.log('citiesOfThisProvince: ' + citiesOfThisProvince);
+          console.log('thisProvinceId: ' + thisProvinceId);
+          console.log('All provinces: ' + provinces);
+           return res.render('profile', {userz: user, 
+                          provincesz: provincesz, 
+                          thisProvinceId: thisProvinceId,
+                          citiesOfThisProvince: citiesOfThisProvince 
+                        });
+        })
+        .catch(error => {
+          provincesz = {};
+        });
+        })
+        .catch(err => {
+          citiesOfThisProvince  = {};
+        })
+        })
+        .catch(err => {
+          thisProvinceId = -1;
+        })
       }
     })
     .catch(err => {
@@ -212,6 +212,75 @@ router.get('/profile/:id',ensureAuthenticated, (req, res) => {
 router.post('/profile', (req, res) => {
   //
 });
+
+
+
+// change password
+router.post('/changepassword/:id',[
+        check('old_password', 'old_password is require').isLength({ min: 5 }),
+
+        check('new_password', 'password is require')
+        .isLength({ min: 5 })
+        .matches(/\d/),
+        check('confirm_new_password', 'password confirm is require').exists(),
+
+        check('confirm_new_password', 'passwords must be at least 5 chars long and contain one number')
+        .exists()
+        .custom((value, { req }) => value === req.body.new_password)
+        ], (req, res) => {
+          const errors = validationResult(req);
+          //{errors: errors.mapped()}
+          if (!errors.isEmpty()) {
+            req.flash('error_msg', 'Please filled all require fields');
+            res.redirect(`profile/${req.user.id}`);
+            console.log("VALIDATE FAILED");
+            console.log(errors);
+          }
+          else {
+            let id = req.params.id;
+            console.log('ID: ' + id);s
+            if (req.user.id != id) {
+                  req.flash('error_msg', 'Something wrong, you are unable to change your password');
+                  return res.redirect(`/profile/${req.user.id}`);
+            }
+            else {
+              models.findById(id)
+              .then(user => {
+                if (!user) {
+                   req.flash('error_msg', 'Something wrong, you are unable to change your password');
+                  res.redirect(`/profile/${req.user.id}`);
+                 }
+                 let old_password = req.body.old_password;
+                  bcrypt.compare(old_password, user.encryptedPassword, function(err, isMatch){
+                    if(!isMatch) {
+                      req.flash('error_msg', 'Couldnt confirm your old password, you are unable to change your password');
+                      return res.redirect(`/profile/${req.user.id}`);
+                    }
+                    else {
+                      let salt = bcrypt.genSaltSync(10);
+                     let encryptedPassword = bcrypt.hashSync(req.body.new_password,salt);
+                      models.changepassword(encryptedPassword, id)
+                      .then(user => {
+                        console(user.encryptedPassword);
+                        req.flash('success_msg', 'your password has been updated');
+                        return res.redirect(`/profile/${req.user.id}`);
+                      })
+                      .catch(err => {
+                         req.flash('error_msg', 'Something wrong, you are unable to change your password');
+                         res.redirect(`/profile/${req.user.id}`);
+                      })
+                    }
+                  });
+              })
+              .catch(err => {
+                req.flash('error_msg', 'Something wrong, you are unable to change your password');
+                 res.redirect(`/profile/${req.user.id}`);
+              })
+            }
+          }
+        
+  });
+            
 
 
 module.exports = router;

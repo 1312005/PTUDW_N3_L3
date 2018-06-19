@@ -9,6 +9,20 @@ const expressValidator = require('express-validator');
 const express_handlebars_sections = require('express-handlebars-sections');
 const flash = require('connect-flash');
 const passport = require('passport');
+const multer = require('multer');
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, 'public/uploads');
+  },
+  filename: function(req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+//const UPLOAD_PATH = 'public/uploads/';
+const util = require('./app/utils/util');
+// multer configuration
+// restrict file type
+const upload = multer({ storage: storage}); 
 const port = process.env.PORT || 3000;
 
 const app = express();
@@ -70,6 +84,9 @@ app.use(function (req, res, next) {
   next();
 });
 
+// upload image
+
+
 // Express Messages Middleware
 // app.use(require('connect-flash')());
 // app.use(function (req, res, next) {
@@ -112,6 +129,12 @@ app.use(productController);
 app.use(cartController);
 app.use(cityController);
 
+app.get('/upload', (req, res) => {
+  res.render('upload', { layout: null });
+} );
+app.post('/upload', upload.single('myfile'), (req, res, next) => {
+  console.log(req.files);
+}) ;
 
 // // catch 404 and forward to error handler
 //     // note this is after all good routes and is not an error handler
