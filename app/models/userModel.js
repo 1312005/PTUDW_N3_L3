@@ -1,4 +1,4 @@
-var baseDAO = require('../dbUtil/baseDAO');
+const baseDAO = require('../dbUtil/baseDAO');
 
 exports.fetchAll = () => {
     var sql = 'SELECT * FROM members';
@@ -25,7 +25,7 @@ exports.isExistedUsername = (usernameOrEmail) => {
 
 exports.fetchSingle = (id) => {
     return new Promise((resolve, reject) => {
-        var sql = `SELECT * FROM members WHERE userId = ${id}`;
+        var sql = `SELECT * FROM members WHERE memberId = ${id}`;
         baseDAO.load(sql)
                .then(rows => {
                     if (rows.length == 0) {

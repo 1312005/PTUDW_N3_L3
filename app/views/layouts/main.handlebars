@@ -49,25 +49,36 @@
 
                             {{#if user}}
                             <li class="dropdown dropdown-small">
-                                <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key"><i class="fa fa-user"></i> My Account</span></a>
+                                <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key"><i class="fa fa-user"></i>Hello,{{{user.firstName}}} !</span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="profile">Profile</a></li>
+                                    <li><a href="profile/{{{user.id}}}">Profile</a></li>
                                     <li>
                                         <a href="bought_histories">Histories</a>
                                     </li>
+                                     <li>
+                                        <a href="logout">Logout</a>
+                                    </li>
+                                    {{#if user.isAdmin}}
+                                     <li>
+                                        <a href="dashboard">DashBoard</a>
+                                    </li>
+                                    {{/if}}
                                 </ul>
                             </li>
+                            {{else}}
+                                 <li>
+                                     <a href="login">
+                                        <i class="fa fa-user"></i> Login
+                                    </a>
+                                 </li>
+                                <li>
+                                    <a href="signup">
+                                        <i class="fa fa-user"></i> Signup
+                                    </a>
+                                </li>
 
                             {{/if}}
 
-                            <li>
-                                <a href="login">
-                                    <i class="fa fa-user"></i> Login</a>
-                            </li>
-                            <li>
-                                <a href="signup">
-                                    <i class="fa fa-user"></i> Signup</a>
-                            </li>
                         </ul>
                     </div>
                 </div>

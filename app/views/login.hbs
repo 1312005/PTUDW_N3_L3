@@ -1,3 +1,6 @@
+{{#section 'bigTitle'}}
+    LOGIN PAGE
+{{/section}}
 <section id="login">
         <div class="container">
             <div class="row" style="margin-top:30px;">
@@ -8,6 +11,10 @@
 
               {{#if error_msg}}
                 <div class="alert alert-danger">{{error_msg}}</div>
+              {{/if}}
+
+               {{#if warning_msg}}
+                <div class="alert alert-danger">{{warning_msg}}</div>
               {{/if}}
 
               {{#if error}}

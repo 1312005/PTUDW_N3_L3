@@ -188,8 +188,25 @@ router.get('/logout', function(req, res){
   res.redirect('/shop');
 });
 
-router.get('/profile',ensureAuthenticated, (req, res) => {
-  res.render('/profile');
+router.get('/profile/:id',ensureAuthenticated, (req, res) => {
+  let idz = parseInt(req.params.id);
+  console.log(req.user);
+  if (req.user.id != idz) {
+    return res.redirect('/shop');
+  }
+  models.fetchSingle(idz)
+    .then(user => {
+      if (!user) {
+        return res.redirect('/shop');
+      }
+      else {
+        console.log(user);
+        return res.render('profile', {userz: user});
+      }
+    })
+    .catch(err => {
+      throw(err);
+    });
 });
 
 router.post('/profile', (req, res) => {
