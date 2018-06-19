@@ -31,16 +31,6 @@ app.use(morgan('dev')); // log every request to the console
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(cookieParser());
-
-app.use(expressValidator());
-
-// initialize express-session to allow us track the logged-in user across sessions.
-app.use(session({ secret: 'somerandonstuffs', resave: true, saveUninitialized: true }));
-
-require('./config/passport')(passport);
-
-
 app.engine('hbs', exphbs({
     defaultLayout: 'main',
     layoutsDir:  __dirname + '/app/views/layouts/',
@@ -55,6 +45,31 @@ app.set('view engine', 'hbs');
 app.use(express.static(path.resolve(__dirname, 'public')));
 app.set('views', __dirname + '/app/views');
 
+app.use(cookieParser());
+
+app.use(expressValidator());
+
+// initialize express-session to allow us track the logged-in user across sessions.
+app.use(session({ secret: 'somerandonstuffs', resave: true, saveUninitialized: true }));
+
+// Connect Flash
+app.use(flash());
+
+
+require('./config/passport')(passport);
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+// Global Vars
+app.use(function (req, res, next) {
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.warning_msg = req.flash('warning_msg');
+  res.locals.error_msg = req.flash('error_msg');
+  res.locals.error = req.flash('error');
+  res.locals.user = req.user || null;
+  next();
+});
+
 // Express Messages Middleware
 // app.use(require('connect-flash')());
 // app.use(function (req, res, next) {
@@ -62,17 +77,6 @@ app.set('views', __dirname + '/app/views');
 //   next();
 // });
 
-// Connect Flash
-app.use(flash());
-
-// Global Vars
-app.use(function (req, res, next) {
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
-  res.locals.error = req.flash('error');
-  res.locals.user = req.user || null;
-  next();
-});
 
 // // Express Validator Middleware
 // app.use(expressValidator({
@@ -92,9 +96,7 @@ app.use(function (req, res, next) {
 //   }
 // }));
 
-// Passport Middleware
-app.use(passport.initialize());
-app.use(passport.session());
+
 // Passport Config
 
 // app.get('*', function(req, res, next){

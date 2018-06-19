@@ -23,7 +23,8 @@ module.exports = function(passport){
           return done(err);
         }
         if(isMatch){
-          return done(null, user);
+          // only allow less secure fields store in session
+          return done(null, { username: user.userName, firstName: user.firstName,id: user.memberId , isAdmin: user.isAdmin});
         } else {
           return done(null, false, {message: 'Wrong password'});
         }
@@ -36,19 +37,20 @@ module.exports = function(passport){
 
   passport.serializeUser(function(user, done) {
    console.log("serializeUser: " + user);
-    done(null, user.id);
+    done(null, user);
   });
 
-  passport.deserializeUser((id, done) => {
-    User.findById(id)
-        .then(user => {
-          if(user) {
-            console.log("deserializeUser: " + user);
-            done(null, user);
-          }
-        })
-        .catch(err => {
-          done(err);
-        });
+  passport.deserializeUser((user, done) => {
+    // User.findById(id)
+    //     .then(user => {
+    //       if(user) {
+    //         console.log("deserializeUser: " + user);
+    //         done(null, user);
+    //       }
+    //     })
+    //     .catch(err => {
+    //       done(err);
+    //     });
+    done(null, user);
     });
 }
