@@ -46,5 +46,7 @@
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "request": "^2.86.0"
+    "request": "^2.86.0",
+    "wnumb": "^1.1.0"
   }
 }

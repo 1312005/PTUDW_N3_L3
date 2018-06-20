@@ -23,10 +23,13 @@ const util = require('./app/utils/util');
 // multer configuration
 // restrict file type
 // const upload = multer({ storage: storage}); 
+
+const wNumb = require('wnumb');
 const port = process.env.PORT || 3000;
 
 const app = express();
 
+const handleLayout = require('./app/middle-wares/handleSearch');
 
 const userController = require('./app/controllers/usersController');
 const homeController = require('./app/controllers/homeController');
@@ -49,7 +52,14 @@ app.engine('hbs', exphbs({
     defaultLayout: 'main',
     layoutsDir:  __dirname + '/app/views/layouts/',
     helpers: {
-        section: express_handlebars_sections()
+        section: express_handlebars_sections(),
+        moneyFormat: n=>{
+            let moneyFormat = wNumb({
+                mark: '.',
+                thousand: ',', 
+            });
+            return moneyFormat.to(n);
+        },
     }
 }));
 
@@ -94,6 +104,8 @@ app.use(function (req, res, next) {
 //   res.locals.messages = require('express-messages')(req, res);  
 //   next();
 // });
+// This middleware will check if user's cookie is still saved in browser and user is not set, then automatically log the user out.
+// This usually happens when you stop your express server after login, your cookie still remains saved in the browser.
 
 
 // // Express Validator Middleware
@@ -122,6 +134,8 @@ app.use(function (req, res, next) {
 //   next();
 // });
 
+//require('./app/routes/routes.js')(app,controllers);
+app.use(handleLayout);
 app.use(userController);
 app.use(homeController);
 app.use(aboutController);
@@ -129,6 +143,7 @@ app.use(contactController);
 app.use(productController);
 app.use(cartController);
 app.use(cityController);
+<<<<<<
 
 app.get('/upload', (req, res) => {
   res.render('upload', { layout: null });
@@ -136,39 +151,6 @@ app.get('/upload', (req, res) => {
 // app.post('/upload', upload.single('myfile'), (req, res, next) => {
 //   console.log(req.files);
 // }) ;
-
-
-app.post('/upload', function(req , res) {
-
-var multiparty = require('multiparty');
-var form = new multiparty.Form();
-var fs = require('fs');
-
-form.parse(req, function(err, fields, files) {  
-    var imgArray = files.imatges;
-
-
-    for (var i = 0; i < imgArray.length; i++) {
-        var newPath = './public/uploads/'+fields.imgName+'/';
-        var singleImg = imgArray[i];
-        newPath+= singleImg.originalFilename;
-        readAndWriteFile(singleImg, newPath);           
-    }
-    res.send("File uploaded to: " + newPath);
-
-});
-
-function readAndWriteFile(singleImg, newPath) {
-
-        fs.readFile(singleImg.path , function(err,data) {
-            fs.writeFile(newPath,data, function(err) {
-                if (err) console.log('ERRRRRR!! :'+err);
-                console.log('Fitxer: '+singleImg.originalFilename +' - '+ newPath);
-            })
-        })
-}
-})
-
 
 // // catch 404 and forward to error handler
 //     // note this is after all good routes and is not an error handler
