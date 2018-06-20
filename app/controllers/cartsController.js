@@ -1,7 +1,7 @@
-var cartController = {
-    index: (req, res) => {
-        res.render('cart');
-    }
-}
+const router = require('express').Router();
 
-module.exports = cartController;
+router.get('/cart', (req, res) => {
+	 res.render('cart');
+});
+
+module.exports = router;
