@@ -9,20 +9,20 @@ const expressValidator = require('express-validator');
 const express_handlebars_sections = require('express-handlebars-sections');
 const flash = require('connect-flash');
 const passport = require('passport');
-const multer = require('multer');
-const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, 'public/uploads');
-  },
-  filename: function(req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
-  }
-});
+// const multer = require('multer');
+// const storage = multer.diskStorage({
+//   destination: function(req, file, cb) {
+//     cb(null, 'public/uploads');
+//   },
+//   filename: function(req, file, cb) {
+//     cb(null, Date.now() + '-' + file.originalname);
+//   }
+// });
 //const UPLOAD_PATH = 'public/uploads/';
 const util = require('./app/utils/util');
 // multer configuration
 // restrict file type
-const upload = multer({ storage: storage}); 
+// const upload = multer({ storage: storage}); 
 const port = process.env.PORT || 3000;
 
 const app = express();
@@ -79,6 +79,7 @@ app.use(function (req, res, next) {
   res.locals.success_msg = req.flash('success_msg');
   res.locals.warning_msg = req.flash('warning_msg');
   res.locals.error_msg = req.flash('error_msg');
+  res.locals.info_msg = req.flash('info_msg');
   res.locals.error = req.flash('error');
   res.locals.user = req.user || null;
   next();
@@ -132,9 +133,42 @@ app.use(cityController);
 app.get('/upload', (req, res) => {
   res.render('upload', { layout: null });
 } );
-app.post('/upload', upload.single('myfile'), (req, res, next) => {
-  console.log(req.files);
-}) ;
+// app.post('/upload', upload.single('myfile'), (req, res, next) => {
+//   console.log(req.files);
+// }) ;
+
+
+app.post('/upload', function(req , res) {
+
+var multiparty = require('multiparty');
+var form = new multiparty.Form();
+var fs = require('fs');
+
+form.parse(req, function(err, fields, files) {  
+    var imgArray = files.imatges;
+
+
+    for (var i = 0; i < imgArray.length; i++) {
+        var newPath = './public/uploads/'+fields.imgName+'/';
+        var singleImg = imgArray[i];
+        newPath+= singleImg.originalFilename;
+        readAndWriteFile(singleImg, newPath);           
+    }
+    res.send("File uploaded to: " + newPath);
+
+});
+
+function readAndWriteFile(singleImg, newPath) {
+
+        fs.readFile(singleImg.path , function(err,data) {
+            fs.writeFile(newPath,data, function(err) {
+                if (err) console.log('ERRRRRR!! :'+err);
+                console.log('Fitxer: '+singleImg.originalFilename +' - '+ newPath);
+            })
+        })
+}
+})
+
 
 // // catch 404 and forward to error handler
 //     // note this is after all good routes and is not an error handler
