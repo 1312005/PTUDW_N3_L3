@@ -23,72 +23,13 @@
                     <div class="single-sidebar">
                         <h2 class="sidebar-title">Setting</h2>
                         <div class="thubmnail-recent">
-                            {{!-- <img src="img/product-thumb-1.jpg" class="recent-thumb" alt="">
-                            <h2>
-                                <a href="single-product.html">Sony Smart TV - 2015</a>
-                            </h2>
-                            <div class="product-sidebar-price">
-                                <ins>$700.00</ins>
-                                <del>$800.00</del>
-                            </div> --}}
                             <button id="btn_password" class="btn btn-success">Change password</button>
                              
                         </div>
                          <div class="thubmnail-recent">
                             <button id="btn_profile" class="btn btn-primary">Change profile</button>
                          </div>
-                        {{!-- <div class="thubmnail-recent">
-                            <img src="img/product-thumb-1.jpg" class="recent-thumb" alt="">
-                            <h2>
-                                <a href="single-product.html">Sony Smart TV - 2015</a>
-                            </h2>
-                            <div class="product-sidebar-price">
-                                <ins>$700.00</ins>
-                                <del>$800.00</del>
-                            </div>
-                        </div>
-                        <div class="thubmnail-recent">
-                            <img src="img/product-thumb-1.jpg" class="recent-thumb" alt="">
-                            <h2>
-                                <a href="single-product.html">Sony Smart TV - 2015</a>
-                            </h2>
-                            <div class="product-sidebar-price">
-                                <ins>$700.00</ins>
-                                <del>$800.00</del>
-                            </div>
-                        </div>
-                        <div class="thubmnail-recent">
-                            <img src="img/product-thumb-1.jpg" class="recent-thumb" alt="">
-                            <h2>
-                                <a href="single-product.html">Sony Smart TV - 2015</a>
-                            </h2>
-                            <div class="product-sidebar-price">
-                                <ins>$700.00</ins>
-                                <del>$800.00</del>
-                            </div>
-                        </div> --}}
                     </div>
-
-                   {{!--  <div class="single-sidebar">
-                        <h2 class="sidebar-title">Recent Posts</h2>
-                        <ul>
-                            <li>
-                                <a href="single-product.html">Sony Smart TV - 2015</a>
-                            </li>
-                            <li>
-                                <a href="single-product.html">Sony Smart TV - 2015</a>
-                            </li>
-                            <li>
-                                <a href="single-product.html">Sony Smart TV - 2015</a>
-                            </li>
-                            <li>
-                                <a href="single-product.html">Sony Smart TV - 2015</a>
-                            </li>
-                            <li>
-                                <a href="single-product.html">Sony Smart TV - 2015</a>
-                            </li>
-                        </ul>
-                    </div> --}}
                 </div>
 
                 <div class="col-md-8">
@@ -137,7 +78,7 @@
                             </div>
                     </div>
                     </form>
-                        <form id="profile" action="/changeprofile" class="checkout" method="post" name="checkout">
+                        <form id="profile" action="/changeprofile/{{{user.id}}}" class="checkout" method="post" name="checkout">
 
                             <div id="customer_details" class="col3-set">
                                 
@@ -166,7 +107,7 @@
                                          <p class="form-row form-row-first validate-required">
                                             <label class="" for="billing_first_name">Date of Birth
                                             </label>
-                                            <input readonly="readonly" type="date" value="{{{userz.dob}}}" placeholder="" name="dob" class="input-text ">
+                                            <input readonly="readonly" type="text" value="{{{userz.dob}}}" placeholder="" name="dob" class="input-text ">
                                         </p>
 
                                          <p class="form-row form-row-first validate-required">
@@ -205,35 +146,19 @@
 
                                         <p id="billing_state_field" class="form-row form-row-first address-field validate-state" data-o_class="form-row form-row-first address-field validate-state">
                                             <label class="" for="billing_state">Street</label>
-                                            <input type="text" id="billing_state" name="billing_state" placeholder="Street" value="{{{userz.lingvingAddress}}}" class="input-text ">
+                                            <input type="text" id="billing_state" name="livingAddress" placeholder="Street" value="{{{userz.lingvingAddress}}}" class="input-text ">
                                         </p>
                                         <div class="clear"></div>
-
-                                        {{!-- <p id="billing_email_field" class="form-row form-row-first validate-required validate-email">
-                                            <label class="" for="billing_email">Email Address
-                                                <abbr title="required" class="required">*</abbr>
-                                            </label>
-                                            <input type="text" value="" placeholder="" id="billing_email" name="billing_email" class="input-text ">
-                                        </p> --}}
 
                                         <p id="billing_phone_field" class="form-row form-row-last validate-required validate-phone">
                                             <label class="" for="billing_phone">Phone
                                                 <abbr title="required" class="required">*</abbr>
                                             </label>
-                                            <input type="text" value="{{{userz.phoneNumber}}}" placeholder="" id="billing_phone" name="billing_phone" class="input-text ">
+                                            <input type="text" value="{{{userz.phoneNumber}}}" placeholder="" id="billing_phone" name="phoneNumber" class="input-text ">
                                         </p>
                                         <div class="clear"></div>
 
-
-                                        <div class="create-account">
-                                            <p id="account_password_field" class="form-row validate-required">
-                                                <label class="" for="account_password">Confirm password
-                                                    <abbr title="required" class="required">*</abbr>
-                                                </label>
-                                                <input type="password" value="" placeholder="Password" id="account_password" name="account_password" class="input-text">
-                                            </p>
-                                            <div class="clear"></div>
-                                        </div>
+                                        
                                         <div class="form-row place-order">
                                             <input type="submit" data-value="Save" value="Save" name="woocommerce_checkout_place_order" class="button alt">
                                         </div>

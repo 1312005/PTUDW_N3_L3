@@ -61,6 +61,11 @@ exports.changePassword = (newPassword, userId) => {
     return baseDAO.save(sql);
 }
 
+exports.updateProfile = (options, userId) => {
+     var sql = `Update members SET lingvingAddress='${options.livingAddress}', livingTownId=${options.livingDistrict}, phoneNumber='${options.phoneNumber}' Where memberId = '${userId}'`;
+    return baseDAO.save(sql);
+}
+
 
 exports.findById = (id) => {
      return new Promise((resolve, reject) => {

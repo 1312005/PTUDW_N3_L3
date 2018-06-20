@@ -290,6 +290,46 @@ router.post('/changepassword/:id',[
           }
         
   });
+
+router.post('/changeprofile/:id', [
+        check('livingAddress', 'livingAddress is require').isLength({ min: 1 }),
+        check('livingDistrict', 'livingDistrict is require').isLength({ min: 1 }),
+        check('phoneNumber', 'phone number is require and only contain digits')
+        .isLength({ min: 10 })
+        .matches('\\d+')
+  ], (req, res) => {
+    const errors = validationResult(req);
+          let id = parseInt(req.params.id);
+          if (req.user.id != id) {
+            return res.redirect(`../profile/${req.user.id}`);
+          }
+          if (!errors.isEmpty()) {
+            req.flash('error_msg', 'Something wrent wrong');
+            console.log("VALIDATE FAILED");
+            console.log(errors);
+            return res.redirect(`../profile/${req.user.id}`);
+          }
+          else {
+            let options= {
+              livingAddress: req.body.livingAddress,
+              livingDistrict: parseInt(req.body.livingDistrict),
+              phoneNumber : req.body.phoneNumber
+            };
+
+              models.updateProfile(options, id)
+                .then(user => {
+                   req.flash('success_msg', 'your profile has been updated');
+                   return res.redirect(`../profile/${req.user.id}`);
+                })
+                .catch(err => {
+                  console.log('ERR');
+                  console.log(err);
+                  req.flash('error_msg', 'Catch exception');
+                   return res.redirect(`../profile/${req.user.id}`);
+                });
+
+            }
+});
             
 
 
