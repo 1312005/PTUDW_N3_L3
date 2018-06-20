@@ -36,12 +36,12 @@ exports.loadAllImage = () =>{
 
 /* Home */
 exports.loadTopView = ()=>{
-    let sql = 'SELECT id,productName,imagePath,price FROM products ORDER BY views DESC limit 10';
+    let sql = 'SELECT id,productName,imagesPath,price FROM products ORDER BY views DESC limit 10';
     return dbDAO.load(sql);
 }
 
 exports.loadTopNew = () => {
-    let sql = 'SELECT id,productName,imagePath,price FROM products ORDER BY updatedDate DESC limit 10';
+    let sql = 'SELECT id,productName,imagesPath,price FROM products ORDER BY updatedDate DESC limit 10';
     return dbDAO.load(sql);
 }
 

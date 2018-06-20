@@ -24,7 +24,12 @@ module.exports = function(passport){
         }
         if(isMatch){
           // only allow less secure fields store in session
-          return done(null, { username: user.userName, firstName: user.firstName,id: user.memberId , isAdmin: user.isAdmin});
+          return done(null, { username: user.userName, 
+                              firstName: user.firstName,
+                              id: user.memberId , 
+                              isAdmin: user.isAdmin,
+                              email: user.emailAddress
+                      });
         } else {
           return done(null, false, {message: 'Wrong password'});
         }

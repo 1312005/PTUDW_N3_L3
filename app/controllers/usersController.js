@@ -8,6 +8,7 @@ const request = require('request');
 const passport = require('passport');
 
 const ensureAuthenticated = require('../middlewares/ensureAuthenticated');
+const ensureHasRole = require('../middlewares/ensureHasRole');
 
 // REGISTERS
 router.get('/signup', (req, res) => {
@@ -330,7 +331,21 @@ router.post('/changeprofile/:id', [
 
             }
 });
-            
 
-
+        router.get('/dashboard', ensureHasRole, (req, res) => {
+          res.render('admin/dashboard', {layout: 'admin'});
+        });
+                    
+        router.get('/categories_management',ensureHasRole, (req, res) => {
+          res.render('admin/categories_management', {layout: 'admin'});
+        });
+        router.get('/products_management',ensureHasRole, (req, res) => {
+          res.render('admin/products_management', {layout: 'admin'});
+        });
+        router.get('/makers_management',ensureHasRole, (req, res) => {
+          res.render('admin/makers_management', {layout: 'admin'});
+        });
+        router.get('/orders_management', ensureHasRole,(req, res) => {
+          res.render('admin/orders_management', {layout: 'admin'});
+        });
 module.exports = router;
