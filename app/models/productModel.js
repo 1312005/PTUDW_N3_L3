@@ -35,16 +35,19 @@ exports.loadAllImage = () =>{
 }
 
 /* Home */
-exports.loadTopView = ()=>{
-    let sql = 'SELECT id,productName,imagePath,price FROM products ORDER BY views DESC limit 10';
+exports.loadTop10Product = (type)=>{
+    let sql = `SELECT id,productName,ImagesPath,price FROM products ORDER BY ${type} DESC limit 10`;
     return dbDAO.load(sql);
 }
 
 exports.loadTopNew = () => {
-    let sql = 'SELECT id,productName,imagePath,price FROM products ORDER BY updatedDate DESC limit 10';
+    let sql = 'SELECT id,productName,ImagesPath,price FROM products ORDER BY updatedDate DESC limit 10';
     return dbDAO.load(sql);
 }
 
+exports.loadTopSell = () =>{
+    let sql = 'SELECT id,productName,ImagesPath,price FROM products ORDER BY soldQuantity DESC limit 10'
+}
 /*Shop Page*/
 exports.loadAllProduct = (offset)=>{
     let sql = `select * from products limit ${config.PRODUCTS_PER_PAGE} offset ${offset}`;

@@ -1,30 +1,26 @@
 const router = require('express').Router();
 const productModel = require('../models/productModel');
 router.get('/', (req, res) => {
-	productModel.loadTopView().then((rows)=>{
-		let vm = {
-			products: rows,
-		}
-		res.render('index',vm);
-	});
-});
+	let query = req.query.pageType;
+	let type;
+	if(!query || query === 'topview'){
+		type = 'views';
+	}
+	else if(query === 'topnew'){
+		type = 'updatedDate';
+	}
 
-router.get('/topview',(req,res)=>{
-	productModel.loadTopView().then((rows)=>{
-		let vm = {
-			products: rows,
-		}
-		res.render('index',vm);
-	});
-});
+	else if(query === 'topseller'){
+		type = 'soldQuantity'
+	}
 
-router.get('/topnew',(req,res) =>{
-	productModel.loadTopNew().then((rows)=>{
+	productModel.loadTop10Product(type).then((rows)=>{
 		let vm = {
 			products: rows,
 		}
 		res.render('index',vm);
 	});
+	
 });
 
 router.get('/single-product/:id',(req,res)=>{
