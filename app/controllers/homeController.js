@@ -14,18 +14,26 @@ router.get('/', (req, res) => {
 		type = 'soldQuantity'
 	}
 
-	productModel.loadTop10Product(type).then((rows)=>{
+	let p1 = productModel.loadTop10Product(type);
+	let p2 = productModel.loadTop3Product('views');
+	let p3 = productModel.loadTop3Product('updatedDate');
+	let p4 = productModel.loadTop3Product('soldQuantity');
+
+	Promise.all([p1,p2,p3,p4]).then(([top10pro,top3View,top3New,top3Seller])=>{
 		let vm = {
-			products: rows,
+			products: top10pro,
+			top3View: top3View,
+			top3New:top3New,
+			top3Seller:top3Seller
 		}
 		res.render('index',vm);
-	});
-	
+	})
 });
 
 router.get('/single-product/:id',(req,res)=>{
 	let id = req.params.id;
 	productModel.single(id).then((rows)=>{
+		console.log(rows);
 		let lProducts = rows;
 		let curView = rows.views;
 		let newView = ++curView;

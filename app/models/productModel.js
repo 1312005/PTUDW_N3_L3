@@ -40,6 +40,10 @@ exports.loadTop10Product = (type)=>{
     return dbDAO.load(sql);
 }
 
+exports.loadTop3Product = (type)=>{
+    let sql = `SELECT id,productName,ImagesPath,price FROM products ORDER BY ${type} DESC limit 3`;
+    return dbDAO.load(sql);
+}
 /*Shop Page*/
 exports.loadAllProduct = (offset)=>{
     let sql = `select * from products limit ${config.PRODUCTS_PER_PAGE} offset ${offset}`;
