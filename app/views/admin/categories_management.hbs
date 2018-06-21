@@ -1,0 +1,101 @@
+﻿{{#section 'BigTitle'}} Categories Management {{/section}}
+<div class="row clearfix">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="card">
+                            <div class="header">
+                                <h2>
+                                    CREATE NEW CATEGORY
+                                </h2>
+                            </div>
+                            <div class="body">
+                                    <form>
+                                            <label for="category_name">Category name</label>
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <input type="text" id="category_name" class="form-control" placeholder="Enter new category name">
+                                                </div>
+                                            </div>
+                                            <label for="description">Describe</label>
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <input type="text" id="description" class="form-control" placeholder="Enter some description">
+                                                </div>
+                                            </div>
+            
+                                            <br>
+                                            <button type="button" class="btn btn-success m-t-15 waves-effect">Create</button>
+                                        </form>
+            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                ALL Categories
+                            </h2>
+                            <ul class="header-dropdown m-r--5">
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <i class="material-icons">more_vert</i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="javascript:void(0);">Action</a></li>
+                                        <li><a href="javascript:void(0);">Another action</a></li>
+                                        <li><a href="javascript:void(0);">Something else here</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 5%;">Id</th>
+                                            <th style="width: 30%;">Name</th>
+                                            <th style="width: 55%;">Description</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                    </tfoot>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Mobile</td>
+                                            <td></td>
+                                            <td>
+                                                <button type="button" class="btn btn-warning" aria-label="Left Align">
+                                                        <i class="material-icons">mode_edit</i>
+                                                </button>   
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Tablet</td>
+                                            <td></td>
+                                            <td>
+                                                <button type="button" class="btn btn-warning" aria-label="Left Align">
+                                                        <i class="material-icons">mode_edit</i>
+                                            </button>   </td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Phablet</td>
+                                            <td></td>
+                                           <td> <button type="button" class="btn btn-warning" aria-label="Left Align">
+                                                <i class="material-icons">mode_edit</i>
+                                        </button>
+                                     </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>

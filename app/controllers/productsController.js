@@ -36,6 +36,8 @@ router.get('/shop', (req, res) => {
 			page_numbers: numbers,
 			nPages: numberPages
         };
+        console.log('LIST PRODUCTS');
+        console.log(lProducts);
 		res.render('shop',vm);
 	})
 	

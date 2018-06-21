@@ -40,14 +40,6 @@ exports.loadTop10Product = (type)=>{
     return dbDAO.load(sql);
 }
 
-exports.loadTopNew = () => {
-    let sql = 'SELECT id,productName,ImagesPath,price FROM products ORDER BY updatedDate DESC limit 10';
-    return dbDAO.load(sql);
-}
-
-exports.loadTopSell = () =>{
-    let sql = 'SELECT id,productName,ImagesPath,price FROM products ORDER BY soldQuantity DESC limit 10'
-}
 /*Shop Page*/
 exports.loadAllProduct = (offset)=>{
     let sql = `select * from products limit ${config.PRODUCTS_PER_PAGE} offset ${offset}`;
