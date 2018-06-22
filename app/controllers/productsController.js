@@ -45,8 +45,27 @@ router.get('/shop', (req, res) => {
 });
 
 
-router.get('/single-product', (req, res) => {
-	res.render('single-product');
+router.get('/single-product/:id',(req,res)=>{
+	let id = req.params.id;
+	productModel.single(id).then((rows)=>{
+		console.log(rows);
+		let lProducts = rows;
+		let curView = rows.views;
+		let newView = ++curView;
+		let p1 = productModel.load5ProductFromTheSameManufacturer(id,rows.manufacturerId);
+		let p2 = productModel.load5ProductInTheSameCategory(id,rows.categoryId);
+		let p3 = productModel.updateView(id,newView);
+		Promise.all([p1,p2,p3]).then(([proManufacturer,proCategory,value])=>{
+			console.log('proManufacturer');
+			console.log(proManufacturer);
+			let vm = {
+				product: lProducts,
+				proManufacturer:proManufacturer,
+				proCategory:proCategory,
+			}
+			res.render('single-product',vm);
+		})
+	});
 });
 
 router.get('/test', (req, res) => {

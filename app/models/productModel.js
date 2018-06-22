@@ -60,6 +60,16 @@ exports.updateView = (idProduct, newView)=>{
     return dbDAO.save(sql);
 }
 
+/*Single-Page */
+exports.load5ProductFromTheSameManufacturer = (idPro,idManufacturer)=>{
+    let sql = `select * from products where manufacturerId = ${idManufacturer} and id <> ${idPro} limit 5`;
+    return dbDAO.load(sql);
+}
+
+exports.load5ProductInTheSameCategory = (idPro,idCategory)=>{
+    let sql = `select * from products where categoryId = ${idCategory} and id <> ${idPro} limit 5`;
+    return dbDAO.load(sql);
+}
 /*Search */
 exports.searchProduct = (nameProduct)=>{
     let sql = `select * from products where products.productName like '%${nameProduct}%'`;
