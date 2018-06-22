@@ -71,7 +71,12 @@ exports.load5ProductInTheSameCategory = (idPro,idCategory)=>{
     return dbDAO.load(sql);
 }
 /*Search */
-exports.searchProduct = (nameProduct)=>{
-    let sql = `select * from products where products.productName like '%${nameProduct}%'`;
+exports.searchProductByName = (nameProduct,offset)=>{
+    let sql = `select * from products where products.productName like '%${nameProduct}%' limit ${config.PRODUCTS_PER_PAGE} offset ${offset}`;
+    return dbDAO.load(sql);
+}
+
+exports.countProductSearch = (nameProduct)=>{
+    let sql = `select count(*) as total from products where products.productName like '%${nameProduct}%'`;
     return dbDAO.load(sql);
 }

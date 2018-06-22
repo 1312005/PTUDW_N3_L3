@@ -36,7 +36,7 @@ router.get('/reduce/:id', (req, res) => {
 	res.redirect('/');
 });
 
-router.get('/remove/:id'. (req, res) => {
+router.get('/remove/:id', (req, res) => {
 	let productId = req.params.id;
 	let cart = new Cart(req.session.cart? req.session.cart : {});
 	cart.removeItem(productId);
@@ -65,7 +65,7 @@ router.post('checkout',ensureAuthenticated, (req, res) => {
 		source: "tok_mastercard",
 		description: "Test change",
 
-	}. (err, charges) => {
+	},(err, charges) => {
 		if (err)
 			return res.redirect('/checkout');
 
