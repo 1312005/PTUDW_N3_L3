@@ -3,6 +3,35 @@ module.exports = function Cart(oldCart) {
 	this.totalQty = oldCart.totalQty || 0;
 	this.totalPrice = oldCart.totalPrice || 0;
 
+	this.updateCart = function(ids, qty) {
+		console.log('In update cart of Cart Class');
+		console.log(ids);
+		console.log(qty);
+		for (let i=0; i<ids.length; i++)
+		{
+			console.log('Considering product ID: ' + ids[i]);
+			var isAlreadyStored = this.items[ids[i]];
+			var distance = 0;
+			if(isAlreadyStored !== undefined) 
+			{
+				console.log('current product ID: ');
+				console.log(isAlreadyStored);
+				if(parseInt(qty[i]) === 0)
+				{
+					this.removeItem(ids[i]);
+				}
+				else
+				{
+					distance = qty[i]-isAlreadyStored.qty;
+					isAlreadyStored.qty = parseInt(qty[i]);
+					isAlreadyStored.price = isAlreadyStored.item.price*isAlreadyStored.qty;
+					this.totalQty+= distance;
+					this.totalPrice+= (distance)*isAlreadyStored.price;
+				}
+			}
+		}
+	}
+
 	this.add = function(item, id) {
 		var isAlreadyStored = this.items[id];
 		if (!isAlreadyStored) 

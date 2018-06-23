@@ -150,3 +150,8 @@ exports.countProductSearchByManufacturer = (nameProduct,idManufacturer,minPrice,
     let sql = `select count(*) as total from products where productName like '%${nameProduct}%' and manufacturerId = ${idManufacturer} and price between ${minPrice} and ${maxPrice}`;
     return dbDAO.load(sql);
 }
+
+exports.fetchSingle= (id) => {
+    let sql = `select * from products where id = ${id}`;
+    return dbDAO.load(sql);
+}

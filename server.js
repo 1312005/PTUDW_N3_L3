@@ -36,7 +36,7 @@ const homeController = require('./app/controllers/homeController');
 const aboutController = require('./app/controllers/aboutController');
 const contactController = require('./app/controllers/contactController');
 const productController = require('./app/controllers/productsController');
-const cartController = require('./app/controllers/cartsController');
+const cartController = require('./app/controllers/cartController');
 const cityController = require('./app/controllers/citiesController');
 
 
