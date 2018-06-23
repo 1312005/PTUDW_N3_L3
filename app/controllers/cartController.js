@@ -95,6 +95,7 @@ router.get('checkout', (req, res) => {
 //    			 res.redirect('/');
 // 		})
 // 		.catch(err => {
+
 			
 // 		});
 // 	});
