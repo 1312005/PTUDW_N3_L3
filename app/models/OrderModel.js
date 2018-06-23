@@ -27,14 +27,13 @@ exports.fetchByproperty = (options) => {
     });
 }
 
-exports.add = (orderNumber, cart, discount) => {
+exports.add = (orderNumber, cart, discount, memberId) => {
 
-    let oder = {
+    let order = {
         orderNumber: orderNumber,
         discount: discount || 0.0,
     };
-    oder.totalAmount = cart.totalPrice*(1 - order.discount);
-    let sqlOrder = `INSERT INTO orders(orderId, totalAmount, discount) VALUES('${oder.orderNumber}', ${order.totalAmount}, ${order.discount})`;
+    order.totalAmount = cart.totalPrice*(1 - order.discount);
+    let sqlOrder = `INSERT INTO orders(orderId, totalAmount, discount, memberId) VALUES('${order.orderNumber}', ${order.totalAmount}, ${order.discount}, ${memberId})`;
     return baseDAO.save(sqlOrder);
-
 }

@@ -38,7 +38,7 @@ const contactController = require('./app/controllers/contactController');
 const productController = require('./app/controllers/productsController');
 const cartController = require('./app/controllers/cartController');
 const cityController = require('./app/controllers/citiesController');
-
+const checkoutController = require('./app/controllers/checkoutController');
 
 require('dotenv').config();
 
@@ -103,6 +103,7 @@ app.use(contactController);
 app.use(productController);
 app.use(cartController);
 app.use(cityController);
+app.use(checkoutController);
 
 // // catch 404 and forward to error handler
 //     // note this is after all good routes and is not an error handler

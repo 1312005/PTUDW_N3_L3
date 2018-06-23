@@ -83,3 +83,13 @@ exports.findById = (id) => {
         });
     });
 }
+
+
+
+// get address
+exports.getAddressInfos = (memberId) => {
+    let sql = `SELECT m.lingvingAddress AS 'Street', c.cityName AS 'Dicstrict',p.provinceName AS 'Province'
+               FROM members m, cities c, provinces p
+               WHERE m.memberId = ${memberId} AND c.cityId = m.livingTownId AND c.provinceId = p.provinceId`;
+    return baseDAO.load(sql);
+}

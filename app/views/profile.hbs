@@ -175,15 +175,6 @@
     </div>
     <script type="text/javascript">
         $(function() {
-            $('#changepassword').hide(); // default actions
-            $('#btn_password').on('click', () => {
-                $('#changepassword').show();
-                $('#profile').hide();
-            })
-            $('#btn_profile').on('click', () => {
-                $('#profile').show();
-                $('#changepassword').hide();
-            })
             $('#sel1 option')
              .removeAttr('selected')
              .filter('[value={{{thisProvinceId}}}]')
