@@ -1,27 +1,10 @@
 $(function(){
-    $('#btn-search-by-name').click(function (e) { 
+    $('#btn-search').click(function (e) { 
         e.preventDefault();
         let nameProduct = $('#name-product').val();
-        window.location = '/search?key='+nameProduct;
+        let manufacturerName = $('#brands option:selected').text();
+        let categoryName = $('#categories option:selected').text();
+        let optionPrice = $('input[name=optionsPrice]:checked', '#search-product').val();
+        window.location = `/search?key=${nameProduct}&manufacturer=${manufacturerName}&category=${categoryName}&price=${optionPrice}`;
     });
-
-    // $('#btn-search').click(function (e) { 
-    //     e.preventDefault();
-    //     let nameProduct = $('#name-product').val();
-    //     // let data = {
-    //     //     key: nameProduct
-    //     // };
-        
-    //     $.ajax({
-    //         type: "GET",
-    //         url: "/shop/search?key="+nameProduct,
-    //         // data: data,
-    //         // dataType: 'json'
-    //     })
-    //     .done(function(response){
-    //         alert('done');
-    //         alert(response);
-    //         console.log(response);
-    //     });
-    // });
 });
