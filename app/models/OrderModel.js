@@ -1,4 +1,5 @@
 const baseDAO = require('../dbUtil/baseDAO');
+//const utils = require('../utils/orderNumberGenarator');
 
 // orderby Date, status
 
@@ -24,4 +25,16 @@ exports.fetchByproperty = (options) => {
                     reject(err);
         });
     });
+}
+
+exports.add = (orderNumber, cart, discount) => {
+
+    let oder = {
+        orderNumber: orderNumber,
+        discount: discount || 0.0,
+    };
+    oder.totalAmount = cart.totalPrice*(1 - order.discount);
+    let sqlOrder = `INSERT INTO orders(orderId, totalAmount, discount) VALUES('${oder.orderNumber}', ${order.totalAmount}, ${order.discount})`;
+    return baseDAO.save(sqlOrder);
+
 }
