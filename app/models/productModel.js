@@ -81,7 +81,76 @@ exports.countProductSearch = (nameProduct)=>{
     return dbDAO.load(sql);
 }
 
-/* Add to cart */
+/*Other */
+exports.getCategoryByName = (categoryName)=>{
+    return new Promise((resolve, reject) => {
+        let sql = `select * from categories where categoryName = '${categoryName}'`;
+        dbDAO.load(sql).then(rows => {
+            if (rows.length === 0) {
+                resolve(null);
+            } else {
+                resolve(rows[0]);
+            }
+        }).catch(err => {
+            reject(err);
+        });
+    });
+}
+
+exports.getManufacturerByName = (manufacturerName) =>{
+    return new Promise((resolve, reject) => {
+        let sql = `select * from manufacturers mf where manufacturerName = '${manufacturerName}'`;
+        dbDAO.load(sql).then(rows => {
+            if (rows.length === 0) {
+                resolve(null);
+            } else {
+                resolve(rows[0]);
+            }
+        }).catch(err => {
+            reject(err);
+        });
+    });
+}
+
+exports.searchProductByPrice = (nameProduct,minPrice,maxPrice,offset)=>{
+    let sql = `select * from products where productName like '%${nameProduct}%' and price between ${minPrice} and ${maxPrice} limit ${config.PRODUCTS_PER_PAGE} offset ${offset}`;
+    return dbDAO.load(sql);
+}
+
+exports.countProductSearchByPrice = (nameProduct,minPrice,maxPrice)=>{
+    let sql = `select count(*) as total from products where productName like '%${nameProduct}%' and price between ${minPrice} and ${maxPrice}`;
+    return dbDAO.load(sql);
+}
+exports.searchProductByCriteria = (nameProduct,idCategory,idManufacturer,minPrice,maxPrice,offset)=>{
+    let sql = `select * from products where productName like '%${nameProduct}%' and categoryId = ${idCategory} and manufacturerId = ${idManufacturer} and price between ${minPrice} and ${maxPrice} limit ${config.PRODUCTS_PER_PAGE} offset ${offset}`;
+    return dbDAO.load(sql);
+}
+
+exports.countProductSearchByCriteria = (nameProduct,idCategory,idManufacturer,minPrice,maxPrice)=>{
+    let sql = `select count(*) as total from products where productName like '%${nameProduct}%' and categoryId = ${idCategory} and manufacturerId = ${idManufacturer} and price between ${minPrice} and ${maxPrice}`;
+    return dbDAO.load(sql);
+}
+
+exports.searchProductByCategory = (nameProduct,idCategory,minPrice,maxPrice,offset)=>{
+    let sql = `select * from products where productName like '%${nameProduct}%' and categoryId = ${idCategory} and price between ${minPrice} and ${maxPrice} limit ${config.PRODUCTS_PER_PAGE} offset ${offset}`;
+    return dbDAO.load(sql);
+}
+
+exports.countProductSearchByCategory = (nameProduct,idCategory,minPrice,maxPrice)=>{
+    let sql = `select count(*) as total from products where productName like '%${nameProduct}%' and categoryId = ${idCategory} and price between ${minPrice} and ${maxPrice}`;
+    return dbDAO.load(sql);
+}
+
+exports.searchProductByManufacturer = (nameProduct,idManufacturer,minPrice,maxPrice,offset)=>{
+    let sql = `select * from products where productName like '%${nameProduct}%' and manufacturerId = ${idManufacturer} and price between ${minPrice} and ${maxPrice} limit ${config.PRODUCTS_PER_PAGE} offset ${offset}`;
+    return dbDAO.load(sql);
+}
+
+exports.countProductSearchByManufacturer = (nameProduct,idManufacturer,minPrice,maxPrice)=>{
+    let sql = `select count(*) as total from products where productName like '%${nameProduct}%' and manufacturerId = ${idManufacturer} and price between ${minPrice} and ${maxPrice}`;
+    return dbDAO.load(sql);
+}
+
 exports.fetchSingle= (id) => {
     let sql = `select * from products where id = ${id}`;
     return dbDAO.load(sql);
