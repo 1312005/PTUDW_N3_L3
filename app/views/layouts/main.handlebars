@@ -143,7 +143,19 @@
                 
                 <div class="col-sm-6">
                     <div class="shopping-item">
-                        <a href="cart">Cart - <span class="cart-amunt">$800</span> <i class="fa fa-shopping-cart"></i> <span class="product-count">5</span></a>
+                        <a href="/shopping-cart">Cart - <span class="cart-amunt">
+                        {{#if cart}}
+                            {{{cart.totalPrice}}}
+                            {{else}}
+                            0
+                        {{/if}}
+                </span> <i class="fa fa-shopping-cart"></i> <span class="product-count">
+                        {{#if cart}}
+                            {{{cart.items.length}}}
+                            {{else}}
+                            0
+                        {{/if}}
+                    </span></a>
                     </div>
                 </div>
             </div>

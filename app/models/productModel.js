@@ -65,3 +65,9 @@ exports.searchProduct = (nameProduct)=>{
     let sql = `select * from products where products.productName like '%${nameProduct}%'`;
     return dbDAO.load(sql);
 }
+
+/* Add to cart */
+exports.fetchSingle= (id) => {
+    let sql = `select * from products where id = ${id}`;
+    return dbDAO.load(sql);
+}
