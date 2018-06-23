@@ -38,6 +38,9 @@ const contactController = require('./app/controllers/contactController');
 const productController = require('./app/controllers/productsController');
 const cartController = require('./app/controllers/cartsController');
 const cityController = require('./app/controllers/citiesController');
+const adminController = require('./app/controllers/admin/adminController');
+const productsadminController = require('./app/controllers/admin/productsadminController');
+
 
 
 require('dotenv').config();
@@ -143,11 +146,14 @@ app.use(contactController);
 app.use(productController);
 app.use(cartController);
 app.use(cityController);
-<<<<<<
+app.use(adminController);
+app.use(productsadminController);
 
 app.get('/upload', (req, res) => {
   res.render('upload', { layout: null });
 } );
+
+
 // app.post('/upload', upload.single('myfile'), (req, res, next) => {
 //   console.log(req.files);
 // }) ;
