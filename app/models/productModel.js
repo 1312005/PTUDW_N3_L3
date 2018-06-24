@@ -162,7 +162,7 @@ exports.updateQuantity= (productId, soldQty) => {
 }
 
 
-exports.add = (productName, categoryId,manufacturerId , availableQuantity,ImagesPath, price, description) => {
+exports.add = (productName,categoryId,manufacturerId,availableQuantity,ImagesPath,price,description) => {
      let sql = `INSERT INTO products(productName,categoryId, manufacturerId,availableQuantity,ImagesPath,price,description) VALUES
                 ('${productName}',${categoryId},${manufacturerId},${availableQuantity},'${ImagesPath}',${price},'${description}')`;
      return  dbDAO.save(sql);
