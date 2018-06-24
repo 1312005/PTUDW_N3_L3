@@ -9,21 +9,8 @@ const expressValidator = require('express-validator');
 const express_handlebars_sections = require('express-handlebars-sections');
 const flash = require('connect-flash');
 const passport = require('passport');
-// const multer = require('multer');
-// const storage = multer.diskStorage({
-//   destination: function(req, file, cb) {
-//     cb(null, 'public/uploads');
-//   },
-//   filename: function(req, file, cb) {
-//     cb(null, Date.now() + '-' + file.originalname);
-//   }
-// });
-//const UPLOAD_PATH = 'public/uploads/';
-const util = require('./app/utils/util');
-// multer configuration
-// restrict file type
-// const upload = multer({ storage: storage}); 
 
+const util = require('./app/utils/util');
 const wNumb = require('wnumb');
 const port = process.env.PORT || 3000;
 

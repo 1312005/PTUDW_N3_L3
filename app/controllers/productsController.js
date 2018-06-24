@@ -2,6 +2,14 @@
 const router = require('express').Router();
 const productModel = require('../models/productModel');
 const config = require('../../config/config.js');
+const ensureAuthenticated = require('../middlewares/ensureAuthenticated');
+const ensureHasRole = require('../middlewares/ensureHasRole');
+const categoryModel = require('../models/categoryModel');
+const manufacturerModel = require('../models/manufacturerModel');
+const { check, validationResult } = require('express-validator/check');
+
+const multiparty = require('multiparty');
+
 router.get('/shop', (req, res) => {
 	let page = req.query.page || 1;
 	let offset = (page - 1) * config.PRODUCTS_PER_PAGE;
@@ -165,4 +173,93 @@ router.get('/search', (req, res) => {
 		})
 	}
 })
+
+router.get('/addproduct', ensureHasRole,(req, res) => {
+	let categories;
+	let manufacturers;
+	categoryModel.loadAllCategory()
+	 .then(categoriesResult => {
+	 	categories = categoriesResult;
+	 	manufacturerModel.loadAllManufacturer()
+	 	 .then(manufacturerResult => {
+	 	 	manufacturers = manufacturerResult;
+	 	 	console.log('manufacturers LIST: ');
+	 	 	console.log(manufacturers);
+	 	 	console.log('categories LIST: ');
+	 	 	console.log(categories);
+	 	 	return res.render('admin/addproduct', { layout: 'admin',manufacturers: manufacturers,categories: categories });
+	 	 })
+	 	 .catch(err => {
+	 	 	console.log(err);
+	 	 	req.flash('error_msg', 'cannot load manufacturers infos');
+	 	 	return res.render('admin/addproduct', { layout: 'admin'});
+	 	 });
+	 })
+	 .catch(err => {
+	 	console.log(err);
+	 	req.flash('error_msg', 'cannot load categories infos');
+	 	res.render('admin/addproduct', { layout: 'admin'});
+	 });
+	
+});
+
+// [
+//         check('productname', 'productname is require').isLength({ min: 1 }),
+//         check('description', 'description is require').isLength({ min: 100}),
+//         check('price', 'price is require and is a number')
+//         .matches('\\d+'),
+//         check('qty', 'qty is require and is a number')
+//         .matches('\\d+'),
+//         check('manufacturerId', 'manufacturerId is require').exists(),
+//         check('categoryId', 'categoryId is require').exists(),
+//         check('images', 'Images is require').exists()
+//     ], 
+router.post('/addproduct',(req, res) => {
+		const errors = validationResult(req);
+          if (!errors.isEmpty()) {
+            res.render('admin/addproduct', {layout: 'admin', errors: errors.mapped()});
+            console.log("VALIDATE FAILED");
+            console.log(errors);
+          }
+          else { 
+          	let form = new multiparty.Form();
+          	form.parse(req, function(err, fields, files) {  
+		    let imgArray = files.images;
+
+		    let list = '';
+		    for (let i = 0; i < imgArray.length; i++) {
+		        //var newPath = '/uploads/'+fields.imgName+'/';
+		        let newPath = './public/uploads/';
+		        let singleImg = imgArray[i];
+		        newPath+= singleImg.originalFilename;
+		        //list+= (newPath + ";");
+		        list+= (singleImg.originalFilename + ";");
+		        require('../utils/readAndWriteFile')(singleImg, newPath);           
+		    }
+		    //res.send("File uploaded to:<br\>" + list.slice(0, -1));
+		    let product = {
+		    productname: req.body.productname,
+		    categoryId: parseInt(req.body.categoryId),
+		    manufacturerId: parseInt(req.body.manufacturerId),
+		    qty: parseInt(req.body.qty),
+		    Images: list.slice(0, -1),
+		    price: parseInt(req. body.price),
+		    description: req.body.description
+		    }
+		    console.log('PRODUCT PREparE TO INSET');
+		    console.log(product);
+		    productModel.add(product.productname,product.categoryId, product.manufacturerId,product.qty,product.Images,product.price,product.description)
+		     .then( anew => {
+		     	req.flash('success_msg', 'added new arrival product');
+		     	return res.render('admin/addproduct', {layout: 'admin'});
+		     })
+		     .catch(err => {
+		     	console.log(err);
+		     	req.flash('error_msg', 'something goes wrong while trying to process');
+		     	return res.render('admin/addproduct', {layout: 'admin'});
+		     })
+		});
+		}
+    });
+
 module.exports = router;

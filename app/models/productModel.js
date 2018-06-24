@@ -160,3 +160,10 @@ exports.updateQuantity= (productId, soldQty) => {
     let sql = `update products set 'availableQuantity = availableQuantity - ${soldQty}, soldQuantity = soldQuantity - ${soldQty} where id = ${id}'`;
     return baseDAO.save(sql);
 }
+
+
+exports.add = (productName, categoryId,manufacturerId , availableQuantity,ImagesPath, price, description) => {
+     let sql = `INSERT INTO products(productName,categoryId, manufacturerId,availableQuantity,ImagesPath,price,description) VALUES
+                ('${productName}',${categoryId},${manufacturerId},${availableQuantity},'${ImagesPath}',${price},'${description}')`;
+     return  dbDAO.save(sql);
+}
