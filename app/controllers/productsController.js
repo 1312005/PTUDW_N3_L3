@@ -6,14 +6,12 @@ const ensureAuthenticated = require('../middlewares/ensureAuthenticated');
 const ensureHasRole = require('../middlewares/ensureHasRole');
 const categoryModel = require('../models/categoryModel');
 const manufacturerModel = require('../models/manufacturerModel');
-const {
-	check,
-	validationResult
-} = require('express-validator/check');
+const { check, validationResult } = require('express-validator/check');
+const validator = require('validator');
 
 const multiparty = require('multiparty');
 
-function renderShop(lPro, nPro, page, pageName, paramName, res) {
+function renderShop(lPro,nPro,page,pageName,paramName,res){
 	Promise.all([lPro, nPro]).then(([lProducts, nProduct]) => {
 		let totalProduct = nProduct[0].total;
 		let numberPages = Math.ceil(totalProduct / config.PRODUCTS_PER_PAGE);
@@ -36,6 +34,7 @@ function renderShop(lPro, nPro, page, pageName, paramName, res) {
 		res.render('shop', vm);
 	})
 }
+
 
 router.get('/shop', (req, res) => {
 	let pageName = 'shop';
@@ -222,7 +221,7 @@ router.get('/addproduct', ensureHasRole, (req, res) => {
 
 });
 
-// [
+// ,[
 //         check('productname', 'productname is require').isLength({ min: 1 }),
 //         check('description', 'description is require').isLength({ min: 100}),
 //         check('price', 'price is require and is a number')
@@ -232,64 +231,74 @@ router.get('/addproduct', ensureHasRole, (req, res) => {
 //         check('manufacturerId', 'manufacturerId is require').exists(),
 //         check('categoryId', 'categoryId is require').exists(),
 //         check('images', 'Images is require').exists()
-//     ], 
-router.post('/addproduct', (req, res) => {
-	
-	const errors = validationResult(req);
-	if (!errors.isEmpty()) {
-		res.render('admin/addproduct', {
-			layout: 'admin',
-			errors: errors.mapped()
-		});
-		console.log("VALIDATE FAILED");
-		console.log(errors);
-	} else {
-		let form = new multiparty.Form();
-		form.parse(req, function (err, fields, files) {
-			console.log('req: ');
-			console.log(fields);
-			let imgArray = files.images;
+//     ],[
+//         check('productname', 'productname is require').isLength({ min: 1 }),
+//         check('description', 'description is require').isLength({ min: 100}),
+//         check('price', 'price is require and is a number')
+//         .matches('\\d+'),
+//         check('qty', 'qty is require and is a number')
+//         .matches('\\d+'),
+//         check('manufacturerId', 'manufacturerId is require').exists(),
+//         check('categoryId', 'categoryId is require').exists(),
+//         check('images', 'Images is require').exists()
+//     ]
 
-			let list = '';
-			for (let i = 0; i < imgArray.length; i++) {
-				//var newPath = '/uploads/'+fields.imgName+'/';
-				let newPath = './public/uploads/';
-				let singleImg = imgArray[i];
-				newPath += singleImg.originalFilename;
-				//list+= (newPath + ";");
-				list += (singleImg.originalFilename + ";");
-				require('../utils/readAndWriteFile')(singleImg, newPath);
-			}
-			//res.send("File uploaded to:<br\>" + list.slice(0, -1));
-			let product = {
-				productname: req.body.productname,
-				categoryId: parseInt(req.body.categoryId),
-				manufacturerId: parseInt(req.body.manufacturerId),
-				qty: parseInt(req.body.qty),
-				Images: list.slice(0, -1),
-				price: parseInt(req.body.price),
-				description: req.body.description
-			}
-			console.log('PRODUCT PREparE TO INSET');
-			console.log(product);
-			productModel.add(product.productname, product.categoryId, product.manufacturerId, product.qty, product.Images, product.price, product.description)
-				.then(anew => {
-					req.flash('success_msg', 'added new arrival product');
-					return res.render('admin/addproduct', {
-						layout: 'admin'
-					});
-				})
-				.catch(err => {
-					console.log(err);
-					req.flash('error_msg', 'something goes wrong while trying to process');
-					return res.render('admin/addproduct', {
-						layout: 'admin'
-					});
-				})
+router.post('/addproduct',(req, res) => {
+		// const errors = validationResult(req);
+  //         if (!errors.isEmpty()) {
+  //         	console.log(errors.mapped());
+  //           return res.render('admin/addproduct', {layout: 'admin', errors: errors.mapped()});
+  //         }
+  			let errors = [];
+          	let product = {};
+          	let form = new multiparty.Form();
+          	form.parse(req, function(err, fields, files) {  
+          	console.log('fields');
+          	console.log(fields);
+          	if(validator.isEmpty(fields.productname[0])) errors.push('productname is require');
+          	if (validator.isEmpty(fields.categoryId[0])) errors.push('Category is require');
+          	if (validator.isEmpty(fields.manufactureId[0])) errors.push('Manufacturer is require');
+            if (!validator.isNumeric(fields.price[0])) errors.push('Price is invalid');
+        	if (!validator.isNumeric(fields.qty[0])) errors.push('Quantity is invalid');
+        	if (validator.isEmpty(fields.description[0])) errors.push('description is require');
+        	if (errors.length > 0)
+        		return res.render('admin/addproduct', { layout: 'admin', errors: errors });
+          	product.productname = fields.productname[0];
+          	product.categoryId = parseInt(fields.categoryId[0]);
+          	product.manufacturerId = parseInt(fields.manufactureId[0]);
+          	product.price = parseInt(fields.price[0]);
+          	product.description = fields.description[0];
+          	product.qty = parseInt(fields.qty[0]);
+		    let imgArray = files.images;
+		    let list = '';
+		    for (let i = 0; i < imgArray.length; i++) {
+		        //var newPath = '/uploads/'+fields.imgName+'/';
+		        let newPath = './public/uploads/';
+		        let singleImg = imgArray[i];
+		        newPath+= singleImg.originalFilename;
+		        //list+= (newPath + ";");
+		        list+= (singleImg.originalFilename + ";");
+		        require('../utils/readAndWriteFile')(singleImg, newPath);           
+		    }
+
+		    product.Images = list.slice(0, -1);
+		    //res.send("File uploaded to:<br\>" + list.slice(0, -1));
+		    console.log('PRODUCT PREparE TO INSET');
+		    console.log(product);
+		    productModel.add(product.productname,product.categoryId, product.manufacturerId,product.qty,product.Images,product.price,product.description)
+		     .then( anew => {
+		     	console.log("INSERTED NEW ITEMS");
+		     	req.flash('success_msg', 'added new arrival product');
+		     	return res.render('admin/addproduct', { layout: 'admin' });
+		     })
+		     .catch(err => {
+		     	console.log(err);
+		     	req.flash('error_msg', 'something goes wrong while trying to process');
+		     	return res.render('admin/addproduct', { layout: 'admin' });
+		     })
 		});
-	}
-});
-router.get('/manufacturer/:name', (req, res) => {
+    });
+router.get('/manufacturer/:name',(req,res)=>{
 	let pageName = 'manufacturer';
 	let manufacturerName = req.params.name;
 	let page = req.query.page || 1;
