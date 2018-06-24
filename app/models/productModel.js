@@ -167,3 +167,26 @@ exports.add = (productName, categoryId,manufacturerId , availableQuantity,Images
                 ('${productName}',${categoryId},${manufacturerId},${availableQuantity},'${ImagesPath}',${price},'${description}')`;
      return  dbDAO.save(sql);
 }
+/*Load Pro by Brand */
+exports.loadProductByManufacturer = (manufacturerId,offset)=>{
+    let sql = `select * from products where manufacturerId = ${manufacturerId} limit ${config.PRODUCTS_PER_PAGE} offset ${offset}`;
+    return dbDAO.load(sql);
+}
+
+/*Count Pro by Manufacturer */
+exports.countProductByManufacturer = (manufacturerId)=>{
+    let sql = `select count(*) as total from products where manufacturerId = ${manufacturerId}`;
+    return dbDAO.load(sql);
+}
+
+/*Load Pro By Category */
+exports.loadProductByCategory = (categoryId,offset)=>{
+    let sql = `select * from products where categoryId = ${categoryId} limit ${config.PRODUCTS_PER_PAGE} offset ${offset}`;
+    return dbDAO.load(sql);
+}
+
+/*Count Pro By category */
+exports.countProductByCategory = (categoryId)=>{
+    let sql = `select count(*) as total from products where categoryId = ${categoryId}`;
+    return dbDAO.load(sql);
+}

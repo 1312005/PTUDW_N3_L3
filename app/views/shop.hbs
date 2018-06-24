@@ -82,7 +82,7 @@
 
                         <ul class="pagination">
                             <li>
-                                <a href="shop?page=1" aria-label="Previous">
+                                <a href="{{pageName}}/{{paramName}}?page=1" aria-label="Previous">
                                     <span aria-hidden="true">«</span>
                                 </a>
                             </li>
@@ -93,12 +93,12 @@
                                     </li>
                                 {{else}}
                                     <li>
-                                        <a href="shop?page={{value}}">{{value}}</a>
+                                        <a href="{{../pageName}}/{{../paramName}}?page={{value}}">{{value}}</a>
                                     </li>
                                 {{/if}} 
                             {{/each}}
                             <li>
-                                <a href="shop?page={{nPages}}" aria-label="Next">
+                                <a href="{{pageName}}/{{paramName}}?page={{nPages}}" aria-label="Next">
                                     <span aria-hidden="true">»</span>
                                 </a>
                             </li>
