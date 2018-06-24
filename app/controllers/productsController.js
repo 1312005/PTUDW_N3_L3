@@ -6,18 +6,14 @@ const ensureAuthenticated = require('../middlewares/ensureAuthenticated');
 const ensureHasRole = require('../middlewares/ensureHasRole');
 const categoryModel = require('../models/categoryModel');
 const manufacturerModel = require('../models/manufacturerModel');
-const { check, validationResult } = require('express-validator/check');
+const {
+	check,
+	validationResult
+} = require('express-validator/check');
 
 const multiparty = require('multiparty');
 
-router.get('/shop', (req, res) => {
-	let page = req.query.page || 1;
-	let offset = (page - 1) * config.PRODUCTS_PER_PAGE;
-	let p1 = productModel.loadAllProduct(offset);
-	let p2 = productModel.countProduct();
-	Promise.all([p1, p2]).then(([lProducts, nProduct]) => {
-
-function renderShop(lPro,nPro,page,pageName,paramName,res){
+function renderShop(lPro, nPro, page, pageName, paramName, res) {
 	Promise.all([lPro, nPro]).then(([lProducts, nProduct]) => {
 		let totalProduct = nProduct[0].total;
 		let numberPages = Math.ceil(totalProduct / config.PRODUCTS_PER_PAGE);
@@ -34,7 +30,7 @@ function renderShop(lPro,nPro,page,pageName,paramName,res){
 			noProducts: lProducts.length === 0,
 			page_numbers: numbers,
 			nPages: numberPages,
-			pageName : pageName,
+			pageName: pageName,
 			paramName: paramName
 		};
 		res.render('shop', vm);
@@ -48,26 +44,7 @@ router.get('/shop', (req, res) => {
 	let offset = (page - 1) * config.PRODUCTS_PER_PAGE;
 	let p1 = productModel.loadAllProduct(offset);
 	let p2 = productModel.countProduct();
-	renderShop(p1,p2,page,pageName,paramName,res);
-	// Promise.all([p1, p2]).then(([lProducts, nProduct]) => {
-	// 	let totalProduct = nProduct[0].total;
-	// 	let numberPages = Math.ceil(totalProduct / config.PRODUCTS_PER_PAGE);
-	// 	let numbers = [];
-	// 	for (let i = 1; i <= numberPages; i++) {
-	// 		numbers.push({
-	// 			value: i,
-	// 			isCurPage: i === +page
-	// 		});
-	// 	}
-
-	// 	let vm = {
-	// 		products: lProducts,
-	// 		noProducts: lProducts.length === 0,
-	// 		page_numbers: numbers,
-	// 		nPages: numberPages
-	// 	};
-	// 	res.render('shop', vm);
-	// })
+	renderShop(p1, p2, page, pageName, paramName, res);
 });
 
 router.get('/single-product/:id', (req, res) => {
@@ -124,12 +101,12 @@ router.get('/search', (req, res) => {
 		if (categoryName === "All") {
 			search = productModel.searchProductByPrice(keyWord, minPrice, maxPrice, offset);
 			countResult = productModel.countProductSearchByPrice(keyWord, minPrice, maxPrice, offset);
-			result(search,countResult);
+			result(search, countResult);
 		}
 		// Search by category
 		else {
 			console.log('search by category: ');
-			console.log('categoryName: '+ categoryName);
+			console.log('categoryName: ' + categoryName);
 			let category = new Promise((resolve, reject) => {
 				productModel.getCategoryByName(categoryName).then(rows => {
 					resolve(rows);
@@ -138,12 +115,12 @@ router.get('/search', (req, res) => {
 				}).catch(err => {
 					reject(err);
 				})
-			}).then(rows =>{
+			}).then(rows => {
 				search = productModel.searchProductByCategory(keyWord, rows.categoryId, minPrice, maxPrice, offset);
 				countResult = productModel.countProductSearchByCategory(keyWord, rows.categoryId, minPrice, maxPrice);
-				result(search,countResult);
+				result(search, countResult);
 			});
-			
+
 		}
 	} else {
 		// Search By Manufacturer
@@ -157,25 +134,25 @@ router.get('/search', (req, res) => {
 				}).catch(err => {
 					reject(err);
 				})
-			}).then(manufacturer=>{
+			}).then(manufacturer => {
 				search = productModel.searchProductByManufacturer(keyWord, manufacturer.manufacturerId, minPrice, maxPrice, offset);
 				countResult = productModel.countProductSearchByManufacturer(keyWord, manufacturer.manufacturerId, minPrice, maxPrice);
-				result(search,countResult);
+				result(search, countResult);
 			});
 		} else {
 			let category = productModel.getCategoryByName(categoryName);
 			let manufacturer = productModel.getManufacturerByName(manufacturerName);
-			Promise.all([category, manufacturer]).then(([cate,manu]) => {
+			Promise.all([category, manufacturer]).then(([cate, manu]) => {
 				search = productModel.searchProductByCriteria(keyWord, cate.categoryId, manu.manufacturerId, minPrice, maxPrice, offset);
 				countResult = productModel.countProductSearchByCriteria(keyWord, cate.categoryId, manu.manufacturerId, minPrice, maxPrice);
-				result(search,countResult);
+				result(search, countResult);
 			})
 
 		}
 
 	}
 
-	function result(search,countResult){
+	function result(search, countResult) {
 		Promise.all([search, countResult]).then(([lProducts, nProduct]) => {
 			// console.log(lProducts);
 			// console.log(nProduct[0].total);
@@ -188,7 +165,7 @@ router.get('/search', (req, res) => {
 					isCurPage: i === +page
 				});
 			}
-			
+
 			let query = {
 				key: keyWord,
 				manufacturer: manufacturerName,
@@ -202,39 +179,47 @@ router.get('/search', (req, res) => {
 				page_numbers: numbers,
 				nPages: numberPages
 			};
-	
+
 			res.render('search_result', vm);
 		})
 	}
-})
+});
 
-router.get('/addproduct', ensureHasRole,(req, res) => {
+router.get('/addproduct', ensureHasRole, (req, res) => {
 	let categories;
 	let manufacturers;
 	categoryModel.loadAllCategory()
-	 .then(categoriesResult => {
-	 	categories = categoriesResult;
-	 	manufacturerModel.loadAllManufacturer()
-	 	 .then(manufacturerResult => {
-	 	 	manufacturers = manufacturerResult;
-	 	 	console.log('manufacturers LIST: ');
-	 	 	console.log(manufacturers);
-	 	 	console.log('categories LIST: ');
-	 	 	console.log(categories);
-	 	 	return res.render('admin/addproduct', { layout: 'admin',manufacturers: manufacturers,categories: categories });
-	 	 })
-	 	 .catch(err => {
-	 	 	console.log(err);
-	 	 	req.flash('error_msg', 'cannot load manufacturers infos');
-	 	 	return res.render('admin/addproduct', { layout: 'admin'});
-	 	 });
-	 })
-	 .catch(err => {
-	 	console.log(err);
-	 	req.flash('error_msg', 'cannot load categories infos');
-	 	res.render('admin/addproduct', { layout: 'admin'});
-	 });
-	
+		.then(categoriesResult => {
+			categories = categoriesResult;
+			manufacturerModel.loadAllManufacturer()
+				.then(manufacturerResult => {
+					manufacturers = manufacturerResult;
+					console.log('manufacturers LIST: ');
+					console.log(manufacturers);
+					console.log('categories LIST: ');
+					console.log(categories);
+					return res.render('admin/addproduct', {
+						layout: 'admin',
+						manufacturers: manufacturers,
+						categories: categories
+					});
+				})
+				.catch(err => {
+					console.log(err);
+					req.flash('error_msg', 'cannot load manufacturers infos');
+					return res.render('admin/addproduct', {
+						layout: 'admin'
+					});
+				});
+		})
+		.catch(err => {
+			console.log(err);
+			req.flash('error_msg', 'cannot load categories infos');
+			res.render('admin/addproduct', {
+				layout: 'admin'
+			});
+		});
+
 });
 
 // [
@@ -248,77 +233,86 @@ router.get('/addproduct', ensureHasRole,(req, res) => {
 //         check('categoryId', 'categoryId is require').exists(),
 //         check('images', 'Images is require').exists()
 //     ], 
-router.post('/addproduct',(req, res) => {
-		const errors = validationResult(req);
-          if (!errors.isEmpty()) {
-            res.render('admin/addproduct', {layout: 'admin', errors: errors.mapped()});
-            console.log("VALIDATE FAILED");
-            console.log(errors);
-          }
-          else { 
-          	let form = new multiparty.Form();
-          	form.parse(req, function(err, fields, files) {  
-		    let imgArray = files.images;
-
-		    let list = '';
-		    for (let i = 0; i < imgArray.length; i++) {
-		        //var newPath = '/uploads/'+fields.imgName+'/';
-		        let newPath = './public/uploads/';
-		        let singleImg = imgArray[i];
-		        newPath+= singleImg.originalFilename;
-		        //list+= (newPath + ";");
-		        list+= (singleImg.originalFilename + ";");
-		        require('../utils/readAndWriteFile')(singleImg, newPath);           
-		    }
-		    //res.send("File uploaded to:<br\>" + list.slice(0, -1));
-		    let product = {
-		    productname: req.body.productname,
-		    categoryId: parseInt(req.body.categoryId),
-		    manufacturerId: parseInt(req.body.manufacturerId),
-		    qty: parseInt(req.body.qty),
-		    Images: list.slice(0, -1),
-		    price: parseInt(req. body.price),
-		    description: req.body.description
-		    }
-		    console.log('PRODUCT PREparE TO INSET');
-		    console.log(product);
-		    productModel.add(product.productname,product.categoryId, product.manufacturerId,product.qty,product.Images,product.price,product.description)
-		     .then( anew => {
-		     	req.flash('success_msg', 'added new arrival product');
-		     	return res.render('admin/addproduct', {layout: 'admin'});
-		     })
-		     .catch(err => {
-		     	console.log(err);
-		     	req.flash('error_msg', 'something goes wrong while trying to process');
-		     	return res.render('admin/addproduct', {layout: 'admin'});
-		     })
+router.post('/addproduct', (req, res) => {
+	
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		res.render('admin/addproduct', {
+			layout: 'admin',
+			errors: errors.mapped()
 		});
-		}
-    });
-router.get('/manufacturer/:name',(req,res)=>{
+		console.log("VALIDATE FAILED");
+		console.log(errors);
+	} else {
+		let form = new multiparty.Form();
+		form.parse(req, function (err, fields, files) {
+			console.log('req: ');
+			console.log(fields);
+			let imgArray = files.images;
+
+			let list = '';
+			for (let i = 0; i < imgArray.length; i++) {
+				//var newPath = '/uploads/'+fields.imgName+'/';
+				let newPath = './public/uploads/';
+				let singleImg = imgArray[i];
+				newPath += singleImg.originalFilename;
+				//list+= (newPath + ";");
+				list += (singleImg.originalFilename + ";");
+				require('../utils/readAndWriteFile')(singleImg, newPath);
+			}
+			//res.send("File uploaded to:<br\>" + list.slice(0, -1));
+			let product = {
+				productname: req.body.productname,
+				categoryId: parseInt(req.body.categoryId),
+				manufacturerId: parseInt(req.body.manufacturerId),
+				qty: parseInt(req.body.qty),
+				Images: list.slice(0, -1),
+				price: parseInt(req.body.price),
+				description: req.body.description
+			}
+			console.log('PRODUCT PREparE TO INSET');
+			console.log(product);
+			productModel.add(product.productname, product.categoryId, product.manufacturerId, product.qty, product.Images, product.price, product.description)
+				.then(anew => {
+					req.flash('success_msg', 'added new arrival product');
+					return res.render('admin/addproduct', {
+						layout: 'admin'
+					});
+				})
+				.catch(err => {
+					console.log(err);
+					req.flash('error_msg', 'something goes wrong while trying to process');
+					return res.render('admin/addproduct', {
+						layout: 'admin'
+					});
+				})
+		});
+	}
+});
+router.get('/manufacturer/:name', (req, res) => {
 	let pageName = 'manufacturer';
 	let manufacturerName = req.params.name;
 	let page = req.query.page || 1;
 	let offset = (page - 1) * config.PRODUCTS_PER_PAGE;
-	productModel.getManufacturerByName(manufacturerName).then((rows)=>{
+	productModel.getManufacturerByName(manufacturerName).then((rows) => {
 		let manufacturerId = rows.manufacturerId;
-		let lPro = productModel.loadProductByManufacturer(manufacturerId,offset);
+		let lPro = productModel.loadProductByManufacturer(manufacturerId, offset);
 		let nPro = productModel.countProductByManufacturer(manufacturerId);
-		renderShop(lPro,nPro,page,pageName,manufacturerName,res);
+		renderShop(lPro, nPro, page, pageName, manufacturerName, res);
 	});
-})
+});
 
-router.get('/category/:name',(req,res)=>{
+router.get('/category/:name', (req, res) => {
 	let pageName = 'category';
 	let categoryName = req.params.name;
 	let page = req.query.page || 1;
 	let offset = (page - 1) * config.PRODUCTS_PER_PAGE;
-	productModel.getCategoryByName(categoryName).then((rows)=>{
+	productModel.getCategoryByName(categoryName).then((rows) => {
 		let categoryId = rows.categoryId;
-		let lPro = productModel.loadProductByCategory(categoryId,offset);
+		let lPro = productModel.loadProductByCategory(categoryId, offset);
 		let nPro = productModel.countProductByCategory(categoryId);
-		renderShop(lPro,nPro,page,pageName,categoryName,res);
+		renderShop(lPro, nPro, page, pageName, categoryName, res);
 	});
-})
+});
 
 module.exports = router;

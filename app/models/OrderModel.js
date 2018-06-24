@@ -1,4 +1,5 @@
 const baseDAO = require('../dbUtil/baseDAO');
+const config = require('../../config/config');
 //const utils = require('../utils/orderNumberGenarator');
 
 // orderby Date, status
@@ -36,4 +37,14 @@ exports.add = (orderNumber, cart, discount, memberId) => {
     order.totalAmount = cart.totalPrice*(1 - order.discount);
     let sqlOrder = `INSERT INTO orders(orderId, totalAmount, discount, memberId) VALUES('${order.orderNumber}', ${order.totalAmount}, ${order.discount}, ${memberId})`;
     return baseDAO.save(sqlOrder);
+}
+
+exports.loadAllOrders = (offset)=>{
+    let sql = `select * from orders INNER JOIN members mb ON orders.memberId = mb.memberId limit ${config.ORDER_PER_PAGE} offset ${offset}`;
+    return baseDAO.load(sql);
+}
+
+exports.countOrders = (offset)=>{
+    let sql = `select count(*) as total from orders `;
+    return baseDAO.load(sql);
 }
