@@ -135,34 +135,29 @@
                 <div class="latest-product">
                     <h2 class="section-title">Latest Products</h2>
 
-                    <div class="container-flud">
-                        <div class="row">
-                            {{#each products}}
-                                <div class="col-xs-12 col-sm-4 col-md-2">
-                                    <div class="single-product">
-                                        <div class="product-f-image">
-                                            <img class="img-responsive" src={{ImagesPath}} alt="">
-                                            <div class="product-hover">
-                                                <a href="#" class="add-to-cart-link">
-                                                    <i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                                <a href="single-product/{{id}}" class="view-details-link">
-                                                    <i class="fa fa-link"></i> See details</a>
-                                            </div>
-                                        </div>
-
-                                        <h2 class="text-center">
-                                            <a href="single-product/{{id}}">{{productName}}</a>
-                                        </h2>
-
-                                        <div class="product-carousel-price text-center">
-                                            <ins>{{moneyFormat price}} vnđ</ins>
-                                            {{!-- <del>$800.00</del> --}}
-                                        </div>
-                                    </div>
+                    <div class="list-product text-center">
+                        {{#each products}}
+                        <div class="single-product">
+                            <div class="product-f-image">
+                                <img class="img-responsive" src={{ImagesPath}} alt="">
+                                <div class="product-hover">
+                                    <a href="#" class="add-to-cart-link">
+                                        <i class="fa fa-shopping-cart"></i> Add to cart</a>
+                                    <a href="single-product/{{id}}" class="view-details-link">
+                                        <i class="fa fa-link"></i> See details</a>
                                 </div>
-                                
-                            {{/each}}
+                            </div>
+
+                            <h2 class="text-center">
+                                <a href="single-product/{{id}}">{{productName}}</a>
+                            </h2>
+
+                            <div class="product-carousel-price text-center">
+                                <ins>{{moneyFormat price}} vnđ</ins>
+                                {{!--<del>$800.00</del> --}}
+                            </div>
                         </div>
+                        {{/each}}
                     </div>
                 </div>
             </div>
@@ -212,7 +207,8 @@
                         <h2>
                             <a href="/single-product/{{id}}">{{productName}}</a>
                         </h2>
-                        {{!-- <div class="product-wid-rating">
+                        {{!--
+                        <div class="product-wid-rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -221,7 +217,7 @@
                         </div> --}}
                         <div class="product-wid-price">
                             <ins>{{moneyFormat price}} vnđ</ins>
-                
+
                         </div>
                     </div>
                     {{/each}}
@@ -239,7 +235,8 @@
                         <h2>
                             <a href="/single-product/{{id}}">{{productName}}</a>
                         </h2>
-                        {{!-- <div class="product-wid-rating">
+                        {{!--
+                        <div class="product-wid-rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -265,7 +262,8 @@
                         <h2>
                             <a href="/single-product/{{id}}">{{productName}}</a>
                         </h2>
-                        {{!-- <div class="product-wid-rating">
+                        {{!--
+                        <div class="product-wid-rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>

@@ -119,69 +119,60 @@
 
             <div class="related-products-wrapper">
                 <h2 class="related-products-title">Products from the same manufacturer</h2>
-                <div class="five-related-products">
-                    <div class="row">  
-                        {{#each proManufacturer}}
-                        <div class="col-xs-2 col-sm-2 col-md-2">
-                            <div class="single-product text-center">
-                                <div class="product-f-image">
-                                    <img src="{{ImagesPath}}" alt="{{productName}}">
-                                    <div class="product-hover mini-product-hover">
-                                        <a href="" class="add-to-cart-link">
-                                            <i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                        <a href="/single-product/{{id}}" class="view-details-link">
-                                            <i class="fa fa-link"></i> See details</a>
-                                    </div>
-                                </div>
-
-                                <h2>
-                                    <a href="/single-product/{{id}}">{{productName}}</a>
-                                </h2>
-
-                                <div class="product-carousel-price">
-                                    <ins>{{moneyFormat price}} vnđ</ins>
-                                    {{!--
-                                    <del>$800.00</del> --}}
-                                </div>
+                <div class="five-same-products">
+                    {{#each proManufacturer}}
+                    <div class="single-product text-center">
+                        <div class="product-f-image">
+                            <img src="{{ImagesPath}}" alt="{{productName}}">
+                            <div class="product-hover mini-product-hover">
+                                <a href="" class="add-to-cart-link">
+                                    <i class="fa fa-shopping-cart"></i> Add to cart</a>
+                                <a href="/single-product/{{id}}" class="view-details-link">
+                                    <i class="fa fa-link"></i> See details</a>
                             </div>
                         </div>
-                        {{/each}}
-                        
+
+                        <h2>
+                            <a href="/single-product/{{id}}">{{productName}}</a>
+                        </h2>
+
+                        <div class="product-carousel-price">
+                            <ins>{{moneyFormat price}} vnđ</ins>
+                            {{!--
+                            <del>$800.00</del> --}}
+                        </div>
                     </div>
+
+                    {{/each}}
                 </div>
             </div>
 
             <div class="related-products-wrapper">
                 <h2 class="related-products-title">Products in the same category</h2>
-                <div class="five-related-products">
-                    <div class="row">  
-                        {{#each proCategory}}
-                        <div class="col-xs-2 col-sm-2 col-md-2">
-                            <div class="single-product text-center">
-                                <div class="product-f-image">
-                                    <img src="{{ImagesPath}}" alt="{{productName}}">
-                                    <div class="product-hover mini-product-hover">
-                                        <a href="" class="add-to-cart-link">
-                                            <i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                        <a href="/single-product/{{id}}" class="view-details-link">
-                                            <i class="fa fa-link"></i> See details</a>
-                                    </div>
-                                </div>
-
-                                <h2>
-                                    <a href="/single-product/{{id}}">{{productName}}</a>
-                                </h2>
-
-                                <div class="product-carousel-price">
-                                    <ins>{{moneyFormat price}} vnđ</ins>
-                                    {{!--
-                                    <del>$800.00</del> --}}
-                                </div>
+                <div class="five-same-products">
+                    {{#each proCategory}}
+                    <div class="single-product text-center">
+                        <div class="product-f-image">
+                            <img src="{{ImagesPath}}" alt="{{productName}}">
+                            <div class="product-hover mini-product-hover">
+                                <a href="" class="add-to-cart-link">
+                                    <i class="fa fa-shopping-cart"></i> Add to cart</a>
+                                <a href="/single-product/{{id}}" class="view-details-link">
+                                    <i class="fa fa-link"></i> See details</a>
                             </div>
                         </div>
-                        {{/each}}
-                        
+
+                        <h2>
+                            <a href="/single-product/{{id}}">{{productName}}</a>
+                        </h2>
+
+                        <div class="product-carousel-price">
+                            <ins>{{moneyFormat price}} vnđ</ins>
+                            {{!--
+                            <del>$800.00</del> --}}
+                        </div>
                     </div>
+                    {{/each}}
                 </div>
             </div>
         </div>
