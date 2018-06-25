@@ -27,6 +27,8 @@ const cartController = require('./app/controllers/cartController');
 const cityController = require('./app/controllers/citiesController');
 const checkoutController = require('./app/controllers/checkoutController');
 
+const orderController = require('./app/controllers/OrderController');
+
 require('dotenv').config();
 
 // set up our express application
@@ -91,6 +93,7 @@ app.use(productController);
 app.use(cartController);
 app.use(cityController);
 app.use(checkoutController);
+app.use(orderController);
 
 // // catch 404 and forward to error handler
 //     // note this is after all good routes and is not an error handler
@@ -129,5 +132,9 @@ app.use(checkoutController);
 //             error: {}
 //         });
 //     });
+
+app.get('/listproduct', (req, res) => {
+  res.render('admin/listproduct', { layout: 'admin' });
+})
 
 app.listen(port, () => console.log("Running at Port " + port));

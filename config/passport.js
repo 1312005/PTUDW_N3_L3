@@ -16,7 +16,7 @@ module.exports = function(passport){
     userModel.isExistedUsername(query.username)
     .then(user => {
       if (!user) {
-        return done(null, false, { message: 'No user found' });
+        return done(null, false, { message: 'Username or password is incorrect' });
       }
       bcrypt.compare(query.password, user.encryptedPassword, function(err, isMatch){
         if(err) {
@@ -31,7 +31,7 @@ module.exports = function(passport){
                               email: user.emailAddress
                       });
         } else {
-          return done(null, false, {message: 'Wrong password'});
+          return done(null, false, {message: 'Username or password is incorrect'});
         }
       });
     })

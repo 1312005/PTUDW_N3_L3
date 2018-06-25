@@ -44,25 +44,6 @@ router.get('/shop', (req, res) => {
 	let p1 = productModel.loadAllProduct(offset);
 	let p2 = productModel.countProduct();
 	renderShop(p1,p2,page,pageName,paramName,res);
-	// Promise.all([p1, p2]).then(([lProducts, nProduct]) => {
-	// 	let totalProduct = nProduct[0].total;
-	// 	let numberPages = Math.ceil(totalProduct / config.PRODUCTS_PER_PAGE);
-	// 	let numbers = [];
-	// 	for (let i = 1; i <= numberPages; i++) {
-	// 		numbers.push({
-	// 			value: i,
-	// 			isCurPage: i === +page
-	// 		});
-	// 	}
-
-	// 	let vm = {
-	// 		products: lProducts,
-	// 		noProducts: lProducts.length === 0,
-	// 		page_numbers: numbers,
-	// 		nPages: numberPages
-	// 	};
-	// 	res.render('shop', vm);
-	// })
 });
 
 router.get('/single-product/:id', (req, res) => {
@@ -230,36 +211,9 @@ router.get('/addproduct', ensureHasRole,(req, res) => {
 	 	res.render('admin/addproduct', { layout: 'admin'});
 	 });
 	
-});
-
-// ,[
-//         check('productname', 'productname is require').isLength({ min: 1 }),
-//         check('description', 'description is require').isLength({ min: 100}),
-//         check('price', 'price is require and is a number')
-//         .matches('\\d+'),
-//         check('qty', 'qty is require and is a number')
-//         .matches('\\d+'),
-//         check('manufacturerId', 'manufacturerId is require').exists(),
-//         check('categoryId', 'categoryId is require').exists(),
-//         check('images', 'Images is require').exists()
-//     ],[
-//         check('productname', 'productname is require').isLength({ min: 1 }),
-//         check('description', 'description is require').isLength({ min: 100}),
-//         check('price', 'price is require and is a number')
-//         .matches('\\d+'),
-//         check('qty', 'qty is require and is a number')
-//         .matches('\\d+'),
-//         check('manufacturerId', 'manufacturerId is require').exists(),
-//         check('categoryId', 'categoryId is require').exists(),
-//         check('images', 'Images is require').exists()
-//     ]
-
+});        
+               
 router.post('/addproduct',(req, res) => {
-		// const errors = validationResult(req);
-  //         if (!errors.isEmpty()) {
-  //         	console.log(errors.mapped());
-  //           return res.render('admin/addproduct', {layout: 'admin', errors: errors.mapped()});
-  //         }
   			let errors = [];
           	let product = {};
           	let form = new multiparty.Form();
@@ -334,5 +288,11 @@ router.get('/category/:name',(req,res)=>{
 		renderShop(lPro,nPro,page,pageName,categoryName,res);
 	});
 })
+
+
+// router.get('/listproduct', (req, res) => {
+// 	let page = req.query.page || 1;
+// 	let numberPages = productModel.
+// });
 
 module.exports = router;

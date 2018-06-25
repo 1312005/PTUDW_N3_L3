@@ -218,10 +218,8 @@ router.post('/profile', (req, res) => {
 
 // change password
 router.post('/changepassword/:id',[
-        check('old_password', 'old_password is require').isLength({ min: 1 }),
-        check('new_password', 'password is require')
-        .isLength({ min: 5 })
-        .matches(/\d/),
+        check('old_password', 'old_password is require').exists(),
+        check('new_password', 'password is require'),
         check('confirm_new_password', 'password confirm is require').exists(),
         check('confirm_new_password', 'passwords must be at least 5 chars long and contain one number')
         .exists()
@@ -232,7 +230,7 @@ router.post('/changepassword/:id',[
           //{errors: errors.mapped()}
           if (!errors.isEmpty()) {
             console.log(errors.mapped());
-            req.flash('error_msg', 'Please filled all require fields');
+            req.flash('error_msg', 'Some fields are invalid');
             res.redirect(`../profile/${req.user.id}`);
             console.log("VALIDATE FAILED");
             console.log(errors);

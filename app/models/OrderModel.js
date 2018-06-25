@@ -3,28 +3,9 @@ const baseDAO = require('../dbUtil/baseDAO');
 
 // orderby Date, status
 
-exports.fetchByproperty = (options) => {
-     return new Promise((resolve, reject) => {
-        let query;
-	if (options.status)
-	{
-		sql = `SELECT * FROM orders WHERE status = '${options.status}' order by created_at`;
-	}
-	else {
-		sql = `SELECT * FROM orders order by created_at`;
-	}
-        baseDAO.load(sql)
-               .then(rows => {
-                    if (rows.length == 0) {
-                        resolve(null);
-                    }
-                    else {
-                        resolve(rows[0]);
-                    } })
-                .catch(err => {
-                    reject(err);
-        });
-    });
+exports.fetchAllBelongTo = (id) => {
+        let sql = `SELECT * FROM orders WHERE memberId = ${id} order by created_at`;    
+        return  baseDAO.load(sql);
 }
 
 exports.add = (orderNumber, cart, discount, memberId) => {
@@ -36,4 +17,33 @@ exports.add = (orderNumber, cart, discount, memberId) => {
     order.totalAmount = cart.totalPrice*(1 - order.discount);
     let sqlOrder = `INSERT INTO orders(orderId, totalAmount, discount, memberId) VALUES('${order.orderNumber}', ${order.totalAmount}, ${order.discount}, ${memberId})`;
     return baseDAO.save(sqlOrder);
+}
+
+exports.getProductDetail = (orderNumber) => {
+    let sql = `select d.discount,d.productQuantity,d.totalAmount,d.price_per_unit,
+               p.productName
+               from orderdetails d, products p  
+               where orderId = '${orderNumber}' AND d.productId = p.id`;
+
+   return baseDAO.load(sql);
+}
+
+exports.getGenericDetail = (orderNumber) => {
+    let sql = `select m.firstName, m.lastName,
+	   o.orderId, o.created_at, o.discount, o.state, o.totalAmount,
+       p.provinceName as province,
+       c.cityName  as city,
+       l.deliveryAddress
+	   from orders o,
+	   members m,
+       deliveryaddresses l,
+        cities c,
+        provinces p
+       where o.orderId = '${orderNumber}'
+	  AND m.memberId = o.memberId
+      AND l.orderId = o.orderId
+      AND l.deliveryDistrict = c.cityId
+      AND c.provinceId = p.provinceId;`;
+
+   return baseDAO.load(sql);
 }
