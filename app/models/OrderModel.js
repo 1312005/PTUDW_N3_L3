@@ -40,11 +40,11 @@ exports.add = (orderNumber, cart, discount, memberId) => {
 }
 
 exports.loadAllOrders = (offset)=>{
-    let sql = `select * from orders INNER JOIN members mb ON orders.memberId = mb.memberId limit ${config.ORDER_PER_PAGE} offset ${offset}`;
+    let sql = `select * from orders INNER JOIN members mb ON orders.memberId = mb.memberId INNER JOIN limit ${config.ORDER_PER_PAGE} offset ${offset}`;
     return baseDAO.load(sql);
 }
 
-exports.countOrders = (offset)=>{
+exports.countOrders = ()=>{
     let sql = `select count(*) as total from orders `;
     return baseDAO.load(sql);
 }

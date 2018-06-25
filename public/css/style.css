@@ -893,7 +893,7 @@ button[type=submit]:hover {
 .product-gallery img {
     height: auto;
     margin-left: 15px;
-    width: 76px;
+    width: 100px;
 }
 
 .product-name {

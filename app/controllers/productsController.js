@@ -13,6 +13,9 @@ const multiparty = require('multiparty');
 
 function renderShop(lPro,nPro,page,pageName,paramName,res){
 	Promise.all([lPro, nPro]).then(([lProducts, nProduct]) => {
+		for(let i = 0; i<lProducts.length;i++){
+			lProducts[i]['imageAvatar'] = lProducts[i].ImagesPath.split(';')[0];
+		}
 		let totalProduct = nProduct[0].total;
 		let numberPages = Math.ceil(totalProduct / config.PRODUCTS_PER_PAGE);
 		let numbers = [];
@@ -51,14 +54,36 @@ router.get('/single-product/:id', (req, res) => {
 	productModel.single(id).then((rows) => {
 		console.log(rows);
 		let lProducts = rows;
+		let lImages = lProducts.ImagesPath.split(';');
+		let images = [{
+			id : 0,
+			imagePath : lProducts.ImagesPath.split(';')[0],
+			isAvatar : true
+		}];
+		for(let i = 1; i<lImages.length;i++){
+			images.push({
+				id : i,
+				imagePath: lImages[i],
+				isAvatar: false
+			})
+		}
+		lProducts['images'] = images;
+		// console.log('pro: ');
+		// console.log(lProducts);
 		let curView = rows.views;
 		let newView = ++curView;
 		let p1 = productModel.load5ProductFromTheSameManufacturer(id, rows.manufacturerId);
 		let p2 = productModel.load5ProductInTheSameCategory(id, rows.categoryId);
 		let p3 = productModel.updateView(id, newView);
 		Promise.all([p1, p2, p3]).then(([proManufacturer, proCategory, value]) => {
-			console.log('proManufacturer');
-			console.log(proManufacturer);
+			// console.log('proManufacturer');
+			// console.log(proManufacturer);
+			for(let i = 0; i<proManufacturer.length;i++){
+				proManufacturer[i]['imageAvatar'] = proManufacturer[i].ImagesPath.split(';')[0];
+			}
+			for(let i = 0; i<proCategory.length;i++){
+				proCategory[i]['imageAvatar'] = proCategory[i].ImagesPath.split(';')[0];
+			}
 			let vm = {
 				product: lProducts,
 				proManufacturer: proManufacturer,
@@ -104,13 +129,13 @@ router.get('/search', (req, res) => {
 		}
 		// Search by category
 		else {
-			console.log('search by category: ');
-			console.log('categoryName: ' + categoryName);
+			// console.log('search by category: ');
+			// console.log('categoryName: ' + categoryName);
 			let category = new Promise((resolve, reject) => {
 				productModel.getCategoryByName(categoryName).then(rows => {
 					resolve(rows);
-					console.log("categoryId: ");
-					console.log(rows.categoryId);
+					// console.log("categoryId: ");
+					// console.log(rows.categoryId);
 				}).catch(err => {
 					reject(err);
 				})
@@ -127,8 +152,8 @@ router.get('/search', (req, res) => {
 			console.log('search by Manufacturer');
 			let manufacturer = new Promise((resolve, reject) => {
 				productModel.getManufacturerByName(manufacturerName).then((rows) => {
-					console.log('manufacturer: ');
-					console.log(rows);
+					// console.log('manufacturer: ');
+					// console.log(rows);
 					resolve(rows);
 				}).catch(err => {
 					reject(err);
