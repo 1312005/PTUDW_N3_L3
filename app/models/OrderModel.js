@@ -1,4 +1,5 @@
 const baseDAO = require('../dbUtil/baseDAO');
+const config = require('../../config/config');
 //const utils = require('../utils/orderNumberGenarator');
 
 // orderby Date, status
@@ -46,4 +47,13 @@ exports.getGenericDetail = (orderNumber) => {
       AND c.provinceId = p.provinceId;`;
 
    return baseDAO.load(sql);
+
+exports.loadAllOrders = (offset)=>{
+    let sql = `select * from orders INNER JOIN members mb ON orders.memberId = mb.memberId INNER JOIN limit ${config.ORDER_PER_PAGE} offset ${offset}`;
+    return baseDAO.load(sql);
+}
+
+exports.countOrders = ()=>{
+    let sql = `select count(*) as total from orders `;
+    return baseDAO.load(sql);
 }

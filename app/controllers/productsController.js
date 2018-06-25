@@ -13,6 +13,9 @@ const multiparty = require('multiparty');
 
 function renderShop(lPro,nPro,page,pageName,paramName,res){
 	Promise.all([lPro, nPro]).then(([lProducts, nProduct]) => {
+		for(let i = 0; i<lProducts.length;i++){
+			lProducts[i]['imageAvatar'] = lProducts[i].ImagesPath.split(';')[0];
+		}
 		let totalProduct = nProduct[0].total;
 		let numberPages = Math.ceil(totalProduct / config.PRODUCTS_PER_PAGE);
 		let numbers = [];
@@ -28,7 +31,7 @@ function renderShop(lPro,nPro,page,pageName,paramName,res){
 			noProducts: lProducts.length === 0,
 			page_numbers: numbers,
 			nPages: numberPages,
-			pageName : pageName,
+			pageName: pageName,
 			paramName: paramName
 		};
 		res.render('shop', vm);
@@ -44,6 +47,7 @@ router.get('/shop', (req, res) => {
 	let p1 = productModel.loadAllProduct(offset);
 	let p2 = productModel.countProduct();
 	renderShop(p1,p2,page,pageName,paramName,res);
+
 });
 
 router.get('/single-product/:id', (req, res) => {
@@ -51,14 +55,36 @@ router.get('/single-product/:id', (req, res) => {
 	productModel.single(id).then((rows) => {
 		console.log(rows);
 		let lProducts = rows;
+		let lImages = lProducts.ImagesPath.split(';');
+		let images = [{
+			id : 0,
+			imagePath : lProducts.ImagesPath.split(';')[0],
+			isAvatar : true
+		}];
+		for(let i = 1; i<lImages.length;i++){
+			images.push({
+				id : i,
+				imagePath: lImages[i],
+				isAvatar: false
+			})
+		}
+		lProducts['images'] = images;
+		// console.log('pro: ');
+		// console.log(lProducts);
 		let curView = rows.views;
 		let newView = ++curView;
 		let p1 = productModel.load5ProductFromTheSameManufacturer(id, rows.manufacturerId);
 		let p2 = productModel.load5ProductInTheSameCategory(id, rows.categoryId);
 		let p3 = productModel.updateView(id, newView);
 		Promise.all([p1, p2, p3]).then(([proManufacturer, proCategory, value]) => {
-			console.log('proManufacturer');
-			console.log(proManufacturer);
+			// console.log('proManufacturer');
+			// console.log(proManufacturer);
+			for(let i = 0; i<proManufacturer.length;i++){
+				proManufacturer[i]['imageAvatar'] = proManufacturer[i].ImagesPath.split(';')[0];
+			}
+			for(let i = 0; i<proCategory.length;i++){
+				proCategory[i]['imageAvatar'] = proCategory[i].ImagesPath.split(';')[0];
+			}
 			let vm = {
 				product: lProducts,
 				proManufacturer: proManufacturer,
@@ -100,26 +126,26 @@ router.get('/search', (req, res) => {
 		if (categoryName === "All") {
 			search = productModel.searchProductByPrice(keyWord, minPrice, maxPrice, offset);
 			countResult = productModel.countProductSearchByPrice(keyWord, minPrice, maxPrice, offset);
-			result(search,countResult);
+			result(search, countResult);
 		}
 		// Search by category
 		else {
-			console.log('search by category: ');
-			console.log('categoryName: '+ categoryName);
+			// console.log('search by category: ');
+			// console.log('categoryName: ' + categoryName);
 			let category = new Promise((resolve, reject) => {
 				productModel.getCategoryByName(categoryName).then(rows => {
 					resolve(rows);
-					console.log("categoryId: ");
-					console.log(rows.categoryId);
+					// console.log("categoryId: ");
+					// console.log(rows.categoryId);
 				}).catch(err => {
 					reject(err);
 				})
-			}).then(rows =>{
+			}).then(rows => {
 				search = productModel.searchProductByCategory(keyWord, rows.categoryId, minPrice, maxPrice, offset);
 				countResult = productModel.countProductSearchByCategory(keyWord, rows.categoryId, minPrice, maxPrice);
-				result(search,countResult);
+				result(search, countResult);
 			});
-			
+
 		}
 	} else {
 		// Search By Manufacturer
@@ -127,31 +153,31 @@ router.get('/search', (req, res) => {
 			console.log('search by Manufacturer');
 			let manufacturer = new Promise((resolve, reject) => {
 				productModel.getManufacturerByName(manufacturerName).then((rows) => {
-					console.log('manufacturer: ');
-					console.log(rows);
+					// console.log('manufacturer: ');
+					// console.log(rows);
 					resolve(rows);
 				}).catch(err => {
 					reject(err);
 				})
-			}).then(manufacturer=>{
+			}).then(manufacturer => {
 				search = productModel.searchProductByManufacturer(keyWord, manufacturer.manufacturerId, minPrice, maxPrice, offset);
 				countResult = productModel.countProductSearchByManufacturer(keyWord, manufacturer.manufacturerId, minPrice, maxPrice);
-				result(search,countResult);
+				result(search, countResult);
 			});
 		} else {
 			let category = productModel.getCategoryByName(categoryName);
 			let manufacturer = productModel.getManufacturerByName(manufacturerName);
-			Promise.all([category, manufacturer]).then(([cate,manu]) => {
+			Promise.all([category, manufacturer]).then(([cate, manu]) => {
 				search = productModel.searchProductByCriteria(keyWord, cate.categoryId, manu.manufacturerId, minPrice, maxPrice, offset);
 				countResult = productModel.countProductSearchByCriteria(keyWord, cate.categoryId, manu.manufacturerId, minPrice, maxPrice);
-				result(search,countResult);
+				result(search, countResult);
 			})
 
 		}
 
 	}
 
-	function result(search,countResult){
+	function result(search, countResult) {
 		Promise.all([search, countResult]).then(([lProducts, nProduct]) => {
 			// console.log(lProducts);
 			// console.log(nProduct[0].total);
@@ -164,7 +190,7 @@ router.get('/search', (req, res) => {
 					isCurPage: i === +page
 				});
 			}
-			
+
 			let query = {
 				key: keyWord,
 				manufacturer: manufacturerName,
@@ -178,13 +204,13 @@ router.get('/search', (req, res) => {
 				page_numbers: numbers,
 				nPages: numberPages
 			};
-	
+
 			res.render('search_result', vm);
 		})
 	}
-})
+});
 
-router.get('/addproduct', ensureHasRole,(req, res) => {
+router.get('/addproduct', ensureHasRole, (req, res) => {
 	let categories;
 	let manufacturers;
 	categoryModel.loadAllCategory()
@@ -268,26 +294,26 @@ router.get('/manufacturer/:name',(req,res)=>{
 	let manufacturerName = req.params.name;
 	let page = req.query.page || 1;
 	let offset = (page - 1) * config.PRODUCTS_PER_PAGE;
-	productModel.getManufacturerByName(manufacturerName).then((rows)=>{
+	productModel.getManufacturerByName(manufacturerName).then((rows) => {
 		let manufacturerId = rows.manufacturerId;
-		let lPro = productModel.loadProductByManufacturer(manufacturerId,offset);
+		let lPro = productModel.loadProductByManufacturer(manufacturerId, offset);
 		let nPro = productModel.countProductByManufacturer(manufacturerId);
-		renderShop(lPro,nPro,page,pageName,manufacturerName,res);
+		renderShop(lPro, nPro, page, pageName, manufacturerName, res);
 	});
-})
+});
 
-router.get('/category/:name',(req,res)=>{
+router.get('/category/:name', (req, res) => {
 	let pageName = 'category';
 	let categoryName = req.params.name;
 	let page = req.query.page || 1;
 	let offset = (page - 1) * config.PRODUCTS_PER_PAGE;
-	productModel.getCategoryByName(categoryName).then((rows)=>{
+	productModel.getCategoryByName(categoryName).then((rows) => {
 		let categoryId = rows.categoryId;
-		let lPro = productModel.loadProductByCategory(categoryId,offset);
+		let lPro = productModel.loadProductByCategory(categoryId, offset);
 		let nPro = productModel.countProductByCategory(categoryId);
-		renderShop(lPro,nPro,page,pageName,categoryName,res);
+		renderShop(lPro, nPro, page, pageName, categoryName, res);
 	});
-})
+});
 
 
 // router.get('/listproduct', (req, res) => {

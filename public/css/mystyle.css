@@ -26,6 +26,19 @@
         padding : 10px;
     }
 
+    .product-main-img > .img-avatar {
+        margin: 0 auto;
+        max-height: 400px;
+    }
+
+    .img-review {
+        margin: 0 auto;
+        max-height: 150px;
+    }
+
+    .slick-prev:before, .slick-next:before {
+    color: #2a9729 !important
+    }
 }
 
 /* Tablet Layout: 768px. */
@@ -99,6 +112,7 @@
     .single-product:hover .product-hover a.view-details-link {
         bottom: 25%;
     }
+
 }
 
 /* Laptop and PC */

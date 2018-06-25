@@ -1,19 +1,25 @@
-const  models = require('../models/userModel');
+const models = require('../models/userModel');
 const cityModel = require('../models/cityModel');
 const provinceModel = require('../models/provinceModel');
+const orderModel = require('../models/OrderModel');
 const router = require('express').Router();
-const { check, validationResult } = require('express-validator/check');
+const {
+  check,
+  validationResult
+} = require('express-validator/check');
 const bcrypt = require('bcrypt');
 const request = require('request');
 const passport = require('passport');
 
 const ensureAuthenticated = require('../middlewares/ensureAuthenticated');
 const ensureHasRole = require('../middlewares/ensureHasRole');
-
+const config = require ('../../config/config.js');
 // REGISTERS
 router.get('/signup', (req, res) => {
   provinceModel.fetchAll().then(provinces => {
-    res.render('signup', {provinces: provinces})
+    res.render('signup', {
+      provinces: provinces
+    })
     console.log(provinces);
   }).catch(error => {
     res.render('signup');
@@ -21,86 +27,111 @@ router.get('/signup', (req, res) => {
   })
 });
 
-router.post('/signup',[
-        check('firstName', 'firstname is require').isLength({ min: 1 }),
+router.post('/signup', [
+  check('firstName', 'firstname is require').isLength({
+    min: 1
+  }),
 
-        check('lastName', 'lastname is require').isLength({ min: 1 }),
+  check('lastName', 'lastname is require').isLength({
+    min: 1
+  }),
 
-        check('username', 'username is require')
-        .isLength({ min: 5 })
-        .custom(value => {
-            return models.isExistedUsername(value).then(user => {
-                if (user)
-                throw new Error('this username is already in use');
-            })
-        }),
-        check('livingAddress', 'livingAddress is require').isLength({ min: 1 }),
+  check('username', 'username is require')
+  .isLength({
+    min: 5
+  })
+  .custom(value => {
+    return models.isExistedUsername(value).then(user => {
+      if (user)
+        throw new Error('this username is already in use');
+    })
+  }),
+  check('livingAddress', 'livingAddress is require').isLength({
+    min: 1
+  }),
 
-        check('dob', 'dob is require').isLength({ min: 1 }),
+  check('dob', 'dob is require').isLength({
+    min: 1
+  }),
 
-        check('gender', 'gender is require').isLength({ min: 1 }),
+  check('gender', 'gender is require').isLength({
+    min: 1
+  }),
 
-        check('livingDistrict', 'livingDistrict is require').isLength({ min: 1 }),
-    
-        check('emailAddress', 'Email is invalid')
-        .isEmail()
-        .trim()
-        .custom(value => {
-            return models.isExistedUsername(value).then(user => {
-                if (user)
-                throw new Error('this email is already in use');
-            })
-        }),
+  check('livingDistrict', 'livingDistrict is require').isLength({
+    min: 1
+  }),
 
-        check('phoneNumber', 'phone number is require and only contain digits')
-        .isLength({ min: 10 })
-        .matches('\\d+'),
+  check('emailAddress', 'Email is invalid')
+  .isEmail()
+  .trim()
+  .custom(value => {
+    return models.isExistedUsername(value).then(user => {
+      if (user)
+        throw new Error('this email is already in use');
+    })
+  }),
 
-        check('password', 'password is require')
-        .isLength({ min: 5 })
-        .matches(/\d/),
+  check('phoneNumber', 'phone number is require and only contain digits')
+  .isLength({
+    min: 10
+  })
+  .matches('\\d+'),
 
-        check('confirmPassword', 'password confirm is require').exists(),
+  check('password', 'password is require')
+  .isLength({
+    min: 5
+  })
+  .matches(/\d/),
 
-        check('confirmPassword', 'passwords must be at least 5 chars long and contain one number')
-        .exists()
-        .custom((value, { req }) => value === req.body.password)
-    ], (req, res) => {
-         // Finds the validation errors in this request and wraps them in an object with handy functions
-          const errors = validationResult(req);
-          if (!errors.isEmpty()) {
-            res.render('signup', {errors: errors.mapped()});
-            console.log("VALIDATE FAILED");
-            console.log(errors);
-          }
-          else {
-                 // g-recaptcha-response is the key that browser will generate upon form submit.
-  // if its blank or null means user has not selected the captcha, so return the error.
-  if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
-    return res.json({"responseCode" : 1,"responseDesc" : "Please select captcha"});
-  }
-  else {
+  check('confirmPassword', 'password confirm is require').exists(),
 
-                
-                 // Put your secret key here.
-      let  secretKey = "6Lcc1FkUAAAAACn2XyEAq_qISTy1jtCF2Ee3puaM";
-  // req.connection.remoteAddress will provide IP address of connected user.
-  let verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
-  // Hitting GET request to the URL, Google will respond with success or error scenario.
-  request(verificationUrl,function(error,response,body) {
-    body = JSON.parse(body);
-    // Success will be true or false depending upon captcha validation.
-    if(body.success !== undefined && !body.success) {
-      //return res.json({"responseCode" : 1,"responseDesc" : "Failed captcha verification"});
-            const errors = ['Failed captcha verification'];
-            console.log(errors);
-             res.render('signup', {errors: errors});
-    }
-    //res.json({"responseCode" : 0,"responseDesc" : "Sucess"});
-    else {
-            let salt = bcrypt.genSaltSync(10);
-            let encryptedPassword = bcrypt.hashSync(req.body.password,salt);
-            let user = {
+  check('confirmPassword', 'passwords must be at least 5 chars long and contain one number')
+  .exists()
+  .custom((value, {
+    req
+  }) => value === req.body.password)
+], (req, res) => {
+  // Finds the validation errors in this request and wraps them in an object with handy functions
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.render('signup', {
+      errors: errors.mapped()
+    });
+    console.log("VALIDATE FAILED");
+    console.log(errors);
+  } else {
+    // g-recaptcha-response is the key that browser will generate upon form submit.
+    // if its blank or null means user has not selected the captcha, so return the error.
+    if (req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
+      return res.json({
+        "responseCode": 1,
+        "responseDesc": "Please select captcha"
+      });
+    } else {
+
+
+      // Put your secret key here.
+      let secretKey = "6Lcc1FkUAAAAACn2XyEAq_qISTy1jtCF2Ee3puaM";
+      // req.connection.remoteAddress will provide IP address of connected user.
+      let verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+      // Hitting GET request to the URL, Google will respond with success or error scenario.
+      request(verificationUrl, function (error, response, body) {
+        body = JSON.parse(body);
+        // Success will be true or false depending upon captcha validation.
+        if (body.success !== undefined && !body.success) {
+          //return res.json({"responseCode" : 1,"responseDesc" : "Failed captcha verification"});
+          const errors = ['Failed captcha verification'];
+          console.log(errors);
+          res.render('signup', {
+            errors: errors
+          });
+        }
+        //res.json({"responseCode" : 0,"responseDesc" : "Sucess"});
+        else {
+          let salt = bcrypt.genSaltSync(10);
+          let encryptedPassword = bcrypt.hashSync(req.body.password, salt);
+          let user = {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             username: req.body.username,
@@ -110,24 +141,27 @@ router.post('/signup',[
             dob: req.body.dob,
             livingAddress: req.body.livingAddress,
             livingTownId: parseInt(req.body.livingDistrict),
-            encryptedPassword: encryptedPassword };
+            encryptedPassword: encryptedPassword
+          };
 
 
-            models.add(user).then(value => {
-           console.log("ADD OPERATION successfully");
-            req.flash('success_msg','You are now registered and can log in');
+          models.add(user).then(value => {
+            console.log("ADD OPERATION successfully");
+            req.flash('success_msg', 'You are now registered and can log in');
             res.redirect('/login');
             // res.render('signup', {errors: {}, msg: 'Your account has been created successfully!'});
             console.log('successfully');
-            }).catch(err => {
+          }).catch(err => {
             const errors = ['ADD OPERATION FAILED FOR UNKNOWN REASONS'];
             console.log(err);
-             res.render('signup', {errors: err});
-        });
+            res.render('signup', {
+              errors: err
+            });
+          });
+        }
+      });
     }
-  });
   }
-    }
 });
 
 
@@ -139,23 +173,23 @@ router.get('/login', (req, res) => {
 });
 
 // Login Process
-router.post('/login', function(req, res, next){
+router.post('/login', function (req, res, next) {
   passport.authenticate('local', {
-    successRedirect:'/shop',
-    failureRedirect:'/login',
+    successRedirect: '/shop',
+    failureRedirect: '/login',
     failureFlash: true,
     //session: false
   })(req, res, next);
 });
 
 // logout
-router.get('/logout', function(req, res){
+router.get('/logout', function (req, res) {
   req.logout();
   req.flash('success_msg', 'You are logged out');
   res.redirect('/shop');
 });
 
-router.get('/profile/:id',ensureAuthenticated, (req, res) => {
+router.get('/profile/:id', ensureAuthenticated, (req, res) => {
   let idz = parseInt(req.params.id);
   console.log(req.user);
   if (req.user.id != idz) {
@@ -168,45 +202,45 @@ router.get('/profile/:id',ensureAuthenticated, (req, res) => {
     .then(user => {
       if (!user) {
         return res.redirect('/shop');
-      }
-      else {
+      } else {
         console.log('CURRENT USER: ' + user);
         // get province Id of the city
         cityModel.findById(user.livingTownId)
-        .then(city => {
-          thisProvinceId = city.provinceId;
-          console.log('City: ' + city);
-          // get list city of  the province
-        cityModel.fetchList(thisProvinceId)
-        .then(cities => {
-          citiesOfThisProvince = cities;
-           provinceModel.fetchAll()
-        .then(provinces => {
-          provincesz = provinces
-          console.log('citiesOfThisProvince: ' + citiesOfThisProvince);
-          console.log('thisProvinceId: ' + thisProvinceId);
-          console.log('All provinces: ' + provinces);
-           return res.render('profile', {userz: user, 
-                          provincesz: provincesz, 
-                          thisProvinceId: thisProvinceId,
-                          citiesOfThisProvince: citiesOfThisProvince 
-                        });
-        })
-        .catch(error => {
-          provincesz = {};
-        });
-        })
-        .catch(err => {
-          citiesOfThisProvince  = {};
-        })
-        })
-        .catch(err => {
-          thisProvinceId = -1;
-        })
+          .then(city => {
+            thisProvinceId = city.provinceId;
+            console.log('City: ' + city);
+            // get list city of  the province
+            cityModel.fetchList(thisProvinceId)
+              .then(cities => {
+                citiesOfThisProvince = cities;
+                provinceModel.fetchAll()
+                  .then(provinces => {
+                    provincesz = provinces
+                    console.log('citiesOfThisProvince: ' + citiesOfThisProvince);
+                    console.log('thisProvinceId: ' + thisProvinceId);
+                    console.log('All provinces: ' + provinces);
+                    return res.render('profile', {
+                      userz: user,
+                      provincesz: provincesz,
+                      thisProvinceId: thisProvinceId,
+                      citiesOfThisProvince: citiesOfThisProvince
+                    });
+                  })
+                  .catch(error => {
+                    provincesz = {};
+                  });
+              })
+              .catch(err => {
+                citiesOfThisProvince = {};
+              })
+          })
+          .catch(err => {
+            thisProvinceId = -1;
+          })
       }
     })
     .catch(err => {
-      throw(err);
+      throw (err);
     });
 });
 
@@ -232,118 +266,136 @@ router.post('/changepassword/:id',[
             console.log(errors.mapped());
             req.flash('error_msg', 'Some fields are invalid');
             res.redirect(`../profile/${req.user.id}`);
-            console.log("VALIDATE FAILED");
-            console.log(errors);
           }
-          else {
-            console.log('ID: ' + id);
-            console.log("REQ.USER");
-            console.log(req.user);
-            if (req.user.id != id) {
-                  req.flash('error_msg', 'Something wrong, you are unable to change your password');
-                  return res.redirect(`../profile/${req.user.id}`);
-            }
-            else {
-              models.findById(id)
-              .then(user => {
-                if (!user) {
-                   req.flash('error_msg', 'the user doesnt exist, you are unable to change your password');
-                  res.redirect(`../profile/${req.user.id}`);
-                 }
-                 let salt = bcrypt.genSaltSync(10);
-                 console.log(salt);
-                 let old_password = req.body.old_password;
-                 //  let encryptedOldPassword = bcrypt.hashSync(old_password,salt);
-                  bcrypt.compare(old_password, user.encryptedPassword, function(err, isMatch){
-                    if(!isMatch) {
-                      req.flash('error_msg', 'Couldnt confirm your old password, you are unable to change your password');
-                      return res.redirect(`../profile/${req.user.id}`);
-                    }
-                    else {
-                      let salt = bcrypt.genSaltSync(10);
-                     let encryptedPassword = bcrypt.hashSync(req.body.new_password,salt);
-                      models.changePassword(encryptedPassword, id)
-                      .then(user => {
-                        req.flash('success_msg', 'your password has been updated');
-                        req.logout();
-                        req.flash('info_msg', 'you need to re-login to access some authenticated pages');
-                        res.redirect('/shop');
-                        //return res.redirect(`../profile/${req.user.id}`);
-                      })
-                      .catch(err => {
-                        console.log('INNER ERR');
-                        console.log(err);
-                         req.flash('error_msg', 'Catch inner exception, you are unable to change your password');
-                         res.redirect(`../profile/${req.user.id}`);
-                      })
-                    }
-                  });
-              })
-              .catch(err => {
-                console.log('OUTER ERR');
-                console.log(err);
-                req.flash('error_msg', 'Catch outer exception, you are unable to change your password');
-                 res.redirect(`../profile/${req.user.id}`);
-              })
-            }
-          }
-        
-  });
-
-router.post('/changeprofile/:id', [
-        check('livingAddress', 'livingAddress is require').isLength({ min: 1 }),
-        check('livingDistrict', 'livingDistrict is require').isLength({ min: 1 }),
-        check('phoneNumber', 'phone number is require and only contain digits')
-        .isLength({ min: 10 })
-        .matches('\\d+')
-  ], (req, res) => {
-    const errors = validationResult(req);
-          let id = parseInt(req.params.id);
-          if (req.user.id != id) {
-            return res.redirect(`../profile/${req.user.id}`);
-          }
-          if (!errors.isEmpty()) {
-            req.flash('error_msg', 'Something wrent wrong');
-            console.log("VALIDATE FAILED");
-            console.log(errors);
-            return res.redirect(`../profile/${req.user.id}`);
-          }
-          else {
-            let options= {
-              livingAddress: req.body.livingAddress,
-              livingDistrict: parseInt(req.body.livingDistrict),
-              phoneNumber : req.body.phoneNumber
-            };
-
-              models.updateProfile(options, id)
+          let salt = bcrypt.genSaltSync(10);
+          console.log(salt);
+          let old_password = req.body.old_password;
+          //  let encryptedOldPassword = bcrypt.hashSync(old_password,salt);
+          bcrypt.compare(old_password, user.encryptedPassword, function (err, isMatch) {
+            if (!isMatch) {
+              req.flash('error_msg', 'Couldnt confirm your old password, you are unable to change your password');
+              return res.redirect(`../profile/${req.user.id}`);
+            } else {
+              let salt = bcrypt.genSaltSync(10);
+              let encryptedPassword = bcrypt.hashSync(req.body.new_password, salt);
+              models.changePassword(encryptedPassword, id)
                 .then(user => {
-                   req.flash('success_msg', 'your profile has been updated');
-                   return res.redirect(`../profile/${req.user.id}`);
+                  req.flash('success_msg', 'your password has been updated');
+                  req.logout();
+                  req.flash('info_msg', 'you need to re-login to access some authenticated pages');
+                  res.redirect('/shop');
+                  //return res.redirect(`../profile/${req.user.id}`);
                 })
                 .catch(err => {
-                  console.log('ERR');
+                  console.log('INNER ERR');
                   console.log(err);
-                  req.flash('error_msg', 'Catch exception');
-                   return res.redirect(`../profile/${req.user.id}`);
-                });
-
+                  req.flash('error_msg', 'Catch inner exception, you are unable to change your password');
+                  res.redirect(`../profile/${req.user.id}`);
+                })
             }
+          });
+        })
+        .catch(err => {
+          console.log('OUTER ERR');
+          console.log(err);
+          req.flash('error_msg', 'Catch outer exception, you are unable to change your password');
+          res.redirect(`../profile/${req.user.id}`);
+        })
+    }
+  }
+
 });
 
-        router.get('/dashboard', ensureHasRole, (req, res) => {
-          res.render('admin/dashboard', {layout: 'admin'});
-        });
-                    
-        router.get('/categories_management',ensureHasRole, (req, res) => {
-          res.render('admin/categories_management', {layout: 'admin'});
-        });
-        router.get('/products_management',ensureHasRole, (req, res) => {
-          res.render('admin/products_management', {layout: 'admin'});
-        });
-        router.get('/makers_management',ensureHasRole, (req, res) => {
-          res.render('admin/makers_management', {layout: 'admin'});
-        });
-        router.get('/orders_management', ensureHasRole,(req, res) => {
-          res.render('admin/orders_management', {layout: 'admin'});
-        });
+router.post('/changeprofile/:id', [
+  check('livingAddress', 'livingAddress is require').isLength({
+    min: 1
+  }),
+  check('livingDistrict', 'livingDistrict is require').isLength({
+    min: 1
+  }),
+  check('phoneNumber', 'phone number is require and only contain digits')
+  .isLength({
+    min: 10
+  })
+  .matches('\\d+')
+], (req, res) => {
+  const errors = validationResult(req);
+  let id = parseInt(req.params.id);
+  if (req.user.id != id) {
+    return res.redirect(`../profile/${req.user.id}`);
+  }
+  if (!errors.isEmpty()) {
+    req.flash('error_msg', 'Something wrent wrong');
+    console.log("VALIDATE FAILED");
+    console.log(errors);
+    return res.redirect(`../profile/${req.user.id}`);
+  } else {
+    let options = {
+      livingAddress: req.body.livingAddress,
+      livingDistrict: parseInt(req.body.livingDistrict),
+      phoneNumber: req.body.phoneNumber
+    };
+
+    models.updateProfile(options, id)
+      .then(user => {
+        req.flash('success_msg', 'your profile has been updated');
+        return res.redirect(`../profile/${req.user.id}`);
+      })
+      .catch(err => {
+        console.log('ERR');
+        console.log(err);
+        req.flash('error_msg', 'Catch exception');
+        return res.redirect(`../profile/${req.user.id}`);
+      });
+
+  }
+});
+
+router.get('/dashboard', ensureHasRole, (req, res) => {
+  res.render('admin/dashboard', {
+    layout: 'admin'
+  });
+});
+
+router.get('/categories_management', ensureHasRole, (req, res) => {
+  res.render('admin/categories_management', {
+    layout: 'admin'
+  });
+});
+router.get('/products_management', ensureHasRole, (req, res) => {
+  res.render('admin/products_management', {
+    layout: 'admin'
+  });
+});
+router.get('/makers_management', ensureHasRole, (req, res) => {
+  res.render('admin/makers_management', {
+    layout: 'admin'
+  });
+});
+router.get('/orders_management', ensureHasRole, (req, res) => {
+  let page = req.params.page || 1;
+  let offset = (page-1)*config.ORDER_PER_PAGE;
+  let lOrder = orderModel.loadAllOrders(offset);
+  let nOrder = orderModel.countOrders();
+  Promise.all([lOrder,nOrder]).then(([lOrder,nOrder])=>{
+    let totalOrder = nOrder[0].total;
+		let numberPages = Math.ceil(totalOrder / config.ORDER_PER_PAGE);
+		let numbers = [];
+		for (let i = 1; i <= numberPages; i++) {
+			numbers.push({
+				value: i,
+				isCurPage: i === +page
+			});
+		}
+
+		let vm = {
+      layout: 'admin',
+			lOrder: lOrder,
+			noOrder: lOrder.length === 0,
+			page_numbers: numbers,
+			nPages: numberPages,
+		};
+		res.render('admin/orders_management', vm);
+  });  
+});
 module.exports = router;
