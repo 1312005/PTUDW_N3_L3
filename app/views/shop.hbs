@@ -109,8 +109,9 @@
         </div>
     </div>
 </div>
-<script>
 
+{{#section 'js'}}
+<script>
 function intervalTrigger(msg) {
     return window.setInterval(customAlert(msg),160);
 }
@@ -142,3 +143,4 @@ $(function() {
     });
 });
 </script>
+{{/section}}
