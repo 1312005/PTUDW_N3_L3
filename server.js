@@ -27,6 +27,8 @@ const cartController = require('./app/controllers/cartController');
 const cityController = require('./app/controllers/citiesController');
 const checkoutController = require('./app/controllers/checkoutController');
 
+/* Admin controller */
+const orderController = require('./app/controllers/adminController/orderController');
 require('dotenv').config();
 
 // set up our express application
@@ -92,6 +94,7 @@ app.use(cartController);
 app.use(cityController);
 app.use(checkoutController);
 
+app.use(orderController);
 // // catch 404 and forward to error handler
 //     // note this is after all good routes and is not an error handler
 //     // to get a 404, it has to fall through to this route - no error involved

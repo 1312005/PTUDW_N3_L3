@@ -12,7 +12,6 @@
                     <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Order ID</th>
                                 <th>Buyer</th>
                                 <th>Address</th>
@@ -20,96 +19,65 @@
                                 <th>Date</th>
                                 <th>Paid Amount</th>
                                 <th>Status</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
+                                <th>View Detail</th>
                             </tr>
                         </thead>
                         <tfoot>
                         </tfoot>
                         <tbody>
+                            {{#each lOrder}}
                             <tr>
-                                <td>1</td>
-                                <td class="hightlight">OR0001</td>
-                                <td>Helena</td>
-                                <td>44 ABZ Street, GTX City</td>
-                                <td>0120xxxxxxx</td>
-                                <td>11/4/2018</td>
-                                <td>$899.00</td>
+                                <td class="hightlight">{{orderId}}</td>
+                                <td>{{firstName}} {{lastName}}</td>
+                                <td>{{deliveryAddress}}, {{cityName}}, {{provinceName}}</td>
+                                <td>{{phoneNumber}}</td>
+                                <td>{{dateFormat}}</td>
+                                <td>{{moneyFormat totalAmount}}</td>
                                 <td>
-                                    <span class="label label-info">Processing</span>
+                                    <span class="label label-danger">{{stateFormat}}</span>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
-                                        <i class="material-icons">mode_edit</i>
-                                    </button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-xs" aria-label="Left Align">
-                                        <i class="material-icons">delete</i>
-                                    </button>
-                                </td>                                   
-                                <td>
-                                    <button type="button" class="btn btn-success btn-xs" aria-label="Left Align">
-                                        <i class="material-icons">info</i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td class="hightlight">OR0001</td>
-                                <td>Helena</td>
-                                <td>44 ABZ Street, GTX City</td>
-                                <td>0120xxxxxxx</td>
-                                <td>11/4/2018</td>
-                                <td>$899.00</td>
-                                <td>
-                                    <span class="label label-danger">Cancel</span>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
-                                        <i class="material-icons">mode_edit</i>
-                                    </button>
-                                    <td>
-                                        <button type="button" class="btn btn-danger btn-xs" aria-label="Left Align">
-                                            <i class="material-icons">delete</i>
+                                    <a href="/orders_management/order_detail/{{orderId}}">
+                                        <button type="button" class="btn btn-success btn-xs" aria-label="Left Align" title="View Detail">
+                                            <i class="material-icons">visibility</i>
                                         </button>
-                                        <td>
-                                            <button type="button" class="btn btn-success btn-xs" aria-label="Left Align">
-                                                <i class="material-icons">info</i>
-                                            </button>
-                                        </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td class="hightlight">OR0001</td>
-                                <td>Hewitt</td>
-                                <td>44 ABZ Street, GTX City</td>
-                                <td>0120xxxxxxx</td>
-                                <td>11/4/2018</td>
-                                <td>$899.00</td>
-                                <td>
-                                    <span class="label label-success">Completed</span>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
-                                        <i class="material-icons">mode_edit</i>
-                                    </button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-xs" aria-label="Left Align">
-                                        <i class="material-icons">delete</i>
-                                    </button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-success btn-xs" aria-label="Left Align">
-                                        <i class="material-icons">info</i>
-                                    </button>
+                                    </a>
                                 </td>
                             </tr>
+                            {{/each}}
                         </tbody>
                     </table>
                 </div>
+
+                 <div class="row">
+                        <div class="col-md-12">
+                            <div class="product-pagination text-center">
+                                <nav>
+                                    <ul class="pagination">
+                                        <li>
+                                            <a href="orders_management?page=1" aria-label="Previous">
+                                                <i class="material-icons">chevron_left</i>
+                                            </a>
+                                        </li>
+                                        {{#each page_numbers}} {{#if isCurPage}}
+                                        <li class="active">
+                                            <a href="javascript:;">{{value}}</a>
+                                        </li>
+                                        {{else}}
+                                        <li>
+                                            <a href="orders_management?page={{value}}">{{value}}</a>
+                                        </li>
+                                        {{/if}} {{/each}}
+                                        <li>
+                                            <a href="orders_management?page={{nPages}}" aria-label="Next">
+                                                <i class="material-icons">chevron_right</i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
