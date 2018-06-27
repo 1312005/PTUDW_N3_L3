@@ -42,7 +42,7 @@
                                     <del>$800.00</del> --}}
                                 </div>
                                 <div class="product-inner-price">
-                                    <ins>Made by {{origin}}</ins>
+                                    <ins>Made by {{manufacturerName}}</ins>
                                 </div>
 
                                 <form action="" class="cart">
@@ -53,12 +53,13 @@
                                 </form>
 
                                 <div class="product-inner-category">
-                                    <p>Manufacturer:
-                                        <a href="">{{manufacturerName}}</a>. Tags:
-                                        <a href="">awesome</a>,
-                                        <a href="">best</a>,
-                                        <a href="">sale</a>,
-                                        <a href="">shoes</a>. </p>
+                                    <p>
+                                        Manufacturer:
+                                        <a href="/manufacturer/{{manufacturerName}}">{{manufacturerName}}.</a> 
+                                        <br/>
+                                        Category:
+                                        <a href="/category/{{categoryName}}">{{categoryName}}.</a> 
+                                    </p>
                                 </div>
                                 <div class="product-inner-price">
                                     <a>
@@ -70,9 +71,9 @@
                                         <li role="presentation" class="active">
                                             <a href="#home" aria-controls="home" role="tab" data-toggle="tab">Description</a>
                                         </li>
-                                        <li role="presentation">
+                                        {{!-- <li role="presentation">
                                             <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Reviews</a>
-                                        </li>
+                                        </li> --}}
                                     </ul>
                                     <div class="tab-content">
                                         <div role="tabpanel" class="tab-pane fade in active" id="home">
@@ -81,7 +82,7 @@
                                                 {{description}}
                                             </p>
                                         </div>
-                                        <div role="tabpanel" class="tab-pane fade" id="profile">
+                                        {{!-- <div role="tabpanel" class="tab-pane fade" id="profile">
                                             <h2>Reviews</h2>
                                             <div class="submit-review">
                                                 <p>
@@ -111,7 +112,7 @@
                                                     <input type="submit" value="Submit">
                                                 </p>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
 

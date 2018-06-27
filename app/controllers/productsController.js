@@ -53,7 +53,7 @@ router.get('/shop', (req, res) => {
 router.get('/single-product/:id', (req, res) => {
 	let id = req.params.id;
 	productModel.single(id).then((rows) => {
-		console.log(rows);
+		// console.log(rows);
 		let lProducts = rows;
 		let lImages = lProducts.ImagesPath.split(';');
 		let images = [{
@@ -85,6 +85,7 @@ router.get('/single-product/:id', (req, res) => {
 			for(let i = 0; i<proCategory.length;i++){
 				proCategory[i]['imageAvatar'] = proCategory[i].ImagesPath.split(';')[0];
 			}
+			console.log(lProducts);
 			let vm = {
 				product: lProducts,
 				proManufacturer: proManufacturer,
@@ -107,14 +108,14 @@ router.get('/search', (req, res) => {
 
 	let search;
 	let countResult;
-	if (optionPrice === "LowerThan100") {
+	if (optionPrice === "LowerThan5Million") {
 		minPrice = config.MIN_PRICE;
-		maxPrice = 5000000;
-	} else if (optionPrice === "From100To500") {
+		maxPrice = 5000000-1;
+	} else if (optionPrice === "From5MillionTo10Million") {
 		minPrice = 5000000;
 		maxPrice = 10000000;
-	} else if (optionPrice === "HigherThan500") {
-		minPrice = 10000000;
+	} else if (optionPrice === "HigherThan10Million") {
+		minPrice = 10000001;
 		maxPrice = config.MAX_PRICE;
 	} else {
 		minPrice = 0;

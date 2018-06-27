@@ -102,17 +102,21 @@
             inputType: 'select',
             inputOptions: [
                 {
-                    text: 'Waiting',
+                    text: 'Unconfirmed',
                     value: '-1',
                 },
                 {
-                    text: 'Processing',
+                    text: 'Confirmed',
                     value: '0',
                 },
                 {
-                    text: 'Done',
+                    text: 'Delivering',
                     value: '1',
                 },
+                {
+                    text: 'Completed',
+                    value: '2',
+                }
             ],
             callback: function (result) {
                 console.log(result);
