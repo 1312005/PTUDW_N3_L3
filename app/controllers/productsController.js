@@ -46,7 +46,8 @@ router.get('/shop', (req, res) => {
 	let offset = (page - 1) * config.PRODUCTS_PER_PAGE;
 	let p1 = productModel.loadAllProduct(offset);
 	let p2 = productModel.countProduct();
-	renderShop(p1, p2, page, pageName, paramName, res);
+	renderShop(p1,p2,page,pageName,paramName,res);
+
 });
 
 router.get('/single-product/:id', (req, res) => {
@@ -214,67 +215,32 @@ router.get('/addproduct', ensureHasRole, (req, res) => {
 	let categories;
 	let manufacturers;
 	categoryModel.loadAllCategory()
-		.then(categoriesResult => {
-			categories = categoriesResult;
-			manufacturerModel.loadAllManufacturer()
-				.then(manufacturerResult => {
-					manufacturers = manufacturerResult;
-					console.log('manufacturers LIST: ');
-					console.log(manufacturers);
-					console.log('categories LIST: ');
-					console.log(categories);
-					return res.render('admin/addproduct', {
-						layout: 'admin',
-						manufacturers: manufacturers,
-						categories: categories
-					});
-				})
-				.catch(err => {
-					console.log(err);
-					req.flash('error_msg', 'cannot load manufacturers infos');
-					return res.render('admin/addproduct', {
-						layout: 'admin'
-					});
-				});
-		})
-		.catch(err => {
-			console.log(err);
-			req.flash('error_msg', 'cannot load categories infos');
-			res.render('admin/addproduct', {
-				layout: 'admin'
-			});
-		});
-
-});
-
-// ,[
-//         check('productname', 'productname is require').isLength({ min: 1 }),
-//         check('description', 'description is require').isLength({ min: 100}),
-//         check('price', 'price is require and is a number')
-//         .matches('\\d+'),
-//         check('qty', 'qty is require and is a number')
-//         .matches('\\d+'),
-//         check('manufacturerId', 'manufacturerId is require').exists(),
-//         check('categoryId', 'categoryId is require').exists(),
-//         check('images', 'Images is require').exists()
-//     ],[
-//         check('productname', 'productname is require').isLength({ min: 1 }),
-//         check('description', 'description is require').isLength({ min: 100}),
-//         check('price', 'price is require and is a number')
-//         .matches('\\d+'),
-//         check('qty', 'qty is require and is a number')
-//         .matches('\\d+'),
-//         check('manufacturerId', 'manufacturerId is require').exists(),
-//         check('categoryId', 'categoryId is require').exists(),
-//         check('images', 'Images is require').exists()
-//     ]
-
+	 .then(categoriesResult => {
+	 	categories = categoriesResult;
+	 	manufacturerModel.loadAllManufacturer()
+	 	 .then(manufacturerResult => {
+	 	 	manufacturers = manufacturerResult;
+	 	 	console.log('manufacturers LIST: ');
+	 	 	console.log(manufacturers);
+	 	 	console.log('categories LIST: ');
+	 	 	console.log(categories);
+	 	 	return res.render('admin/addproduct', { layout: 'admin',manufacturers: manufacturers,categories: categories });
+	 	 })
+	 	 .catch(err => {
+	 	 	console.log(err);
+	 	 	req.flash('error_msg', 'cannot load manufacturers infos');
+	 	 	return res.render('admin/addproduct', { layout: 'admin'});
+	 	 });
+	 })
+	 .catch(err => {
+	 	console.log(err);
+	 	req.flash('error_msg', 'cannot load categories infos');
+	 	res.render('admin/addproduct', { layout: 'admin'});
+	 });
+	
+});        
+               
 router.post('/addproduct',(req, res) => {
-		// const errors = validationResult(req);
-  //         if (!errors.isEmpty()) {
-  //         	console.log(errors.mapped());
-  //           return res.render('admin/addproduct', {layout: 'admin', errors: errors.mapped()});
-  //         }
   			let errors = [];
           	let product = {};
           	let form = new multiparty.Form();
@@ -312,12 +278,12 @@ router.post('/addproduct',(req, res) => {
 		    console.log('PRODUCT PREparE TO INSET');
 		    console.log(product);
 		    productModel.add(product.productname,product.categoryId, product.manufacturerId,product.qty,product.Images,product.price,product.description)
-		     .then( anew => {
+		     .then( (anew) => {
 		     	console.log("INSERTED NEW ITEMS");
 		     	req.flash('success_msg', 'added new arrival product');
 		     	return res.render('admin/addproduct', { layout: 'admin' });
 		     })
-		     .catch(err => {
+		     .catch((err) => {
 		     	console.log(err);
 		     	req.flash('error_msg', 'something goes wrong while trying to process');
 		     	return res.render('admin/addproduct', { layout: 'admin' });
@@ -349,5 +315,11 @@ router.get('/category/:name', (req, res) => {
 		renderShop(lPro, nPro, page, pageName, categoryName, res);
 	});
 });
+
+
+// router.get('/listproduct', (req, res) => {
+// 	let page = req.query.page || 1;
+// 	let numberPages = productModel.
+// });
 
 module.exports = router;

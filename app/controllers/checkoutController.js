@@ -108,7 +108,8 @@ router.post('/checkout',[
                   Street: req.body.lingvingAddress
                 }
                 let count = 0;
-
+                let nproduct = Object.keys( cart.items ).length;
+                 console.log('NPRODUCT: ' + nproduct);
                 deliverAddressModel.add(addr)
                  .then(deliverAddr => {
                   for (var id in cart.items)
@@ -118,25 +119,28 @@ router.post('/checkout',[
                     detailModel.add(orderNumber,cart.items[id].item.id, cart.items[id].item.price,cart.items[id].price, null, cart.items[id].qty)
                      .then(detail => {
                       count++;
-                      if (count >=cart.items.length) {
+                      console.log('COUNT: ' + count);
+                      if (count >= nproduct) {
                         req.flash('success_msg', 'pay out completed, you will receive the order ASAP');
-                       return res.render('checkout');
+                        console.log('COUNT: ' + count);
+
+                       return res.redirect('/checkout');
                       }
                      })
                       .catch(err => {
                       console.log(err);
                       req.flash('error_msg', 'pay out failed while trying to add orderDetails');
-                       return res.render('checkout');
+                       return res.redirect('/checkout');
                      } );
                   }
                   // req.flash('success_msg', 'pay out completed, you will receive the order ASAP');
-                  //     return res.render('checkout');
+                  //     return res.redirect('/checkout');
                  });
              })
              .catch(err => {
               console.log(err);
               req.flash('error_msg', 'pay out failed');
-              return res.render('checkout');
+              return res.redirect('/checkout');
              });
           }      
 });

@@ -18,6 +18,9 @@
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- JQUERY DATATABLE CSS-->
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/owl.carousel.css">
@@ -26,9 +29,6 @@
     <link rel="stylesheet" href="css/mystyle.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 
-    <!-- Slick css-->
-    <link rel="stylesheet" href="slick/slick.css">
-    <link rel="stylesheet" href="slick/slick-theme.css">  
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -52,7 +52,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="profile/{{{user.id}}}">Profile</a></li>
                                     <li>
-                                        <a href="bought_histories">Histories</a>
+                                        <a href="/bought_histories">Histories</a>
                                     </li>
                                      <li>
                                         <a href="logout">Logout</a>
@@ -229,6 +229,22 @@
                         <li id = "menu-checkout"><a href="checkout" >Checkout</a></li>
                         <li id = "menu-aboutus"><a href="aboutus">About us</a></li>
                         <li id = "menu-contactus"><a href="contactus">Contact</a></li>
+                        <li class="dropdown">
+                            <button class="dropbtn">Producer</button>
+                            <div class="dropdown-content">
+                                <a href="#">Samsung</a>
+                                <a href="#">Apple</a>
+                                <a href="#">Nokia</a>
+                            </div>
+                        </li>
+                        <li class="dropdown">
+                            <button class="dropbtn">Produce Type</button>
+                            <div class="dropdown-content">
+                                <a href="#">Samsung</a>
+                                <a href="#">Apple</a>
+                                <a href="#">Nokia</a>
+                            </div>
+                        </li>
                     </ul>
                 </div>  
             </div>

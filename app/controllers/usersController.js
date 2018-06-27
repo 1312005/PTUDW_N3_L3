@@ -254,43 +254,20 @@ router.post('/profile', (req, res) => {
 
 
 // change password
-router.post('/changepassword/:id', [
-  check('old_password', 'old_password is require').isLength({
-    min: 1
-  }),
-  check('new_password', 'password is require')
-  .isLength({
-    min: 5
-  })
-  .matches(/\d/),
-  check('confirm_new_password', 'password confirm is require').exists(),
-  check('confirm_new_password', 'passwords must be at least 5 chars long and contain one number')
-  .exists()
-  .custom((value, {
-    req
-  }) => value === req.body.new_password)
-], (req, res) => {
-  const errors = validationResult(req);
-  let id = parseInt(req.params.id);
-  //{errors: errors.mapped()}
-  if (!errors.isEmpty()) {
-    console.log(errors.mapped());
-    req.flash('error_msg', 'Please filled all require fields');
-    res.redirect(`../profile/${req.user.id}`);
-    console.log("VALIDATE FAILED");
-    console.log(errors);
-  } else {
-    console.log('ID: ' + id);
-    console.log("REQ.USER");
-    console.log(req.user);
-    if (req.user.id != id) {
-      req.flash('error_msg', 'Something wrong, you are unable to change your password');
-      return res.redirect(`../profile/${req.user.id}`);
-    } else {
-      models.findById(id)
-        .then(user => {
-          if (!user) {
-            req.flash('error_msg', 'the user doesnt exist, you are unable to change your password');
+router.post('/changepassword/:id',[
+        check('old_password', 'old_password is require').exists(),
+        check('new_password', 'password is require'),
+        check('confirm_new_password', 'password confirm is require').exists(),
+        check('confirm_new_password', 'passwords must be at least 5 chars long and contain one number')
+        .exists()
+        .custom((value, { req }) => value === req.body.new_password)
+        ], (req, res) => {
+          const errors = validationResult(req);
+          let id = parseInt(req.params.id);
+          //{errors: errors.mapped()}
+          if (!errors.isEmpty()) {
+            console.log(errors.mapped());
+            req.flash('error_msg', 'Some fields are invalid');
             res.redirect(`../profile/${req.user.id}`);
           }
           let salt = bcrypt.genSaltSync(10);
@@ -320,15 +297,6 @@ router.post('/changepassword/:id', [
                 })
             }
           });
-        })
-        .catch(err => {
-          console.log('OUTER ERR');
-          console.log(err);
-          req.flash('error_msg', 'Catch outer exception, you are unable to change your password');
-          res.redirect(`../profile/${req.user.id}`);
-        })
-    }
-  }
 
 });
 

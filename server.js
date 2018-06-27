@@ -27,6 +27,9 @@ const cartController = require('./app/controllers/cartController');
 const cityController = require('./app/controllers/citiesController');
 const checkoutController = require('./app/controllers/checkoutController');
 
+//const orderController = require('./app/controllers/OrderController');
+
+
 /* Admin controller */
 const orderController = require('./app/controllers/adminController/orderController');
 const manufacturerController = require('./app/controllers/adminController/manufacturerController');
@@ -95,6 +98,7 @@ app.use(productController);
 app.use(cartController);
 app.use(cityController);
 app.use(checkoutController);
+app.use(orderController);
 
 app.use(orderController);
 app.use(manufacturerController);
@@ -136,5 +140,9 @@ app.use(categoryController);
 //             error: {}
 //         });
 //     });
+
+// app.get('/listproduct', (req, res) => {
+//   res.render('admin/listproduct', { layout: 'admin' });
+// })
 
 app.listen(port, () => console.log("Running at Port " + port));
