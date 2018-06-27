@@ -120,19 +120,25 @@
                 
                 <div class="col-sm-6">
                     <div class="shopping-item">
-                        <a href="/shopping-cart">Cart - <span class="cart-amunt">
-                        {{#if cart}}
-                            {{{cart.totalPrice}}}
-                            {{else}}
-                            0
-                        {{/if}}
-                </span> <i class="fa fa-shopping-cart"></i> <span class="product-count">
-                        {{#if cart}}
-                            {{{cart.items.length}}}
-                            {{else}}
-                            0
-                        {{/if}}
-                    </span></a>
+                        <a href="/shopping-cart">Cart - 
+                            <span id = "cart-price" class="cart-amunt">
+                                {{#with layoutVM.cartInfo}}
+                                {{#if cart}}
+                                    {{moneyFormat totalPrice}} vnđ
+                                {{else}}
+                                    0
+                                {{/if}}
+                            </span> 
+                            <i class="fa fa-shopping-cart"></i> 
+                            <span id = "cart-qty" class="product-count">
+                                {{#if cart}}
+                                    {{totalQty}}
+                                    {{else}}
+                                    0
+                                {{/if}}
+                                {{/with}}
+                            </span>
+                        </a>
                     </div>
                 </div>
             </div>

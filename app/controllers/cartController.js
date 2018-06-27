@@ -9,7 +9,7 @@ router.get('/shopping-cart', (req, res) => {
 	let cart = new Cart(req.session.cart);
 	let products = cart.generateArray();
 	console.log(cart.items);
-	console.log(products);
+	// console.log(products);
 	res.render('shopping-cart', {products: products, totalPrice: cart.totalPrice});
 
 });
@@ -23,10 +23,10 @@ router.post('/addcart/:id', (req, res) => {
 		req.session.cart = cart;
 		//req.flash('success_msg', 'added to your art');
 		console.log('REQUEST ADD TO CART PRODUCT WITH ID: ' + productId);
-		console.log(product);
-		console.log(req.session.cart);
+		console.log("Cart nè");
+		console.log(req.session);
 		//res.redirect('/');
-		res.status(200).json({success: true, msg: 'added to cart'})
+		res.status(200).json({success: true, msg: 'added to cart',cart:req.session.cart})
 	})
 	.catch(err => {
 		//res.json({success: false, msg: 'failed to cart'})

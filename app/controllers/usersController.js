@@ -178,7 +178,7 @@ router.get('/login', (req, res) => {
 // Login Process
 router.post('/login', function (req, res, next) {
   passport.authenticate('local', {
-    successRedirect: '/shop',
+    successRedirect: '/',
     failureRedirect: '/login',
     failureFlash: true,
     //session: false
@@ -390,11 +390,6 @@ router.get('/dashboard', ensureHasRole, (req, res) => {
 // });
 router.get('/products_management', ensureHasRole, (req, res) => {
   res.render('admin/products_management', {
-    layout: 'admin'
-  });
-});
-router.get('/makers_management', ensureHasRole, (req, res) => {
-  res.render('admin/makers_management', {
     layout: 'admin'
   });
 });

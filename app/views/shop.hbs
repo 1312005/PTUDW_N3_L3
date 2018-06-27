@@ -101,6 +101,9 @@ $(function() {
             method: 'POST',
             success: (data) =>  {
                 console.log(data);
+                let cart = data.cart;
+                $('#cart-price').text(cart.totalPrice.toLocaleString('en-US')+ ' vnđ');
+                $('#cart-qty').text(cart.totalQty);
                 var id = intervalTrigger('added to cart');
                 setTimeout(function() {
                     window.clearInterval(id);
