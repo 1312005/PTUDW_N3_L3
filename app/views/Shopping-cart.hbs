@@ -20,7 +20,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{# each products}}
+                                    {{#each products}}
                                     <tr class="cart_item" data-row="{{item.id}}">
                                         <td class="product-remove">
                                             <a  href="javascript:void(0);" class="btn-remove" data-product_Id="{{item.id}}" title="Remove this item"><span class="glyphicon glyphicon-trash"></span></a>
@@ -28,7 +28,7 @@
 
                                         <td class="product-thumbnail">
                                             <a href="single-product.html">
-                                                <img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="{{item.ImagesPath}}">
+                                                <img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="uploads/{{item.ImagesPath}}">
                                             </a>
                                         </td>
 
@@ -37,7 +37,7 @@
                                         </td>
 
                                         <td class="product-price">
-                                            <span class="amount">{{item.price}} VND</span>
+                                            <span class="amount">{{moneyFormat item.price}} VND</span>
                                         </td>
 
                                         <td class="product-quantity">
@@ -49,7 +49,7 @@
                                         </td>
 
                                         <td class="product-subtotal">
-                                            <span class="amount">{{price}}</span>
+                                            <span class="amount">{{moneyFormat price}} VND</span>
                                         </td>
                                     </tr>
                                     {{/each}}
@@ -87,7 +87,7 @@
                                             <th>Order Total</th>
                                             <td>
                                                 <strong>
-                                                    <span class="amount">{{{totalPrice}}}</span>
+                                                    <span class="amount">{{{moneyFormat totalPrice}}} VNĐ</span>
                                                 </strong>
                                             </td>
                                         </tr>

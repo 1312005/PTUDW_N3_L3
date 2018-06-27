@@ -192,6 +192,10 @@ router.get('/search', (req, res) => {
 				});
 			}
 
+			for(let i = 0; i<lProducts.length;i++){
+				lProducts[i]['imageAvatar'] = lProducts[i].ImagesPath.split(';')[0];
+			}
+
 			let query = {
 				key: keyWord,
 				manufacturer: manufacturerName,

@@ -1,8 +1,6 @@
 const router = require('express').Router();
 const productModel = require('../models/productModel');
 router.get('/', (req, res) => {
-	console.log('session');
-	console.log(req.session.cart.totalPrice);
 	let query = req.query.pageType;
 	let type;
 	if(!query || query === 'topview'){
