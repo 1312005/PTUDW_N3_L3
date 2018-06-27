@@ -9,15 +9,12 @@ const dbDAO = require('../dbUtil/baseDAO');
 
 exports.single = (id) =>{
     return new Promise((resolve, reject) => {
-        let sql = `select * from products pr, manufacturers mf where id = ${id} and pr.manufacturerId = mf.manufacturerId`;
-        console.log(sql);
+        let sql = `select * from products pr, manufacturers mf, categories ct where id = ${id} and pr.manufacturerId = mf.manufacturerId and pr.categoryId = ct.categoryId`;
         dbDAO.load(sql).then(rows => {
             if (rows.length === 0) {
                 resolve(null);
             } else {
                 resolve(rows[0]);
-                console.log("Data trả về: ");
-                console.log(rows);
             }
         }).catch(err => {
             reject(err);

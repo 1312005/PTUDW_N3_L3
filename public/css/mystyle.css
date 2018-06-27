@@ -182,6 +182,14 @@
         bottom: 35%;
     }
 
+    .single-product:hover .mini-product-hover a.add-to-cart-link {
+        top: 30%;
+    }
+    
+    .single-product:hover .mini-product-hover a.view-details-link {
+        bottom: 30%;
+    }
+
     .product-hover a{
         font-size: 15px;
     }

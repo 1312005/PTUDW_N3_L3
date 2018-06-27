@@ -7,11 +7,6 @@ $(document).ready(()=> {
         $("#menu-shop").addClass('active');
     }
 
-    else if(isActive.search('SINGLE PRODUCT') != -1){
-        
-        $("#menu-single-product").addClass('active');
-    }
-
     else if(isActive.search('CART') != -1){
         
         $("#menu-cart").addClass('active');

@@ -23,6 +23,15 @@ router.get('/', (req, res) => {
 		for(let i = 0; i<top10pro.length;i++){
 			top10pro[i]['imageAvatar'] = top10pro[i].ImagesPath.split(';')[0];
 		}
+		for(let i = 0; i<top3New.length;i++){
+			top3New[i]['imageAvatar'] = top3New[i].ImagesPath.split(';')[0];
+		}
+		for(let i = 0; i<top3View.length;i++){
+			top3View[i]['imageAvatar'] = top3View[i].ImagesPath.split(';')[0];
+		}
+		for(let i = 0; i<top3Seller.length;i++){
+			top3Seller[i]['imageAvatar'] = top3Seller[i].ImagesPath.split(';')[0];
+		}
 		let vm = {
 			products: top10pro,
 			top3View: top3View,

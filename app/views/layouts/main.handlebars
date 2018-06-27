@@ -18,6 +18,9 @@
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- JQUERY DATATABLE CSS-->
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/owl.carousel.css">
@@ -26,9 +29,6 @@
     <link rel="stylesheet" href="css/mystyle.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 
-    <!-- Slick css-->
-    <link rel="stylesheet" href="slick/slick.css">
-    <link rel="stylesheet" href="slick/slick-theme.css">  
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -52,7 +52,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="profile/{{{user.id}}}">Profile</a></li>
                                     <li>
-                                        <a href="bought_histories">Histories</a>
+                                        <a href="/bought_histories">Histories</a>
                                     </li>
                                      <li>
                                         <a href="logout">Logout</a>
@@ -173,21 +173,21 @@
                                                 </label>
                                             </div>
                                             <div class="radio">
-                                                <input type="radio" name="optionsPrice" id="optionsRadios1" value="LowerThan100">
+                                                <input type="radio" name="optionsPrice" id="optionsRadios1" value="LowerThan5Million">
                                                 <label for="optionsRadios1">
-                                                    Lower than 100USD
+                                                    Lower than 5,000,000 vnđ
                                                 </label>
                                             </div>
                                             <div class="radio">
-                                                <input type="radio" name="optionsPrice" id="optionsRadios2" value="From100To500">
+                                                <input type="radio" name="optionsPrice" id="optionsRadios2" value="From5MillionTo10Million">
                                                 <label for="optionsRadios2">
-                                                    From 100USD to 500USD
+                                                    From 5,000,000 vnđ to 10,000,000 vnđ
                                                 </label>
                                             </div>
                                             <div class="radio">
-                                                <input type="radio" name="optionsPrice" id="optionsRadios3" value="HigherThan500">
+                                                <input type="radio" name="optionsPrice" id="optionsRadios3" value="HigherThan10Million">
                                                 <label for="optionsRadios3">
-                                                    Higher than 500USD
+                                                    Higher than 10,000,000 vnđ
                                                 </label>
                                             </div>
                                         </form>
@@ -219,7 +219,6 @@
                     <ul class="nav navbar-nav">
                         <li class="active" id = "menu-home"><a href="/">Home</a></li>
                         <li id = "menu-shop"><a href="shop" >Shop page</a></li>
-                        <li id = "menu-single-product"><a href="single-product" >Single product</a></li>
                         <li id = "menu-cart"><a href="cart">Cart</a></li>
                         <li id = "menu-checkout"><a href="checkout" >Checkout</a></li>
                         <li id = "menu-aboutus"><a href="aboutus">About us</a></li>
