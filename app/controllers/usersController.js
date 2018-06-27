@@ -383,11 +383,11 @@ router.get('/dashboard', ensureHasRole, (req, res) => {
   });
 });
 
-router.get('/categories_management', ensureHasRole, (req, res) => {
-  res.render('admin/categories_management', {
-    layout: 'admin'
-  });
-});
+// router.get('/categories_management', ensureHasRole, (req, res) => {
+//   res.render('admin/categories_management', {
+//     layout: 'admin'
+//   });
+// });
 router.get('/products_management', ensureHasRole, (req, res) => {
   res.render('admin/products_management', {
     layout: 'admin'

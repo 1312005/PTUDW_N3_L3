@@ -1,4 +1,4 @@
-﻿{{#section 'BigTitle'}} Categories Management {{/section}}
+﻿{{#section 'BigTitle'}} Manufacturer Management {{/section}}
 
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -16,24 +16,24 @@
                         <a href="#home" data-toggle="tab">ALL MANUFACTURER</a>
                     </li>
                     <li role="presentation">
-                        <a href="#profile" data-toggle="tab">ADD MANUFACTURER</a>
+                        <a href="#add" data-toggle="tab">ADD MANUFACTURER</a>
                     </li>
                 </ul>
 
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane fade in active" id="home">
-                        <div class="table-responsive">
+                        <div class="table-responsive text-center">
                             <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                 <thead>
                                     <tr>
-                                        <th>Manufacturer ID</th>
-                                        <th>Manufacturer Name</th>
-                                        <th>Manufacturer Address</th>
-                                        <th>Manufacturer Email</th>
-                                        <th>Manufacturer Phone</th>
-                                        <th>Manufacturer Description</th>
-                                        <th></th>
+                                        <th class="text-center">Manufacturer ID</th>
+                                        <th class="text-center">Manufacturer Name</th>
+                                        <th class="text-center">Manufacturer Address</th>
+                                        <th class="text-center">Manufacturer Email</th>
+                                        <th class="text-center">Manufacturer Phone</th>
+                                        <th class="text-center">Manufacturer Description</th>
+                                        <th class="text-center"></th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -58,7 +58,7 @@
                             </table>
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane fade" id="profile">
+                    <div role="tabpanel" class="tab-pane fade" id="add">
                         <form id="form_validation_add" method="POST" action="/add_manufacturer">
                             <div class="form-group form-float">
                                 <div class="form-line">
@@ -152,6 +152,9 @@
 <script src="admin_plugins/jquery-validation/jquery.validate.js"></script> 
 <script>
     $("#form-edit").hide();
+     $("[href = '#add']").on('click',function(){
+        $("#form-edit").hide();
+    })
     function showForm(id,name,address,email,phone,description){
         $("#form-edit").show();
         $("#manu-id").val(id);
@@ -160,9 +163,10 @@
         $("#manu-email").val(email);
         $("#manu-phone").val(phone);
         $("#manu-des").val(description);
-        $(".form-line").addClass('focused');
+        $("#form_validation_edit .form-line").addClass('focused');
         $("#btn-cancel").on('click',function(){
             $("#form-edit").hide();
+            $(".form-line").removeClass('focused');
         })
     }
 </script>

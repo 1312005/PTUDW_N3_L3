@@ -23,11 +23,11 @@ router.get('/manufacturers_management',(req,res)=>{
 });
 
 router.post('/add_manufacturer',(req,res)=>{
-    let name = req.body.name;
-    let address = req.body.address;
-    let email = req.body.email;
-    let phone = req.body.phone;
-    let description = req.body.description;
+    let name = req.body.name.trim();
+    let address = req.body.address.trim();
+    let email = req.body.email.trim();
+    let phone = req.body.phone.trim();
+    let description = req.body.description.trim();
     manufacturerModel.addManufacturer(name,address,email,phone,description).then(value=>{
         res.redirect('/manufacturers_management');
     });
@@ -35,10 +35,10 @@ router.post('/add_manufacturer',(req,res)=>{
 
 router.post('/edit_manufacturer',(req,res)=>{
     let id = req.body.id;
-    let name = req.body.name;
-    let address = req.body.address;
-    let email = req.body.email;
-    let phone = req.body.phone;
+    let name = req.body.name.trim();
+    let address = req.body.address.trim();
+    let email = req.body.email.trim();
+    let phone = req.body.phone.trim();
     let description = req.body.description.trim();
     manufacturerModel.updateManufacturer(id,name,address,email,phone,description).then(value=>{
         res.redirect('/manufacturers_management');
