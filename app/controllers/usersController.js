@@ -2,6 +2,9 @@ const models = require('../models/userModel');
 const cityModel = require('../models/cityModel');
 const provinceModel = require('../models/provinceModel');
 const orderModel = require('../models/OrderModel');
+const memberModel = require('../models/memberModel');
+const orderDetailModel = require('../models/orderDetailModel');
+const deliveryAddressModel = require('../models/deliveryAddressModel');
 const router = require('express').Router();
 const {
   check,
@@ -363,30 +366,5 @@ router.get('/makers_management', ensureHasRole, (req, res) => {
     layout: 'admin'
   });
 });
-router.get('/orders_management', ensureHasRole, (req, res) => {
-  let page = req.params.page || 1;
-  let offset = (page-1)*config.ORDER_PER_PAGE;
-  let lOrder = orderModel.loadAllOrders(offset);
-  let nOrder = orderModel.countOrders();
-  Promise.all([lOrder,nOrder]).then(([lOrder,nOrder])=>{
-    let totalOrder = nOrder[0].total;
-		let numberPages = Math.ceil(totalOrder / config.ORDER_PER_PAGE);
-		let numbers = [];
-		for (let i = 1; i <= numberPages; i++) {
-			numbers.push({
-				value: i,
-				isCurPage: i === +page
-			});
-		}
 
-		let vm = {
-      layout: 'admin',
-			lOrder: lOrder,
-			noOrder: lOrder.length === 0,
-			page_numbers: numbers,
-			nPages: numberPages,
-		};
-		res.render('admin/orders_management', vm);
-  });  
-});
 module.exports = router;

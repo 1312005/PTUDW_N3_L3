@@ -821,7 +821,20 @@ button[type=submit]:hover {
     margin-bottom: 30px;
     overflow: hidden;
 }
-
+.thubmnail-recent .changepassword{
+    background-color: #17a78b;
+    border-radius: 0px;
+    border-color: #17a78b;
+    padding: 11px 20px;
+    font-size: 16px;
+}
+.thubmnail-recent .changeprofile{
+    background-color: #17a78b;
+    border-color: #17a78b;
+    border-radius: 0px;
+    padding: 11px 20px;
+    font-size: 16px;
+}
 .recent-thumb {
     float: left;
     height: auto;
@@ -837,7 +850,9 @@ button[type=submit]:hover {
 .thubmnail-recent>h2 a {
     color: #222;
 }
-
+.woocommerce-billing-fields h3{
+    margin-top: 30px;
+}
 .product-sidebar-price>ins {
     color: #1abc9c;
     font-weight: 700;
