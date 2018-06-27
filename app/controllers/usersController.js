@@ -98,8 +98,12 @@ router.post('/signup', [
   // Finds the validation errors in this request and wraps them in an object with handy functions
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    res.render('signup', {
-      errors: errors.mapped()
+    provinceModel.fetchAll().then(provinces => {
+      res.render('signup', {
+        provinces: provinces,
+        errors: errors.mapped()
+      })
+      console.log(provinces);
     });
     console.log("VALIDATE FAILED");
     console.log(errors);
@@ -126,6 +130,7 @@ router.post('/signup', [
           //return res.json({"responseCode" : 1,"responseDesc" : "Failed captcha verification"});
           const errors = ['Failed captcha verification'];
           console.log(errors);
+          
           res.render('signup', {
             errors: errors
           });
@@ -157,9 +162,13 @@ router.post('/signup', [
           }).catch(err => {
             const errors = ['ADD OPERATION FAILED FOR UNKNOWN REASONS'];
             console.log(err);
-            res.render('signup', {
-              errors: err
-            });
+            provinceModel.fetchAll().then(provinces => {
+              res.render('signup', {
+                provinces: provinces,
+                errors: err
+              })
+              console.log(provinces);
+            })
           });
         }
       });
@@ -345,11 +354,6 @@ router.post('/changeprofile/:id', [
   }
 });
 
-router.get('/dashboard', ensureHasRole, (req, res) => {
-  res.render('admin/dashboard', {
-    layout: 'admin'
-  });
-});
 
 // router.get('/categories_management', ensureHasRole, (req, res) => {
 //   res.render('admin/categories_management', {
