@@ -133,8 +133,8 @@ app.use(orderController);
 //         });
 //     });
 
-app.get('/listproduct', (req, res) => {
-  res.render('admin/listproduct', { layout: 'admin' });
-})
+// app.get('/listproduct', (req, res) => {
+//   res.render('admin/listproduct', { layout: 'admin' });
+// })
 
 app.listen(port, () => console.log("Running at Port " + port));

@@ -47,6 +47,7 @@ exports.getGenericDetail = (orderNumber) => {
       AND c.provinceId = p.provinceId;`;
 
    return baseDAO.load(sql);
+ }
 
 exports.loadAllOrders = (offset)=>{
     let sql = `select * from orders INNER JOIN members mb ON orders.memberId = mb.memberId INNER JOIN limit ${config.ORDER_PER_PAGE} offset ${offset}`;

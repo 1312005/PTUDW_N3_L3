@@ -277,12 +277,12 @@ router.post('/addproduct',(req, res) => {
 		    console.log('PRODUCT PREparE TO INSET');
 		    console.log(product);
 		    productModel.add(product.productname,product.categoryId, product.manufacturerId,product.qty,product.Images,product.price,product.description)
-		     .then( anew => {
+		     .then( (anew) => {
 		     	console.log("INSERTED NEW ITEMS");
 		     	req.flash('success_msg', 'added new arrival product');
 		     	return res.render('admin/addproduct', { layout: 'admin' });
 		     })
-		     .catch(err => {
+		     .catch((err) => {
 		     	console.log(err);
 		     	req.flash('error_msg', 'something goes wrong while trying to process');
 		     	return res.render('admin/addproduct', { layout: 'admin' });

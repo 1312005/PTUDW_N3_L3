@@ -294,15 +294,6 @@ router.post('/changepassword/:id',[
                 })
             }
           });
-        })
-        .catch(err => {
-          console.log('OUTER ERR');
-          console.log(err);
-          req.flash('error_msg', 'Catch outer exception, you are unable to change your password');
-          res.redirect(`../profile/${req.user.id}`);
-        })
-    }
-  }
 
 });
 
