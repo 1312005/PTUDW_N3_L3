@@ -35,13 +35,16 @@ router.get('/orders_management', (req, res) => {
 
       let state = lOrder[i].state;
       if(+state === -1){
-        lOrder[i]['stateFormat'] = 'Waiting';
+        lOrder[i]['stateFormat'] = 'Unconfirmed';
       }
       else if(+state === 0){
-        lOrder[i]['stateFormat'] = 'Processing';
+        lOrder[i]['stateFormat'] = 'Confirmed';
+      }
+      else if(+state === 1){
+        lOrder[i]['stateFormat'] = 'Delivering'
       }
       else{
-        lOrder[i]['stateFormat'] = 'Done';
+        lOrder[i]['stateFormat'] = 'Completed';
       }
     }
     let vm = {
@@ -76,16 +79,18 @@ router.get('/orders_management/order_detail/:id', (req, res) => {
       order['dateFormat'] = dateFormat;
       let state = order.state;
       if(+state === -1){
-        order['stateFormat'] = 'Waiting';
+        order['stateFormat'] = 'Unconfirmed';
       }
       else if(+state === 0){
-        order['stateFormat'] = 'Processing';
+        order['stateFormat'] = 'Confirmed';
+      }
+      else if(+state === 1){
+        order['stateFormat'] = 'Delivering'
       }
       else{
-        order['stateFormat'] = 'Done';
+        order['stateFormat'] = 'Completed';
       }
-      
-    
+
     let vm = {
       layout: 'admin',
       order: order,
@@ -103,13 +108,16 @@ router.post('/change_state_order',(req,res)=>{
   orderModel.changeStateOrder(orderId,state).then(value=>{
     let stateFormat;
     if(+state === -1){
-      stateFormat = 'Waiting';
+      stateFormat = 'Unconfirmed';
     }
     else if(+state === 0){
-      stateFormat = 'Processing';
+      stateFormat = 'Confirmed';
+    }
+    else if(+state === 1){
+      stateFormat = 'Delivering';
     }
     else{
-      stateFormat = 'Done';
+      stateFormat = 'Completed'
     }
     console.log(stateFormat);
     res.status(200).send(stateFormat);
