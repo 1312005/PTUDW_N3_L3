@@ -47,7 +47,8 @@
 		var isAlreadyStored = this.items[id];
 		if (!isAlreadyStored) 
 		{
-			isAlreadyStored = this.items[id] = {item: item, qty:0, price:0};
+			var image = item.ImagesPath.split(';')[0];
+			isAlreadyStored = this.items[id] = {item: item, img: image, qty:0, price:0};
 		}
 		isAlreadyStored.qty++;
 		isAlreadyStored.price = isAlreadyStored.item.price*isAlreadyStored.qty;

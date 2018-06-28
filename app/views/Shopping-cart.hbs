@@ -12,7 +12,7 @@
                                 <thead>
                                     <tr>
                                         <th class="product-remove">&nbsp;</th>
-                                        {{!-- <th class="product-thumbnail">&nbsp;</th> --}}
+                                        <th class="product-thumbnail">&nbsp;</th>
                                         <th class="product-name">Product</th>
                                         <th class="product-price">Price</th>
                                         <th class="product-quantity">Quantity</th>
@@ -26,11 +26,11 @@
                                             <a  href="javascript:void(0);" class="btn-remove" data-product_Id="{{item.id}}" title="Remove this item"><span class="glyphicon glyphicon-trash"></span></a>
                                         </td>
 
-                                        {{!-- <td class="product-thumbnail">
+                                        <td class="product-thumbnail">
                                             <a href="single-product.html">
-                                                <img width="145" height="145" alt="{{item.ImagesPath.split(';')[0]}}" class="shop_thumbnail" src="uploads/{{item.ImagesPath.split(';')[0]}}">
+                                                <img width="145" height="145" alt="{{{img}}}" class="shop_thumbnail" src="uploads/{{{img}}}">
                                             </a>
-                                        </td> --}}
+                                        </td>
 
                                         <td class="product-name">
                                             <a href="single-product/{{item.id}}">{{item.productName}}</a>
@@ -42,9 +42,9 @@
 
                                         <td class="product-quantity">
                                             <div class="quantity buttons_added">
-                                                <input type="button" class="minus" value="-">
-                                                <input type="number" size="4" class="input-text qty text" title="Qty" value="{{qty}}" min="0" step="1">
-                                                <input type="button" class="plus" value="+">
+                                                <input id="btnMinus" type="button" class="minus" value="-">
+                                                <input id="txtValue" type="number" size="4" class="input-text qty text" title="Qty" value="{{qty}}" min="0" max="100" step="1">
+                                                <input id= "btnPlus" type="button" class="plus" value="+">
                                             </div>
                                         </td>
 
@@ -100,6 +100,27 @@
 {{#section 'js'}}
 <script>
 $(function() {
+
+    // Decreas the quantity of product
+    $('#btnMinus').on('click', function(){
+        var value = $('#txtValue').val();
+        if(value >0) {
+            value--;
+        $('#txtValue').val(value);
+        }
+
+    });
+
+    // increase the quantity of product
+    $('#btnPlus').on('click', function(){
+        var value = $('#txtValue').val();
+        if(value < 100) {
+            value++;
+        $('#txtValue').val(value);
+        }
+
+    });
+
     $('#btncheckout').click(function() {
    document.location.href='/Checkout';
 });
