@@ -1,13 +1,13 @@
 {{#section 'bigTitle'}} BOUGHT DETAILS {{/section}}
 
 <div class="container">
-    <div class="row">
+    <div class="row" style="margin-top:40px;">
         <div class="col-md-12">
-            <h4>Order Number: {{{genericDetail.orderId}}} at {{{genericDetail.created_at}}}</h4>
-            <h2>Buyer Information</h2> 
+            <h3>Order Number: {{{genericDetail.orderId}}} <br/>at {{{genericDetail.dateFormat}}}</h3>
+            <h4>Buyer Information</h4> 
             <p><strong>Name<strong>: {{{genericDetail.firstName}}} {{{genericDetail.lastName}}}</p>
             <p>Address: {{{genericDetail.deliveryAddress}}}, {{{genericDetail.city}}}, {{{genericDetail.province}}}</p>
-            <p>State: {{{genericDetail.state}}}</p>
+            <p>State: {{{genericDetail.stateFormat}}}</p>
         </div>
     </div>
     <div class="row">

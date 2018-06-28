@@ -19,6 +19,12 @@ router.post('/addcart/:id', (req, res) => {
 	let cart = new Cart(req.session.cart? req.session.cart : {});
 	productModel.fetchSingle(productId)
 	.then(product => {
+		if (cart.checkAlreadyIn(product[0].id.toString()))
+		{
+			console.log("PRODUCT ALREADY IN CART")
+			req.session.cart = cart;
+			return res.status(200).json({success: false, msg: 'Alrealdy In cart',cart:req.session.cart})
+		}
 		cart.add(product[0], product[0].id.toString());
 		req.session.cart = cart;
 		//req.flash('success_msg', 'added to your art');

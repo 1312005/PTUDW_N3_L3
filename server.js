@@ -27,7 +27,7 @@ const cartController = require('./app/controllers/cartController');
 const cityController = require('./app/controllers/citiesController');
 const checkoutController = require('./app/controllers/checkoutController');
 
-//const orderController = require('./app/controllers/OrderController');
+const orderControllerForUser = require('./app/controllers/OrderController');
 
 
 /* Admin controller */
@@ -88,6 +88,7 @@ app.use(function (req, res, next) {
   res.locals.info_msg = req.flash('info_msg');
   res.locals.error = req.flash('error');
   res.locals.user = req.user || null;
+  res.locals.warning_msg = req.flash('encourage_msg');
   next();
 });
 
@@ -107,6 +108,7 @@ app.use(manufacturerController);
 app.use(categoryController);
 app.use(dashboardController);
 app.use(productAdminController);
+app.use(orderControllerForUser);
 // // catch 404 and forward to error handler
 //     // note this is after all good routes and is not an error handler
 //     // to get a 404, it has to fall through to this route - no error involved

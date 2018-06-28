@@ -3,6 +3,12 @@
 	this.totalQty = oldCart.totalQty || 0;
 	this.totalPrice = oldCart.totalPrice || 0;
 
+	this.checkAlreadyIn = function(id) {
+		var isAlreadyStored = this.items[id];
+		if (isAlreadyStored)
+			return true;
+		return false;
+	}
 	this.updateCart = function(ids, qty) {
 		console.log('In update cart of Cart Class');
 		console.log(ids);
@@ -12,7 +18,7 @@
 			console.log('Considering product ID: ' + ids[i]);
 			var isAlreadyStored = this.items[ids[i]];
 			var distance = 0;
-			if(isAlreadyStored !== undefined) 
+			if(isAlreadyStored !== undefined && isAlreadyStored != null) 
 			{
 				console.log('current product ID: ');
 				console.log(isAlreadyStored);
@@ -23,10 +29,15 @@
 				else
 				{
 					distance = qty[i]-isAlreadyStored.qty;
+					console.log("INCREASE/DECREASE amount");
+					console.log(distance);
 					isAlreadyStored.qty = parseInt(qty[i]);
 					isAlreadyStored.price = isAlreadyStored.item.price*isAlreadyStored.qty;
 					this.totalQty+= distance;
-					this.totalPrice+= (distance)*isAlreadyStored.price;
+					var differAmount = distance*isAlreadyStored.item.price;
+					console.log('TANG GIAM 1 LUONG');
+					console.log(differAmount);
+					this.totalPrice+= differAmount;
 				}
 			}
 		}

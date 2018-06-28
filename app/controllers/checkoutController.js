@@ -13,9 +13,17 @@ const { check, validationResult } = require('express-validator/check');
 const  deliverAddressModel = require('../models/deliveryAddressModel');
 
 router.get('/checkout', ensureAuthenticated, (req, res) => {
+  
+  let enable = '';
 	if (!req.session.cart)
-		return res.render('checkout', {products: null})
-	let cart = new Cart(req.session.cart);
+  { 
+    enable = 'disabled';
+		return res.render('checkout', {products: null, enable: enable})
+  }
+  let cart = new Cart(req.session.cart);
+  let nproduct = Object.keys( cart.items ).length;
+  if (nproduct === undefined || nproduct === 0)
+    enable = 'disabled';
 	let products = cart.generateArray();
 	console.log(cart.items);
 	console.log(products);
@@ -50,6 +58,7 @@ router.get('/checkout', ensureAuthenticated, (req, res) => {
           console.log('thisProvinceId: ' + thisProvinceId);
           console.log('All provinces: ');
            console.log(provincesz);
+
            return res.render('checkout', 
            					{
            					  userz: user, 
@@ -57,7 +66,8 @@ router.get('/checkout', ensureAuthenticated, (req, res) => {
 	                          thisProvinceId: thisProvinceId,
 	                          citiesOfThisProvince: citiesOfThisProvince,
 	                          products: products, 
-	                          totalPrice: cart.totalPrice
+	                          totalPrice: cart.totalPrice,
+                            enable: enable
                         });
         })
         .catch(error => {
@@ -86,14 +96,22 @@ router.post('/checkout',[
         .isLength({ min: 10 })
         .matches('\\d+'),
     ],(req, res) => {
+       
+      let enable = '';
+    
     	const errors = validationResult(req);
           if (!errors.isEmpty())
           {
-             return res.render('checkout', {errors: errors.mapped()});
+             enable = 'disabled';
+             return res.render('checkout', {errors: errors.mapped(), enable: enable});
           }
           else {
-            let orderNumber =  orderNumberGenerator();
             let cart = new Cart(req.session.cart);
+            let nproduct = Object.keys( cart.items ).length;
+             if (nproduct === undefined || nproduct === 0)
+             enable = 'disabled';
+
+            let orderNumber =  orderNumberGenerator();
             console.log('current cart');
             console.log(cart);
             console.log(orderNumber);
@@ -122,9 +140,11 @@ router.post('/checkout',[
                       console.log('COUNT: ' + count);
                       if (count >= nproduct) {
                         req.flash('success_msg', 'pay out completed, you will receive the order ASAP');
+                        req.flash('encourage_msg', 'Let continue shopping');
                         console.log('COUNT: ' + count);
+                        delete req.session['cart'];
 
-                       return res.redirect('/checkout');
+                       return res.redirect('/shop');
                       }
                      })
                       .catch(err => {

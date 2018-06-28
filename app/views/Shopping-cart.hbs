@@ -12,7 +12,7 @@
                                 <thead>
                                     <tr>
                                         <th class="product-remove">&nbsp;</th>
-                                        <th class="product-thumbnail">&nbsp;</th>
+                                        {{!-- <th class="product-thumbnail">&nbsp;</th> --}}
                                         <th class="product-name">Product</th>
                                         <th class="product-price">Price</th>
                                         <th class="product-quantity">Quantity</th>
@@ -26,11 +26,11 @@
                                             <a  href="javascript:void(0);" class="btn-remove" data-product_Id="{{item.id}}" title="Remove this item"><span class="glyphicon glyphicon-trash"></span></a>
                                         </td>
 
-                                        <td class="product-thumbnail">
+                                        {{!-- <td class="product-thumbnail">
                                             <a href="single-product.html">
-                                                <img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="uploads/{{item.imageAvatar}}">
+                                                <img width="145" height="145" alt="{{item.ImagesPath.split(';')[0]}}" class="shop_thumbnail" src="uploads/{{item.ImagesPath.split(';')[0]}}">
                                             </a>
-                                        </td>
+                                        </td> --}}
 
                                         <td class="product-name">
                                             <a href="single-product/{{item.id}}">{{item.productName}}</a>
@@ -55,13 +55,8 @@
                                     {{/each}}
                                     <tr>
                                         <td class="actions" colspan="6">
-                                            <div class="coupon">
-                                                <label for="coupon_code">Coupon:</label>
-                                                <input type="text" placeholder="Coupon code" value="" id="coupon_code" class="input-text" name="coupon_code">
-                                                <input type="submit" value="Apply Coupon" name="apply_coupon" class="button">
-                                            </div>
                                             <input id="btn-update" type="submit" value="Update Cart" name="update_cart" class="button">
-                                            <input type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward">
+                                            <input id="btncheckout" type="submit" value="Proceed to Checkout" name="proceed" class="checkout-button button alt wc-forward">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -71,13 +66,6 @@
 
                                 <table cellspacing="0">
                                     <tbody>
-                                        <tr class="cart-subtotal">
-                                            <th>Cart Subtotal</th>
-                                            <td>
-                                                <span class="amount">£15.00</span>
-                                            </td>
-                                        </tr>
-
                                         <tr class="shipping">
                                             <th>Shipping and Handling</th>
                                             <td>Free Shipping</td>
@@ -112,7 +100,9 @@
 {{#section 'js'}}
 <script>
 $(function() {
-
+    $('#btncheckout').click(function() {
+   document.location.href='/Checkout';
+});
     // handling for removal item
     $('.btn-remove').on('click', function() {
         var id =  $(this).attr("data-product_id");

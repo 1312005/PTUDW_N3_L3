@@ -26,11 +26,11 @@
             </thead>
             <tbody>
              {{#each orders}}
-              <tr>
+              <tr data-type = "{{state}}">
                 <td class="hightlight">{{{orderId}}}</td>
-                <td>{{{created_at}}}</td>
+                <td>{{{dateFormat}}}</td>
                 <td>{{{totalAmount}}}</td>
-                <td><span class="label label-info">{{{state}}}</span></td>
+                <td><span>{{{stateFormat}}}</span></td>
                 <td>
                         <a href='order/{{{orderId}}}' type='button' class='btn btn-xs btn-custom'`><i class="fa fa-info-circle" aria-hidden="true"></i> View</button> 
                 </td>
@@ -40,4 +40,42 @@
           </table>
         </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="product-pagination text-center">
+                    <nav>
+                        <ul class="pagination">
+                            <li>
+                                <a href="{{pageName}}/{{paramName}}?page=1" aria-label="Previous">
+                                    <span aria-hidden="true">«</span>
+                                </a>
+                            </li>
+                            {{#each page_numbers}} {{#if isCurPage}}
+                            <li class="active">
+                                <a href="javascript:;">{{value}}</a>
+                            </li>
+                            {{else}}
+                            <li>
+                                <a href="{{../pageName}}/{{../paramName}}?page={{value}}">{{value}}</a>
+                            </li>
+                            {{/if}} {{/each}}
+                            <li>
+                                <a href="{{pageName}}/{{paramName}}?page={{nPages}}" aria-label="Next">
+                                    <span aria-hidden="true">»</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
     </div>
+    {{#section 'js'}}
+    <script>
+        $("[data-type = '-1']").addClass('danger');
+        $("[data-type = '0']").addClass('warning');
+        $("[data-type = '1']").addClass('bg-teal');
+        $("[data-type = '2']").addClass('success');
+        console.log( $("[data-type = '-1']"));
+    </script>
+    {{/section}}

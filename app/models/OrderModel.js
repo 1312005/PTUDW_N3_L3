@@ -4,8 +4,13 @@ const config = require('../../config/config');
 
 // orderby Date, status
 
-exports.fetchAllBelongTo = (id) => {
-        let sql = `SELECT * FROM orders WHERE memberId = ${id} order by created_at`;    
+exports.fetchAllBelongTo = (id, offset) => {
+        let sql = `SELECT * FROM orders WHERE memberId = ${id} order by created_at LIMIT ${config.ORDER_PER_PAGE} offset ${offset}`;    
+        return  baseDAO.load(sql);
+}
+
+exports.nCountBeLongTo = (id) => {
+        let sql = `SELECT count(*) as total FROM orders WHERE memberId = ${id}`;    
         return  baseDAO.load(sql);
 }
 

@@ -1,9 +1,9 @@
-function intervalTrigger(msg) {
-    return window.setInterval(customAlert(msg), 160);
+function intervalTrigger(msg,color) {
+    return window.setInterval(customAlert(msg, color), 160);
 }
-function customAlert(msg) {
+function customAlert(msg, color) {
     var alertDiv = document.createElement('div');
-    alertDiv.innerHTML = "<div id='success-alert' style='position: fixed; z-index: 99999;transition: transform 300ms ease-in-out 5s;width: 100%; height:120px;text-align: center;background : #2ECC71;line-height: 120px;font-size:44px; color: #FFF;top: 50%; left: 50%;transform: translate(-50%, -50%);'>" + msg + "</div>";
+    alertDiv.innerHTML = `<div id='success-alert' style='position: fixed; z-index: 99999;transition: transform 300ms ease-in-out 5s;width: 100%; height:120px;text-align: center;background : ${color};line-height: 120px;font-size:44px; color: #FFF;top: 50%; left: 50%;transform: translate(-50%, -50%);'>${msg}</div>`;
     document.getElementsByTagName('body')[0].appendChild(alertDiv);
 }
 
@@ -19,7 +19,13 @@ $(function () {
                 let cart = data.cart;
                 $('#cart-price').text(cart.totalPrice.toLocaleString('en-US') + ' vnđ');
                 $('#cart-qty').text(cart.totalQty);
-                var id = intervalTrigger('added to cart');
+                var color = '#e74c3c';
+                console.log(data.msg);
+                var msg= '' + data.msg;
+                if (data.success) {
+                    color="#2ecc71"
+                }
+                var id = intervalTrigger(msg, color);
                 setTimeout(function () {
                     window.clearInterval(id);
                     document.getElementById('success-alert').remove();
