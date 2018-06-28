@@ -2,28 +2,21 @@
 <div class="single-product-area">
     <div class="zigzag-bottom"></div>
     <div class="container">
-         <div class="row">
-        <div class="col-lg-12">
-          {{#if success_msg}}
-            <div class="alert alert-success">{{success_msg}}</div>
-          {{/if}}
-
-          {{#if warning_msg}}
-            <div class="alert alert-warning">{{warning_msg}}</div>
-          {{/if}}
-          {{#if info_msg}}
-            <div class="alert alert-info">{{info_msg}}</div>
-          {{/if}}
-
-          {{#if error_msg}}
-            <div class="alert alert-danger">{{error_msg}}</div>
-          {{/if}}
-
-          {{#if error}}
-            <div class="alert alert-danger">{{error}}</div>
-          {{/if}}
+        <div class="row">
+            <div class="col-lg-12">
+                {{#if success_msg}}
+                <div class="alert alert-success">{{success_msg}}</div>
+                {{/if}} {{#if warning_msg}}
+                <div class="alert alert-warning">{{warning_msg}}</div>
+                {{/if}} {{#if info_msg}}
+                <div class="alert alert-info">{{info_msg}}</div>
+                {{/if}} {{#if error_msg}}
+                <div class="alert alert-danger">{{error_msg}}</div>
+                {{/if}} {{#if error}}
+                <div class="alert alert-danger">{{error}}</div>
+                {{/if}}
+            </div>
         </div>
-      </div>
         <div class="row">
             {{#each products}}
             <div class="col-md-3 col-sm-6">
@@ -40,7 +33,8 @@
                     </div>
 
                     <div class="product-option-shop">
-                        <a href="javascript:void(0);" class="add_to_cart_button btn-addcart" data-quantity="1" data-product_sku="" data-product_id="{{{id}}}" rel="nofollow">Add to cart</a>
+                        <a href="javascript:void(0);" class="add_to_cart_button btn-addcart" data-quantity="1" data-product_sku="" data-product_id="{{{id}}}"
+                            rel="nofollow">Add to cart</a>
                     </div>
                 </div>
             </div>
@@ -57,17 +51,15 @@
                                     <span aria-hidden="true">«</span>
                                 </a>
                             </li>
-                            {{#each page_numbers}} 
-                                {{#if isCurPage}}
-                                    <li class="active">
-                                        <a href="javascript:;">{{value}}</a>
-                                    </li>
-                                {{else}}
-                                    <li>
-                                        <a href="{{../pageName}}/{{../paramName}}?page={{value}}">{{value}}</a>
-                                    </li>
-                                {{/if}} 
-                            {{/each}}
+                            {{#each page_numbers}} {{#if isCurPage}}
+                            <li class="active">
+                                <a href="javascript:;">{{value}}</a>
+                            </li>
+                            {{else}}
+                            <li>
+                                <a href="{{../pageName}}/{{../paramName}}?page={{value}}">{{value}}</a>
+                            </li>
+                            {{/if}} {{/each}}
                             <li>
                                 <a href="{{pageName}}/{{paramName}}?page={{nPages}}" aria-label="Next">
                                     <span aria-hidden="true">»</span>
@@ -82,39 +74,5 @@
 </div>
 
 {{#section 'js'}}
-<script>
-function intervalTrigger(msg) {
-    return window.setInterval(customAlert(msg),160);
-}
-function customAlert(msg) {
-var alertDiv =  document.createElement('div');
-alertDiv.innerHTML = "<div id='success-alert' style='position: fixed; z-index: 99999;transition: transform 300ms ease-in-out 5s;width: 100%; height:120px;text-align: center;background : #2ECC71;line-height: 120px;font-size:44px; color: #FFF;top: 50%; left: 50%;transform: translate(-50%, -50%);'>"+msg+"</div>";
-document.getElementsByTagName('body')[0].appendChild(alertDiv);
-}
-
-$(function() {
-    $('.btn-addcart').on('click', function() {
-        var id =  $(this).attr("data-product_id");
-        //alert(id);
-        $.ajax({
-            url: 'addcart/' + id,
-            method: 'POST',
-            success: (data) =>  {
-                console.log(data);
-                let cart = data.cart;
-                $('#cart-price').text(cart.totalPrice.toLocaleString('en-US')+ ' vnđ');
-                $('#cart-qty').text(cart.totalQty);
-                var id = intervalTrigger('added to cart');
-                setTimeout(function() {
-                    window.clearInterval(id);
-                   document.getElementById('success-alert').remove();
-                }, 600);
-            },
-            err: (err) => {
-                console.log(err);
-            }
-        });
-    });
-});
-</script>
+<script src = 'js/add-to-cart.js'></script> 
 {{/section}}

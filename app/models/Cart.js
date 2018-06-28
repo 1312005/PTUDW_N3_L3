@@ -67,6 +67,8 @@
 		var arr = [];
 		for (var id in this.items)
 		{
+			let product = this.items[id].item;
+			product['imageAvatar'] = product.ImagesPath.split(';')[0];
 			arr.push(this.items[id]);
 		}
 		return arr;

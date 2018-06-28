@@ -49,7 +49,7 @@
                                     <div class="quantity">
                                         <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
                                     </div>
-                                    <button class="add_to_cart_button" type="submit">Add to cart</button>
+                                    <button class="add_to_cart_button btn-addcart" type ="button" data-quantity="1" data-product_sku="" data-product_id="{{{id}}}">Add to cart</button>
                                 </form>
 
                                 <div class="product-inner-category">
@@ -136,7 +136,7 @@
                             <div class="product-f-image">
                                 <img src="uploads/{{imageAvatar}}" alt="{{productName}}">
                                 <div class="product-hover mini-product-hover">
-                                    <a href="" class="add-to-cart-link">
+                                    <a href="javascript:void(0);" class="btn-addcart add-to-cart-link" data-quantity="1" data-product_sku="" data-product_id="{{{id}}}">
                                         <i class="fa fa-shopping-cart"></i> Add to cart</a>
                                     <a href="/single-product/{{id}}" class="view-details-link">
                                         <i class="fa fa-link"></i> See details</a>
@@ -168,7 +168,7 @@
                             <div class="product-f-image">
                                 <img src="uploads/{{imageAvatar}}" alt="{{productName}}">
                                 <div class="product-hover mini-product-hover">
-                                    <a href="" class="add-to-cart-link">
+                                    <a href=href="javascript:void(0);" class="btn-addcart add-to-cart-link" data-quantity="1" data-product_sku="" data-product_id="{{{id}}}">
                                         <i class="fa fa-shopping-cart"></i> Add to cart</a>
                                     <a href="/single-product/{{id}}" class="view-details-link">
                                         <i class="fa fa-link"></i> See details</a>
@@ -196,7 +196,7 @@
 {{#section 'js'}}
 <script src="slick/slick.js"></script>
 <script src="slick/slick.min.js"></script>
-
+<script src="js/add-to-cart.js"></script>
 <script type="text/javascript">
     $(function () {
         $('.multiple-items').slick({

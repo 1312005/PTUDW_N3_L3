@@ -8,7 +8,7 @@ router.get('/shopping-cart', (req, res) => {
 		return res.render('shopping-cart', {products: null})
 	let cart = new Cart(req.session.cart);
 	let products = cart.generateArray();
-	console.log(cart.items);
+	// console.log('product-cart');
 	// console.log(products);
 	res.render('shopping-cart', {products: products, totalPrice: cart.totalPrice});
 
@@ -49,7 +49,7 @@ router.get('/reduce/:id', (req, res) => {
 router.post('/remove/:id', (req, res) => {
 	let productId = parseInt(req.params.id);
 	let cart = new Cart(req.session.cart? req.session.cart : {});
-	console.log(productId.toString());
+	// console.log(productId.toString());
 	cart.removeItem(productId.toString());
 	req.session.cart = cart;
 	// res.redirect('/');
@@ -118,11 +118,11 @@ router.get('/cart', (req, res) => {
 router.post('/updateCart', (req, res) => {
 	let idsStr = req.query.ids;
 	let qtiesStr = req.query.qties;
-	console.log(qtiesStr);
+	// console.log(qtiesStr);
 	let idsArr = idsStr.split(',');
 	let qtiesArr = qtiesStr.split(',');
-	console.log(idsArr);
-	console.log(qtiesStr);
+	// console.log(idsArr);
+	// console.log(qtiesStr);
 	let cart = new Cart(req.session.cart? req.session.cart : {});
 	cart.updateCart(idsArr, qtiesArr);
 	req.session.cart = cart;

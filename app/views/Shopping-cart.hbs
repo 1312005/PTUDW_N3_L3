@@ -7,7 +7,7 @@
             <div class="col-md-12">
                 <div class="product-content-right">
                     <div class="woocommerce">
-                        {{# if products}}
+                        {{#if products}}
                             <table id="cart-Items" cellspacing="0" class="shop_table cart">
                                 <thead>
                                     <tr>
@@ -28,12 +28,12 @@
 
                                         <td class="product-thumbnail">
                                             <a href="single-product.html">
-                                                <img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="uploads/{{item.ImagesPath}}">
+                                                <img width="145" height="145" alt="poster_1_up" class="shop_thumbnail" src="uploads/{{item.imageAvatar}}">
                                             </a>
                                         </td>
 
                                         <td class="product-name">
-                                            <a href="single-product.html">{{item.productName}}</a>
+                                            <a href="single-product/{{item.id}}">{{item.productName}}</a>
                                         </td>
 
                                         <td class="product-price">
