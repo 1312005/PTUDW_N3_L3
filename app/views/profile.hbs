@@ -57,7 +57,7 @@
                                                 <abbr title="required" class="required">*</abbr>
                                             </label>
 
-                                            <input type="password" value="" placeholder="Street address" id="billing_address_1" name="new_password" class="input-text ">
+                                            <input type="password" value="" placeholder="New more secure pass" id="billing_address_1" name="new_password" class="input-text ">
                                         </p>
 
                                         <div class="clear"></div>
@@ -67,7 +67,7 @@
                                                 <abbr title="required" class="required">*</abbr>
                                             </label>
 
-                                            <input type="password" value="" placeholder="Street address" id="billing_address_2" name="confirm_new_password" class="input-text ">
+                                            <input type="password" value="" placeholder="Confirm your new pass" id="billing_address_2" name="confirm_new_password" class="input-text ">
                                         </p>
                                         <div class="clear"></div>
                                         <div class="form-row place-order">
@@ -107,7 +107,7 @@
                                          <p class="form-row form-row-first validate-required">
                                             <label class="" for="billing_first_name">Date of Birth
                                             </label>
-                                            <input readonly="readonly" type="text" value="{{{userz.dob}}}" placeholder="" name="dob" class="input-text ">
+                                            <input readonly="readonly" type="text" value="{{{userz.dobFormated}}}" placeholder="" name="dob" class="input-text ">
                                         </p>
 
                                          <p class="form-row form-row-first validate-required">
@@ -177,6 +177,16 @@
 {{#section 'js'}}
     <script type="text/javascript">
         $(function() {
+            $('#changepassword').hide(); // default actions
+            $('#btn_password').on('click', () => {
+                $('#changepassword').show();
+                $('#profile').hide();
+            })
+            $('#btn_profile').on('click', () => {
+                $('#profile').show();
+                $('#changepassword').hide();
+            })
+
             $('#sel1 option')
              .removeAttr('selected')
              .filter('[value={{{thisProvinceId}}}]')

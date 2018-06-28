@@ -216,6 +216,11 @@ router.get('/profile/:id', ensureAuthenticated, (req, res) => {
         return res.redirect('/shop');
       } else {
         console.log('CURRENT USER: ' + user);
+        //dobFormated
+        let date = new Date(user.dob);
+       let dateFormat = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+      // console.log(dateFormat);
+      user.dobFormated = dateFormat;
         // get province Id of the city
         cityModel.findById(user.livingTownId)
           .then(city => {
@@ -263,9 +268,12 @@ router.post('/profile', (req, res) => {
 
 
 // change password
+// change password
 router.post('/changepassword/:id',[
-        check('old_password', 'old_password is require').exists(),
-        check('new_password', 'password is require'),
+        check('old_password', 'old_password is require').isLength({ min: 1 }),
+        check('new_password', 'password is require')
+        .isLength({ min: 5 })
+        .matches(/\d/),
         check('confirm_new_password', 'password confirm is require').exists(),
         check('confirm_new_password', 'passwords must be at least 5 chars long and contain one number')
         .exists()
@@ -276,38 +284,66 @@ router.post('/changepassword/:id',[
           //{errors: errors.mapped()}
           if (!errors.isEmpty()) {
             console.log(errors.mapped());
-            req.flash('error_msg', 'Some fields are invalid');
+            req.flash('error_msg', 'Please filled all require fields');
             res.redirect(`../profile/${req.user.id}`);
+            console.log("VALIDATE FAILED");
+            console.log(errors);
           }
-          let salt = bcrypt.genSaltSync(10);
-          console.log(salt);
-          let old_password = req.body.old_password;
-          //  let encryptedOldPassword = bcrypt.hashSync(old_password,salt);
-          bcrypt.compare(old_password, user.encryptedPassword, function (err, isMatch) {
-            if (!isMatch) {
-              req.flash('error_msg', 'Couldnt confirm your old password, you are unable to change your password');
-              return res.redirect(`../profile/${req.user.id}`);
-            } else {
-              let salt = bcrypt.genSaltSync(10);
-              let encryptedPassword = bcrypt.hashSync(req.body.new_password, salt);
-              models.changePassword(encryptedPassword, id)
-                .then(user => {
-                  req.flash('success_msg', 'your password has been updated');
-                  req.logout();
-                  req.flash('info_msg', 'you need to re-login to access some authenticated pages');
-                  res.redirect('/shop');
-                  //return res.redirect(`../profile/${req.user.id}`);
-                })
-                .catch(err => {
-                  console.log('INNER ERR');
-                  console.log(err);
-                  req.flash('error_msg', 'Catch inner exception, you are unable to change your password');
-                  res.redirect(`../profile/${req.user.id}`);
-                })
+          else {
+            console.log('ID: ' + id);
+            console.log("REQ.USER");
+            console.log(req.user);
+            if (req.user.id != id) {
+                  req.flash('error_msg', 'Something wrong, you are unable to change your password');
+                  return res.redirect(`../profile/${req.user.id}`);
             }
-          });
+            else {
+              models.findById(id)
+              .then(user => {
+                if (!user) {
+                   req.flash('error_msg', 'the user doesnt exist, you are unable to change your password');
+                  res.redirect(`../profile/${req.user.id}`);
+                 }
+                 let salt = bcrypt.genSaltSync(10);
+                 console.log(salt);
+                 let old_password = req.body.old_password;
+                 //  let encryptedOldPassword = bcrypt.hashSync(old_password,salt);
+                  bcrypt.compare(old_password, user.encryptedPassword, function(err, isMatch){
+                    if(!isMatch) {
+                      req.flash('error_msg', 'Couldnt confirm your old password, you are unable to change your password');
+                      return res.redirect(`../profile/${req.user.id}`);
+                    }
+                    else {
+                      let salt = bcrypt.genSaltSync(10);
+                     let encryptedPassword = bcrypt.hashSync(req.body.new_password,salt);
+                      models.changePassword(encryptedPassword, id)
+                      .then(user => {
+                        req.flash('success_msg', 'your password has been updated');
+                        req.logout();
+                        req.flash('info_msg', 'you need to re-login to access some authenticated pages');
+                        res.redirect('/shop');
+                        //return res.redirect(`../profile/${req.user.id}`);
+                      })
+                      .catch(err => {
+                        console.log('INNER ERR');
+                        console.log(err);
+                         req.flash('error_msg', 'Catch inner exception, you are unable to change your password');
+                         res.redirect(`../profile/${req.user.id}`);
+                      })
+                    }
+                  });
+              })
+              .catch(err => {
+                console.log('OUTER ERR');
+                console.log(err);
+                req.flash('error_msg', 'Catch outer exception, you are unable to change your password');
+                 res.redirect(`../profile/${req.user.id}`);
+              })
+            }
+          }
+        
+  });
 
-});
 
 router.post('/changeprofile/:id', [
   check('livingAddress', 'livingAddress is require').isLength({
