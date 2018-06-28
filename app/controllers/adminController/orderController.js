@@ -11,7 +11,7 @@ const {
 } = require('express-validator/check');
 const validator = require('validator');
 
-router.get('/orders_management', (req, res) => {
+router.get('/orders_management',ensureHasRole, (req, res) => {
   let page = req.query.page || 1;
   let offset = (page - 1) * config.ORDER_PER_PAGE;
   let lOrder = orderModel.loadAllOrders(offset);
@@ -41,7 +41,7 @@ router.get('/orders_management', (req, res) => {
         lOrder[i]['stateFormat'] = 'Confirmed';
       }
       else if(+state === 1){
-        lOrder[i]['stateFormat'] = 'Delivering'
+        lOrder[i]['stateFormat'] = 'Delivering';
       }
       else{
         lOrder[i]['stateFormat'] = 'Completed';
@@ -59,25 +59,20 @@ router.get('/orders_management', (req, res) => {
 });
 
 // ensureHasRole,
-router.get('/orders_management/order_detail/:id', (req, res) => {
+router.get('/orders_management/order_detail/:id',ensureHasRole, (req, res) => {
   let orderId = req.params.id;
   let order = orderModel.orderAndMember(orderId);
   let orderDetail = orderDetailModel.loadAllDetailByOrderId(orderId);
   let deliveryAddress = deliveryAddressModel.loadDeliveryByOrderId(orderId);
   
   Promise.all([order, orderDetail,deliveryAddress]).then(([order, lOrderDetail,deliveryAddress]) => {
-      console.log('order');
-      console.log(order);
-      console.log('lOrderDetail');
-      console.log(lOrderDetail);
-      console.log('delivery');
-      console.log(deliveryAddress);
       let date = new Date(order.created_at);
       //console.log((date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear());
       let dateFormat = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
       // console.log(dateFormat);
       order['dateFormat'] = dateFormat;
       let state = order.state;
+      let canDelete = true;
       if(+state === -1){
         order['stateFormat'] = 'Unconfirmed';
       }
@@ -85,15 +80,18 @@ router.get('/orders_management/order_detail/:id', (req, res) => {
         order['stateFormat'] = 'Confirmed';
       }
       else if(+state === 1){
-        order['stateFormat'] = 'Delivering'
+        order['stateFormat'] = 'Delivering';
+        canDelete = false;
       }
       else{
         order['stateFormat'] = 'Completed';
+        canDelete = false;
       }
 
     let vm = {
       layout: 'admin',
       order: order,
+      canDelete: canDelete,
       lOrderDetail: lOrderDetail,
       deliveryAddress: deliveryAddress,
     };
@@ -102,7 +100,7 @@ router.get('/orders_management/order_detail/:id', (req, res) => {
   // res.render('admin/orders_management',{layout:'admin'});
 });
 
-router.post('/change_state_order',(req,res)=>{
+router.post('/change_state_order',ensureHasRole,(req,res)=>{
   let orderId = req.body.orderId;
   let state = req.body.state;
   orderModel.changeStateOrder(orderId,state).then(value=>{
@@ -124,7 +122,7 @@ router.post('/change_state_order',(req,res)=>{
   })
 })
 
-router.delete('/delete_order',(req,res)=>{
+router.delete('/delete_order',ensureHasRole,(req,res)=>{
   let orderId = req.body.orderId;
   let p1 = orderDetailModel.deleteAllOrderDetailByOrderId(orderId);
   let p2 = deliveryAddressModel.deleteDeliveryAddressByOrderId(orderId);
@@ -135,7 +133,7 @@ router.delete('/delete_order',(req,res)=>{
   });
 })
 
-router.delete('/delete_order_detail',(req,res)=>{
+router.delete('/delete_order_detail',ensureHasRole,(req,res)=>{
 
   /*Thứ tự thao tác
   - Lấy tổng tiền order

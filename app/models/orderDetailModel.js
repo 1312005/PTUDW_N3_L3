@@ -29,3 +29,8 @@ exports.deleteOrderDetailById = (detailId)=>{
     let sql = `DELETE FROM orderdetails WHERE detailId = ${detailId}`;
     return dbDAO.save(sql);
 }
+
+exports.countNumberOrder = (productId)=>{
+    let sql = `SELECT count(*) as total FROM orderdetails WHERE productId = ${productId}`;
+    return dbDAO.load(sql);
+}

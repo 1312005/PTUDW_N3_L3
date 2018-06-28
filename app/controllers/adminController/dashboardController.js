@@ -8,7 +8,7 @@ const {
 } = require('express-validator/check');
 const validator = require('validator');
 
-router.get('/dashboard', ensureHasRole, (req, res) => {
+router.get('/dashboard',ensureHasRole, (req, res) => {
     res.render('admin/dashboard', {
       layout: 'admin'
     });

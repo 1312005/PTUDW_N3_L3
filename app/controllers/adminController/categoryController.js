@@ -11,7 +11,7 @@ const {
 } = require('express-validator/check');
 const validator = require('validator');
 
-router.get('/categories_management',(req,res)=>{
+router.get('/categories_management',ensureHasRole,(req,res)=>{
     
     categoryModel.loadAllCategory().then(rows=>{
         let lCategory = rows;
@@ -31,7 +31,7 @@ router.get('/categories_management',(req,res)=>{
     
 });
 
-router.post('/add_category',(req,res)=>{
+router.post('/add_category',ensureHasRole,(req,res)=>{
     let name = req.body.name.trim();
     let description = req.body.description.trim();
     categoryModel.addCategory(name,description).then(value=>{
@@ -39,7 +39,7 @@ router.post('/add_category',(req,res)=>{
     });
 });
 
-router.post('/edit_category',(req,res)=>{
+router.post('/edit_category',ensureHasRole,(req,res)=>{
     let id = req.body.id;
     let name = req.body.name.trim();
     let description = req.body.description.trim();
@@ -48,7 +48,7 @@ router.post('/edit_category',(req,res)=>{
     })
 })
 
-router.delete('/delete_category',(req,res)=>{
+router.delete('/delete_category',ensureHasRole,(req,res)=>{
     let categoryId = req.body.categoryId;
     categoryModel.deleteCategory(categoryId).then(value=>{
         res.status(200).send("Success");

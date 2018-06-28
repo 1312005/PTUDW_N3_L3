@@ -11,7 +11,7 @@ const {
 } = require('express-validator/check');
 const validator = require('validator');
 
-router.get('/manufacturers_management',(req,res)=>{
+router.get('/manufacturers_management',ensureHasRole,(req,res)=>{
     
     manufacturerModel.loadAllManufacturer().then(rows=>{
         let lManufacturer = rows;
@@ -32,7 +32,7 @@ router.get('/manufacturers_management',(req,res)=>{
     
 });
 
-router.post('/add_manufacturer',(req,res)=>{
+router.post('/add_manufacturer',ensureHasRole,(req,res)=>{
     let name = req.body.name.trim();
     let address = req.body.address.trim();
     let email = req.body.email.trim();
@@ -43,7 +43,7 @@ router.post('/add_manufacturer',(req,res)=>{
     });
 });
 
-router.post('/edit_manufacturer',(req,res)=>{
+router.post('/edit_manufacturer',ensureHasRole,(req,res)=>{
     let id = req.body.id;
     let name = req.body.name.trim();
     let address = req.body.address.trim();
@@ -55,7 +55,7 @@ router.post('/edit_manufacturer',(req,res)=>{
     })
 })
 
-router.delete('/delete_manufacturer',(req,res)=>{
+router.delete('/delete_manufacturer',ensureHasRole,(req,res)=>{
     let manufacturerId = req.body.manufacturerId;
     manufacturerModel.deleteManufacturer(manufacturerId).then(value=>{
         res.status(200).send("Success");

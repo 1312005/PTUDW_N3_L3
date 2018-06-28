@@ -40,7 +40,7 @@ function renderShop(lPro,nPro,page,pageName,paramName,res){
 
 
 router.get('/shop', (req, res) => {
-	let pageName = 'shop';
+	let pageName = 'SHOP PAGE';
 	let paramName = '';
 	let page = req.query.page || 1;
 	let offset = (page - 1) * config.PRODUCTS_PER_PAGE;
@@ -215,91 +215,12 @@ router.get('/search', (req, res) => {
 	}
 });
 
-router.get('/addproduct', ensureHasRole, (req, res) => {
-	let categories;
-	let manufacturers;
-	categoryModel.loadAllCategory()
-	 .then(categoriesResult => {
-	 	categories = categoriesResult;
-	 	manufacturerModel.loadAllManufacturer()
-	 	 .then(manufacturerResult => {
-	 	 	manufacturers = manufacturerResult;
-	 	 	console.log('manufacturers LIST: ');
-	 	 	console.log(manufacturers);
-	 	 	console.log('categories LIST: ');
-	 	 	console.log(categories);
-	 	 	return res.render('admin/addproduct', { layout: 'admin',manufacturers: manufacturers,categories: categories });
-	 	 })
-	 	 .catch(err => {
-	 	 	console.log(err);
-	 	 	req.flash('error_msg', 'cannot load manufacturers infos');
-	 	 	return res.render('admin/addproduct', { layout: 'admin'});
-	 	 });
-	 })
-	 .catch(err => {
-	 	console.log(err);
-	 	req.flash('error_msg', 'cannot load categories infos');
-	 	res.render('admin/addproduct', { layout: 'admin'});
-	 });
-	
-});        
-               
-router.post('/addproduct',(req, res) => {
-  			let errors = [];
-          	let product = {};
-          	let form = new multiparty.Form();
-          	form.parse(req, function(err, fields, files) {  
-          	console.log('fields');
-          	console.log(fields);
-          	if(validator.isEmpty(fields.productname[0])) errors.push('productname is require');
-          	if (validator.isEmpty(fields.categoryId[0])) errors.push('Category is require');
-          	if (validator.isEmpty(fields.manufactureId[0])) errors.push('Manufacturer is require');
-            if (!validator.isNumeric(fields.price[0])) errors.push('Price is invalid');
-        	if (!validator.isNumeric(fields.qty[0])) errors.push('Quantity is invalid');
-        	if (validator.isEmpty(fields.description[0])) errors.push('description is require');
-        	if (errors.length > 0)
-        		return res.render('admin/addproduct', { layout: 'admin', errors: errors });
-          	product.productname = fields.productname[0];
-          	product.categoryId = parseInt(fields.categoryId[0]);
-          	product.manufacturerId = parseInt(fields.manufactureId[0]);
-          	product.price = parseInt(fields.price[0]);
-          	product.description = fields.description[0];
-          	product.qty = parseInt(fields.qty[0]);
-		    let imgArray = files.images;
-		    let list = '';
-		    for (let i = 0; i < imgArray.length; i++) {
-		        //var newPath = '/uploads/'+fields.imgName+'/';
-		        let newPath = './public/uploads/';
-		        let singleImg = imgArray[i];
-		        newPath+= singleImg.originalFilename;
-		        //list+= (newPath + ";");
-		        list+= (singleImg.originalFilename + ";");
-		        require('../utils/readAndWriteFile')(singleImg, newPath);           
-		    }
-
-		    product.Images = list.slice(0, -1);
-		    //res.send("File uploaded to:<br\>" + list.slice(0, -1));
-		    console.log('PRODUCT PREparE TO INSET');
-		    console.log(product);
-		    productModel.add(product.productname,product.categoryId, product.manufacturerId,product.qty,product.Images,product.price,product.description)
-		     .then( (anew) => {
-		     	console.log("INSERTED NEW ITEMS");
-		     	req.flash('success_msg', 'added new arrival product');
-		     	return res.render('admin/addproduct', { layout: 'admin' });
-		     })
-		     .catch((err) => {
-		     	console.log(err);
-		     	req.flash('error_msg', 'something goes wrong while trying to process');
-		     	return res.render('admin/addproduct', { layout: 'admin' });
-		     })
-		});
-    });
 router.get('/manufacturer/:name',(req,res)=>{
-	let pageName = 'manufacturer';
 	let manufacturerName = req.params.name;
+	let pageName = 'MANUFACTURER ' + manufacturerName.toUpperCase();
 	let page = req.query.page || 1;
 	let offset = (page - 1) * config.PRODUCTS_PER_PAGE;
-	productModel.getManufacturerByName(manufacturerName).then((rows) => {
+	manufacturerModel.getManufacturerByName(manufacturerName).then((rows) => {
 		let manufacturerId = rows.manufacturerId;
 		let lPro = productModel.loadProductByManufacturer(manufacturerId, offset);
 		let nPro = productModel.countProductByManufacturer(manufacturerId);
@@ -308,11 +229,11 @@ router.get('/manufacturer/:name',(req,res)=>{
 });
 
 router.get('/category/:name', (req, res) => {
-	let pageName = 'category';
 	let categoryName = req.params.name;
+	let pageName = 'CATEGORY '+ categoryName.toUpperCase();
 	let page = req.query.page || 1;
 	let offset = (page - 1) * config.PRODUCTS_PER_PAGE;
-	productModel.getCategoryByName(categoryName).then((rows) => {
+	categoryModel.getCategoryByName(categoryName).then((rows) => {
 		let categoryId = rows.categoryId;
 		let lPro = productModel.loadProductByCategory(categoryId, offset);
 		let nPro = productModel.countProductByCategory(categoryId);
