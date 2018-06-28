@@ -232,20 +232,20 @@
                         <li id = "menu-checkout"><a href="checkout" >Checkout</a></li>
                         <li id = "menu-aboutus"><a href="aboutus">About us</a></li>
                         <li id = "menu-contactus"><a href="contactus">Contact</a></li>
-                        <li class="dropdown">
+                        <li id = "menu-manufacturer" class="dropdown">
                             <button class="dropbtn">Producer</button>
                             <div class="dropdown-content">
-                                <a href="#">Samsung</a>
-                                <a href="#">Apple</a>
-                                <a href="#">Nokia</a>
+                                {{#each layoutVM.manufacturer}}
+                                <a href="/manufacturer/{{manufacturerName}}">{{manufacturerName}}</a>
+                                {{/each}}
                             </div>
                         </li>
-                        <li class="dropdown">
+                        <li id = "menu-category" class="dropdown">
                             <button class="dropbtn">Produce Type</button>
                             <div class="dropdown-content">
-                                <a href="#">Samsung</a>
-                                <a href="#">Apple</a>
-                                <a href="#">Nokia</a>
+                                {{#each layoutVM.category}}
+                                <a href="/category/{{categoryName}}">{{categoryName}}</a>
+                                {{/each}}
                             </div>
                         </li>
                     </ul>

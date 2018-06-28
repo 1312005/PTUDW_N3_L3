@@ -13,6 +13,10 @@ exports.addManufacturer = (manufacturerName,manufacturerAddress,manufacturerEmai
 
 exports.updateManufacturer = (manufacturerId,manufacturerName,manufacturerAddress,manufacturerEmail,manufacturerPhones,manufacturerDescription)=>{
     let sql = `UPDATE manufacturers SET manufacturerName = '${manufacturerName}', manufacturerAddress = '${manufacturerAddress}', manufacturerEmail = '${manufacturerEmail}',manufacturerPhones = '${manufacturerPhones}',manufacturerDescription = '${manufacturerDescription}' WHERE manufacturerId = ${manufacturerId}`;
-    console.log(sql);
+    return dbDAO.save(sql);
+}
+
+exports.deleteManufacturer = (manufacturerId)=>{
+    let sql = `DELETE from manufacturers where manufacturerId = ${manufacturerId}`
     return dbDAO.save(sql);
 }

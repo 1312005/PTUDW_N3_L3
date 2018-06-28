@@ -34,6 +34,7 @@
                                         <th class="text-center">Manufacturer Phone</th>
                                         <th class="text-center">Manufacturer Description</th>
                                         <th class="text-center"></th>
+                                        <th class="text-center"></th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -52,6 +53,19 @@
                                                 <i class="material-icons">edit</i>
                                             </button>
                                         </td>
+                                        {{#if noProduct}}
+                                            <td>
+                                                <button type="button" class="btn btn-danger btn-xs btn-edit" aria-label="Left Align" onclick="deleteManufacturer({{manufacturerId}})">
+                                                    <i class="material-icons">edit</i>
+                                                </button>
+                                            </td>
+                                        {{else}}
+                                            <td>
+                                                <button type="button" class="btn btn-danger btn-xs btn-edit" aria-label="Left Align" disabled>
+                                                    <i class="material-icons">edit</i>
+                                                </button>
+                                            </td>
+                                        {{/if}}
                                     </tr>
                                     {{/each}}
                                 </tbody>
@@ -150,6 +164,7 @@
 
 {{#section 'js'}}
 <script src="admin_plugins/jquery-validation/jquery.validate.js"></script> 
+<script src="js/bootbox.min.js"></script>
 <script>
     $("#form-edit").hide();
      $("[href = '#add']").on('click',function(){
@@ -168,6 +183,42 @@
             $("#form-edit").hide();
             $(".form-line").removeClass('focused');
         })
+    }
+    function deleteManufacturer(manufacturerId){
+        bootbox.confirm({
+            size: 'small',
+            title: 'Delete Manufacturer ' + manufacturerId,
+            message: "Are you sure?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if(result){
+                    $.ajax({
+                        type: "delete",
+                        url: "/delete_manufacturer",
+                        data: {
+                            manufacturerId: manufacturerId,
+                        },
+                        success: function (response) {
+                            if(response === "Success"){
+                                $("#"+manufacturerId).remove();
+                            }
+                        },
+                        error: function(response){
+                            bootbox.alert("Change fail!");
+                        }
+                    });
+                }
+            }
+        });
     }
 </script>
 {{/section}}

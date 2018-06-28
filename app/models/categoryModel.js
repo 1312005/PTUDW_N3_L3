@@ -17,3 +17,8 @@ exports.updateCategory= (categoryId,categoryName,description)=>{
     // console.log(sql);
     return dbDAO.save(sql);
 }
+
+exports.deleteCategory = (categoryId)=>{
+    let sql = `delete from categories where categoryId = ${categoryId}`;
+    return dbDAO.save(sql);
+}

@@ -1,6 +1,7 @@
 'use strict'
 const router = require('express').Router();
 const manufacturerModel = require('../../models/manufacturerModel');
+const productModel = require('../../models/productModel');
 const config = require('../../../config/config');
 const ensureAuthenticated = require('../../middlewares/ensureAuthenticated');
 const ensureHasRole = require('../../middlewares/ensureHasRole');
@@ -13,11 +14,20 @@ const validator = require('validator');
 router.get('/manufacturers_management',(req,res)=>{
     
     manufacturerModel.loadAllManufacturer().then(rows=>{
-        let vm = {
-            layout: 'admin',
-            lManufacturer: rows,
+        let lManufacturer = rows;
+        for(let i = 0; i < rows.length;i++){
+            productModel.countProductByManufacturer(rows[i].manufacturerId).then(result=>{
+                lManufacturer[i]['noProduct'] = (result[0].total === 0);
+                if(i === rows.length - 1)
+                {
+                    let vm = {
+                        layout: 'admin',
+                        lManufacturer: lManufacturer,
+                    }
+                    res.render('admin/makers_management',vm);
+                }
+            })  
         }
-        res.render('admin/makers_management',vm);
     })
     
 });
@@ -42,6 +52,13 @@ router.post('/edit_manufacturer',(req,res)=>{
     let description = req.body.description.trim();
     manufacturerModel.updateManufacturer(id,name,address,email,phone,description).then(value=>{
         res.redirect('/manufacturers_management');
+    })
+})
+
+router.delete('/delete_manufacturer',(req,res)=>{
+    let manufacturerId = req.body.manufacturerId;
+    manufacturerModel.deleteManufacturer(manufacturerId).then(value=>{
+        res.status(200).send("Success");
     })
 })
 module.exports = router;

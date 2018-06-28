@@ -30,6 +30,7 @@
                                         <th class="text-center">Category Name</th>
                                         <th class="text-center">Category Description</th>
                                         <th class="text-center"></th>
+                                        <th class="text-center"></th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -45,6 +46,21 @@
                                                 <i class="material-icons">edit</i>
                                             </button>
                                         </td>
+                                        {{#if noProduct}}
+                                        <td>
+                                            <button type="button" class="btn btn-danger btn-xs btn-delete" aria-label="Left Align" onclick="deleteCategory({{categoryId}})">
+                                                <i class="material-icons">delete</i>
+                                            </button>
+                                        </td>
+                                        {{else}}
+                                        <td>
+                                            <button type="button" class="btn btn-danger btn-xs btn-delete" aria-label="Left Align" disabled>
+                                                <i class="material-icons">delete</i>
+                                            </button>
+                                        </td>
+
+                                        {{/if}}
+                                        
                                     </tr>
                                     {{/each}}
                                 </tbody>
@@ -108,6 +124,7 @@
 
 {{#section 'js'}}
 <script src="admin_plugins/jquery-validation/jquery.validate.js"></script>
+<script src = "js/bootbox.min.js"></script>
 <script>
     $("#form-edit").hide();
     $("[href = '#add']").on('click',function(){
@@ -123,5 +140,42 @@
             $("#form-edit").hide();
             $(".form-line").removeClass('focused');
         })
+    }
+
+    function deleteCategory(categoryId){
+        bootbox.confirm({
+            size: 'small',
+            title: 'Delete Category ' + categoryId,
+            message: "Are you sure?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if(result){
+                    $.ajax({
+                        type: "delete",
+                        url: "/delete_category",
+                        data: {
+                            categoryId: categoryId,
+                        },
+                        success: function (response) {
+                            if(response === "Success"){
+                                $("#"+categoryId).remove();
+                            }
+                        },
+                        error: function(response){
+                            bootbox.alert("Change fail!");
+                        }
+                    });
+                }
+            }
+        });
     }
 </script> {{/section}}
