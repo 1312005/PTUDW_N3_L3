@@ -9,7 +9,7 @@ const dbDAO = require('../dbUtil/baseDAO');
 
 exports.single = (id) =>{
     return new Promise((resolve, reject) => {
-        let sql = `select * from products pr, manufacturers mf, categories ct where id = ${id} and pr.manufacturerId = mf.manufacturerId and pr.categoryId = ct.categoryId`;
+        let sql = `select pr.*, mf.manufacturerId,mf.manufacturerName,ct.categoryId,ct.categoryName from products pr, manufacturers mf, categories ct where id = ${id} and pr.manufacturerId = mf.manufacturerId and pr.categoryId = ct.categoryId`;
         dbDAO.load(sql).then(rows => {
             if (rows.length === 0) {
                 resolve(null);
@@ -79,36 +79,6 @@ exports.countProductSearch = (nameProduct)=>{
 }
 
 /*Other */
-exports.getCategoryByName = (categoryName)=>{
-    return new Promise((resolve, reject) => {
-        let sql = `select * from categories where categoryName = '${categoryName}'`;
-        dbDAO.load(sql).then(rows => {
-            if (rows.length === 0) {
-                resolve(null);
-            } else {
-                resolve(rows[0]);
-            }
-        }).catch(err => {
-            reject(err);
-        });
-    });
-}
-
-exports.getManufacturerByName = (manufacturerName) =>{
-    return new Promise((resolve, reject) => {
-        let sql = `select * from manufacturers mf where manufacturerName = '${manufacturerName}'`;
-        dbDAO.load(sql).then(rows => {
-            if (rows.length === 0) {
-                resolve(null);
-            } else {
-                resolve(rows[0]);
-            }
-        }).catch(err => {
-            reject(err);
-        });
-    });
-}
-
 exports.searchProductByPrice = (nameProduct,minPrice,maxPrice,offset)=>{
     let sql = `select * from products where productName like '%${nameProduct}%' and price between ${minPrice} and ${maxPrice} limit ${config.PRODUCTS_PER_PAGE} offset ${offset}`;
     return dbDAO.load(sql);
@@ -186,4 +156,24 @@ exports.loadProductByCategory = (categoryId,offset)=>{
 exports.countProductByCategory = (categoryId)=>{
     let sql = `select count(*) as total from products where categoryId = ${categoryId}`;
     return dbDAO.load(sql);
+}
+
+exports.loadAllProductInfo = (offset)=>{
+    let sql = `select 
+    pr.*,
+    ct.categoryId,
+    ct.categoryName,
+    mf.manufacturerId,
+    mf.manufacturerName
+    FROM products pr
+    JOIN categories ct ON pr.categoryId = ct.categoryId
+    JOIN manufacturers mf ON pr.manufacturerId = mf.manufacturerId
+    LIMIT ${config.PRODUCTS_PER_PAGE}
+    OFFSET ${offset}`;
+    return dbDAO.load(sql);
+}
+
+exports.deleteProduct = (productId)=>{
+    let sql = `delete from products where id = ${productId}`
+    return dbDAO.save(sql);
 }

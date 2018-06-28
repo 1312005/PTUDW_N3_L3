@@ -1555,11 +1555,13 @@ div.cart-collaterals ul.products li.product:hover .add_to_cart_button {
 }
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {
+.dropdown:hover .dropdown:active .dropbtn {
     background-color: #000000;
 }
-.dropdown:hover .dropbtn {
-    background-color: #000000;
+
+.mainmenu-area ul.navbar-nav li:hover .dropbtn,
+.mainmenu-area ul.navbar-nav li.active .dropbtn {
+    background: #222
 }
 
 
