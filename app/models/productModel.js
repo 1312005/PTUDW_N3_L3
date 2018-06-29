@@ -124,8 +124,8 @@ exports.fetchSingle= (id) => {
 }
 
 exports.updateQuantity= (productId, soldQty) => {
-    let sql = `update products set 'availableQuantity = availableQuantity - ${soldQty}, soldQuantity = soldQuantity - ${soldQty} where id = ${id}'`;
-    return baseDAO.save(sql);
+    let sql = `update products set availableQuantity = availableQuantity - ${soldQty}, soldQuantity = soldQuantity + ${soldQty} where id = ${productId}`;
+    return dbDAO.save(sql);
 }
 
 

@@ -139,12 +139,13 @@ router.post('/checkout',[
                       count++;
                       console.log('COUNT: ' + count);
                       if (count >= nproduct) {
-                        let count2=0;
+                        let countz=0;
                         for (var id in cart.items) {
                           productModel.updateQuantity(cart.items[id].item.id, cart.items[id].qty)
                           .then((product) => {
-                            count2++;
-                            if (count2 >= nproduct) {
+                            countz++;
+                            console.log('CURRENT UPDATEQTY: ' + countz);
+                            if (countz >= nproduct) {
                               req.flash('success_msg', 'pay out completed, you will receive the order ASAP');
                               req.flash('encourage_msg', 'Let continue shopping');
                               console.log('COUNT: ' + count);
