@@ -139,12 +139,22 @@ router.post('/checkout',[
                       count++;
                       console.log('COUNT: ' + count);
                       if (count >= nproduct) {
-                        req.flash('success_msg', 'pay out completed, you will receive the order ASAP');
-                        req.flash('encourage_msg', 'Let continue shopping');
-                        console.log('COUNT: ' + count);
-                        delete req.session['cart'];
+                        let count2=0;
+                        for (var id in cart.items) {
+                          productModel.updateQuantity(cart.items[id].item.id, cart.items[id].qty)
+                          .then((product) => {
+                            count2++;
+                            if (count2 >= nproduct) {
+                              req.flash('success_msg', 'pay out completed, you will receive the order ASAP');
+                              req.flash('encourage_msg', 'Let continue shopping');
+                              console.log('COUNT: ' + count);
+                              delete req.session['cart'];
 
-                       return res.redirect('/shop');
+                             return res.redirect('/shop');
+                            }
+                          })
+                          .catch(err => console.log(err));
+                        }
                       }
                      })
                       .catch(err => {

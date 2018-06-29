@@ -13,6 +13,8 @@ const {
 } = require('express-validator/check');
 const validator = require('validator');
 
+const multiparty = require('multiparty');
+
 router.get('/products_management',ensureHasRole, (req, res) => {
 
   let page = req.query.page || 1;
@@ -158,7 +160,7 @@ router.post('/addproduct', (req, res) => {
       newPath += singleImg.originalFilename;
       //list+= (newPath + ";");
       list += (singleImg.originalFilename + ";");
-      require('../utils/readAndWriteFile')(singleImg, newPath);
+      require('../../utils/readAndWriteFile')(singleImg, newPath);
     }
 
     product.Images = list.slice(0, -1);

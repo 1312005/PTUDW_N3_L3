@@ -14,7 +14,10 @@ router.get('/shopping-cart', (req, res) => {
 
 });
 
+
+
 router.post('/addcart/:id', (req, res) => {
+	let qty = req.params.qty || 1
 	let productId = parseInt(req.params.id);
 	let cart = new Cart(req.session.cart? req.session.cart : {});
 	productModel.fetchSingle(productId)

@@ -40,7 +40,7 @@ function renderShop(lPro,nPro,page,pageName,paramName,res){
 
 
 router.get('/shop', (req, res) => {
-	let pageName = 'SHOP PAGE';
+	let pageName = 'shop';
 	let paramName = '';
 	let page = req.query.page || 1;
 	let offset = (page - 1) * config.PRODUCTS_PER_PAGE;
@@ -134,7 +134,7 @@ router.get('/search', (req, res) => {
 			// console.log('search by category: ');
 			// console.log('categoryName: ' + categoryName);
 			let category = new Promise((resolve, reject) => {
-				productModel.getCategoryByName(categoryName).then(rows => {
+				categoryModel.getCategoryByName(categoryName).then(rows => {
 					resolve(rows);
 					// console.log("categoryId: ");
 					// console.log(rows.categoryId);
@@ -153,7 +153,7 @@ router.get('/search', (req, res) => {
 		if (categoryName === "All") {
 			console.log('search by Manufacturer');
 			let manufacturer = new Promise((resolve, reject) => {
-				productModel.getManufacturerByName(manufacturerName).then((rows) => {
+				manufacturerModel.getManufacturerByName(manufacturerName).then((rows) => {
 					// console.log('manufacturer: ');
 					// console.log(rows);
 					resolve(rows);
@@ -166,8 +166,8 @@ router.get('/search', (req, res) => {
 				result(search, countResult);
 			});
 		} else {
-			let category = productModel.getCategoryByName(categoryName);
-			let manufacturer = productModel.getManufacturerByName(manufacturerName);
+			let category = categoryModel.getCategoryByName(categoryName);
+			let manufacturer = manufacturerModel.getManufacturerByName(manufacturerName);
 			Promise.all([category, manufacturer]).then(([cate, manu]) => {
 				search = productModel.searchProductByCriteria(keyWord, cate.categoryId, manu.manufacturerId, minPrice, maxPrice, offset);
 				countResult = productModel.countProductSearchByCriteria(keyWord, cate.categoryId, manu.manufacturerId, minPrice, maxPrice);

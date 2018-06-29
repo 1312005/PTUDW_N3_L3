@@ -43,6 +43,20 @@
 		}
 	}
 
+	this.addWithQty = function(item, id, qty) {
+		var isAlreadyStored = this.items[id];
+		if (!isAlreadyStored) 
+		{
+			var image = item.ImagesPath.split(';')[0];
+			isAlreadyStored = this.items[id] = {item: item, img: image, qty:0, price:0};
+		}
+		isAlreadyStored.qty = qty;
+		isAlreadyStored.price = isAlreadyStored.item.price*isAlreadyStored.qty;
+
+		this.totalQty+=qty;
+		this.totalPrice += isAlreadyStored.item.price;
+	};
+
 	this.add = function(item, id) {
 		var isAlreadyStored = this.items[id];
 		if (!isAlreadyStored) 
